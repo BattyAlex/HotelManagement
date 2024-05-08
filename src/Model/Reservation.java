@@ -23,6 +23,8 @@ public class Reservation
   public String getPaymentInformation()
   {
     return paymentInformation;
+
+
   }
 
   public LocalDate getStartDate()

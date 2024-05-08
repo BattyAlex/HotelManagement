@@ -6,12 +6,7 @@ public abstract class Room
 {
   private double price;
   private int numberOfGuests;
-  private ArrayList<String> amenities;
-
-  public Room()
-  {
-    amenities = new ArrayList<String>();
-  }
+  private ArrayList<String> amenities = new ArrayList<String>();
 
   public void setPrice(double price)
   {
