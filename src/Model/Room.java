@@ -2,7 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 
-public abstract class Room
+public class Room
 {
   private double price;
   private int numberOfGuests;
