@@ -20,20 +20,19 @@ public class RoomType
     price = 0;
   }
 
-  public static RoomType getInstance(String key)
+  public static RoomType getInstance(String key, double price)
   {
-    if (instances.isEmpty())
-    {
-      instances.put("Diamond", new RoomType("single", 70));
-      instances.put("Gold Nugget", new RoomType("double", 140));
-      instances.put("Sapphire", new RoomType("queen sized", 200));
-      instances.put("Ruby", new RoomType("king sized", 220));
-      instances.put("Wooden Coin", new RoomType("suite", 300));
-    }
     if (!instances.containsKey(key))
     {
       instances.put(key, new RoomType(key));
+      instances.get(key).setPrice(price);
     }
+    instances.get(key).setPrice(price);
     return instances.get(key);
+  }
+
+  public void setPrice(double price)
+  {
+    this.price = price;
   }
 }
