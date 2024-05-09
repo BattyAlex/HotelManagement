@@ -1,6 +1,7 @@
 package Model;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class Reservation
 {
@@ -9,6 +10,7 @@ public class Reservation
   private String paymentInformation;
   private LocalDate startDate;
   private LocalDate endDate;
+  private int lengthOfStay;
   private int numberOfGuests;
 
   public Reservation(String payment, LocalDate startDate, LocalDate endDate, Guest client, Room room)
@@ -18,13 +20,12 @@ public class Reservation
     this.endDate = endDate;
     this.client = client;
     this.room = room;
+    lengthOfStay = (int) ChronoUnit.DAYS.between(startDate,endDate);
   }
 
   public String getPaymentInformation()
   {
     return paymentInformation;
-
-
   }
 
   public LocalDate getStartDate()
@@ -80,5 +81,10 @@ public class Reservation
   public void setRoom(Room room)
   {
     this.room = room;
+  }
+
+  public int getLengthOfStay()
+  {
+    return lengthOfStay;
   }
 }
