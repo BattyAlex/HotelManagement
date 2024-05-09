@@ -2,7 +2,7 @@ package Model;
 
 import java.beans.PropertyChangeListener;
 
-public interface StaffModel
+public interface HotelModel
 {
   void tryLogin(String username, String password);
   void exitClient();
