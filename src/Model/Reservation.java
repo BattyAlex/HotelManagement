@@ -2,6 +2,7 @@ package Model;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 
 public class Reservation
 {
@@ -12,6 +13,7 @@ public class Reservation
   private LocalDate endDate;
   private int lengthOfStay;
   private int numberOfGuests;
+  private ArrayList<Service> services;
 
   public Reservation(String payment, LocalDate startDate, LocalDate endDate, Guest client, Room room)
   {
@@ -21,6 +23,7 @@ public class Reservation
     this.client = client;
     this.room = room;
     lengthOfStay = (int) ChronoUnit.DAYS.between(startDate,endDate);
+    services = new ArrayList<Service>();
   }
 
   public String getPaymentInformation()
@@ -86,5 +89,26 @@ public class Reservation
   public int getLengthOfStay()
   {
     return lengthOfStay;
+  }
+  public void addService(String name, double price)
+  {
+    services.add(new Service(name, price));
+  }
+  public void removeService(String name)
+  {
+    for(int i = 0; i<services.size(); i++)
+    {
+      if(services.get(i).getName().equals(name))
+        services.remove(i);
+    }
+  }
+  public double getServicesTotal()
+  {
+    int total = 0;
+    for(int i = 0; i<services.size();i++)
+    {
+      total += services.get(i).getPrice();
+    }
+    return total;
   }
 }
