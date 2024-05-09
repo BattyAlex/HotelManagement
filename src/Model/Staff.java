@@ -2,44 +2,23 @@ package Model;
 
 public class Staff
 {
-  private String firstName;
-  private String lastName;
-  private String id;
+  private final String username;
+  private final String password;
 
-  public Staff(String firstName, String lastName, String id)
+  public Staff(String username, String password)
   {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.id = id;
+    this.username = username;
+    this.password = password;
   }
 
-  public String getFirstName()
+  public String getUsername()
   {
-    return firstName;
+    return username;
   }
 
-  public String getLastName()
+  public String getPassword()
   {
-    return lastName;
+    return password;
   }
 
-  public String getId()
-  {
-    return id;
-  }
-
-  public void setFirstName(String firstName)
-  {
-    this.firstName = firstName;
-  }
-
-  public void setLastName(String lastName)
-  {
-    this.lastName = lastName;
-  }
-
-  public void setId(String id)
-  {
-    this.id = id;
-  }
 }
