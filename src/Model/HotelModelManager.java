@@ -3,11 +3,13 @@ package Model;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.rmi.RemoteException;
+import java.util.ArrayList;
 
-public class StaffModelManager implements StaffModel
+public class HotelModelManager implements HotelModel
 {
   private Staff staff;
+  private Room room;
+  private Reservation reservations;
   private PropertyChangeSupport support;
 
 
