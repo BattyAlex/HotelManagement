@@ -4,18 +4,39 @@ import java.util.ArrayList;
 
 public class Room
 {
+  private int roomNumber;
   private double price;
-  private int numberOfGuests;
   private ArrayList<String> amenities = new ArrayList<String>();
+  private RoomType type;
+  private String state;
+
+  public Room(String type, double price, int roomNumber, String state)
+  {
+    this.type = RoomType.getInstance(type, price);
+    this.price = price;
+    this.roomNumber = roomNumber;
+    this.state = state;
+  }
+
 
   public void setPrice(double price)
   {
     this.price = price;
   }
 
-  public void setNumberOfGuests(int numberOfGuests)
+  public int getRoomNumber()
   {
-    this.numberOfGuests = numberOfGuests;
+    return roomNumber;
+  }
+
+  public String getState()
+  {
+    return state;
+  }
+
+  public String getType()
+  {
+    return type.getType();
   }
 
   public void addAmenities(String amenity)
@@ -28,10 +49,6 @@ public class Room
     return price;
   }
 
-  public int getNumberOfGuests()
-  {
-    return numberOfGuests;
-  }
 
   public ArrayList<String> getAllAmenities()
   {
