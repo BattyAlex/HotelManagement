@@ -47,11 +47,6 @@ public class ViewFactory
     return loginViewController.getRoot();
   }
 
-  public Region loadReservationView()
-  {
-
-  }
-
   public Region load(String id)
   {
     Region root = switch (id)
