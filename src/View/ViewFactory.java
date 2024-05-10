@@ -10,7 +10,7 @@ import java.security.PublicKey;
 
 public class ViewFactory
 {
-  private static final String LOGIN = "login";
+  public static final String LOGIN = "login";
   private final ViewHandler viewHandler;
   private final ViewModelFactory viewModelFactory;
   private LoginViewController loginViewController;
@@ -45,6 +45,11 @@ public class ViewFactory
       }
     }
     return loginViewController.getRoot();
+  }
+
+  public Region loadReservationView()
+  {
+
   }
 
   public Region load(String id)
