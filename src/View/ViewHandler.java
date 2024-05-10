@@ -25,7 +25,11 @@ public class ViewHandler
   {
     Region root = viewFactory.load(id);
     currentScene.setRoot(root);
-    primaryStage.setTitle("Hotel Management System");
+    if (root.getUserData() == null) {
+      primaryStage.setTitle("");
+    } else {
+      primaryStage.setTitle(root.getUserData().toString());
+    }
     primaryStage.setScene(currentScene);
     primaryStage.sizeToScene();
     primaryStage.show();
