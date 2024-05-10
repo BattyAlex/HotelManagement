@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="201.0" prefWidth="406.0" userData="Login" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.LoginViewController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="201.0" prefWidth="406.0" userData="Login" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.LoginViewController">
    <top>
       <Label text="Please log in to use the system:" BorderPane.alignment="CENTER_LEFT">
          <font>
@@ -56,7 +56,7 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Label fx:id="error">
+                  <Label fx:id="error" textFill="RED">
                      <HBox.margin>
                         <Insets left="30.0" />
                      </HBox.margin>
