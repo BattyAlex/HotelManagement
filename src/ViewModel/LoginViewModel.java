@@ -23,6 +23,18 @@ public class LoginViewModel implements PropertyChangeListener
     error = new SimpleStringProperty();
     model.addPropertyChangeListener(this);
   }
+  public void tryLogin()
+  {
+    error.set("");
+    if(username.get() == null|| password.get() == null)
+    {
+      error.set("Please enter your username and password.");
+    }
+    else
+    {
+      model.tryLogin(username.get(), password.get());
+    }
+  }
 
   public void bindUsername(StringProperty property)
   {
