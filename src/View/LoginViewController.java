@@ -6,7 +6,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
 
-public class LoginViewController
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+public class LoginViewController implements PropertyChangeListener
 {
   @FXML public TextField username;
   @FXML public TextField password;
@@ -22,6 +25,7 @@ public class LoginViewController
     loginViewModel.bindError(error.textProperty());
     loginViewModel.bindPassword(password.textProperty());
     loginViewModel.bindUsername(username.textProperty());
+    loginViewModel.addPropertyChangeListener(this);
   }
 
   public Region getRoot()
@@ -31,6 +35,14 @@ public class LoginViewController
 
   @FXML public void onLogin()
   {
+    loginViewModel.tryLogin();
+  }
 
+  @Override public void propertyChange(PropertyChangeEvent evt)
+  {
+    if(evt.getPropertyName().equals("Login Successful"))
+    {
+      System.out.println("Switching views");
+    }
   }
 }

@@ -6,6 +6,7 @@ import javafx.beans.property.StringProperty;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 public class LoginViewModel implements PropertyChangeListener
 {
@@ -13,6 +14,8 @@ public class LoginViewModel implements PropertyChangeListener
   private StringProperty password;
   private StringProperty error;
   private final HotelModel model;
+
+  private PropertyChangeSupport support;
 
 
   public LoginViewModel(HotelModel model)
@@ -22,6 +25,7 @@ public class LoginViewModel implements PropertyChangeListener
     password = new SimpleStringProperty();
     error = new SimpleStringProperty();
     model.addPropertyChangeListener(this);
+    support = new PropertyChangeSupport(this);
   }
   public void tryLogin()
   {
@@ -51,8 +55,29 @@ public class LoginViewModel implements PropertyChangeListener
     property.bind(error);
   }
 
+  public void addPropertyChangeListener(PropertyChangeListener listener)
+  {
+    support.addPropertyChangeListener(listener);
+  }
+
+  public void removePropertyChangeListener(PropertyChangeListener listener)
+  {
+    support.removePropertyChangeListener(listener);
+  }
+
   @Override public void propertyChange(PropertyChangeEvent evt)
   {
-
+    if(evt.getPropertyName().equals("Username invalid"))
+    {
+      error.set("The username '" + evt.getOldValue() + "' is invalid.");
+    }
+    else if (evt.getPropertyName().equals("Login Successful"))
+    {
+      support.firePropertyChange("Login Successful", null, null);
+    }
+    else if (evt.getPropertyName().equals("Login failed"))
+    {
+      error.set("Incorrect password");
+    }
   }
 }
