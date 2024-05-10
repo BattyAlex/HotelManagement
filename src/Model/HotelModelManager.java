@@ -12,6 +12,11 @@ public class HotelModelManager implements HotelModel
   private Reservation reservations;
   private PropertyChangeSupport support;
 
+  public HotelModelManager()
+  {
+    this.support = new PropertyChangeSupport(this);
+  }
+
 
   @Override public void tryLogin(String username, String password)
   {

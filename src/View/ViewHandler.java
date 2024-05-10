@@ -11,7 +11,7 @@ public class ViewHandler
   private Scene currentScene;
   private Stage primaryStage;
 
-  ViewHandler(ViewModelFactory viewModelFactory)
+  public ViewHandler(ViewModelFactory viewModelFactory)
   {
     this.viewFactory = new ViewFactory(this, viewModelFactory);
     this.currentScene = new Scene(new Region());
