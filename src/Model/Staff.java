@@ -21,4 +21,14 @@ public class Staff
     return password;
   }
 
+  public boolean equals(Object obj)
+  {
+    if(obj == null || obj.getClass() != getClass())
+    {
+      return false;
+    }
+    Staff other = (Staff) obj;
+    return other.password.equals(this.password) && other.username.equals(this.username);
+  }
+
 }

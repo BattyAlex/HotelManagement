@@ -8,8 +8,6 @@ import java.util.ArrayList;
 public class HotelModelManager implements HotelModel
 {
   private Staff staff;
-  private Room room;
-  private Reservation reservations;
   private PropertyChangeSupport support;
 
   public HotelModelManager()
@@ -20,7 +18,20 @@ public class HotelModelManager implements HotelModel
 
   @Override public void tryLogin(String username, String password)
   {
-
+    staff = new Staff(username, password);
+    Staff loginRequest = UserDAO.getInstance().getStaffBasedOnUsername(username);
+    if(loginRequest == null)
+    {
+      support.firePropertyChange("Username invalid", username, null);
+    }
+    else if(staff.equals(loginRequest))
+    {
+      support.firePropertyChange("Login Successful", null, null);
+    }
+    else
+    {
+      support.firePropertyChange("Login failed", username, null);
+    }
   }
 
   @Override public void exitClient()

@@ -5,12 +5,29 @@ import java.util.ArrayList;
 
 public class RoomDAO extends DatabaseHandlerFactory
 {
+  private static RoomDAO instance;
 
-  public RoomDAO() throws SQLException
+  private RoomDAO() throws SQLException
   {
     DriverManager.registerDriver(new org.postgresql.Driver());
   }
 
+  public static synchronized RoomDAO getInstance()
+  {
+    try
+    {
+      if(instance == null)
+      {
+        instance = new RoomDAO();
+      }
+      return instance;
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+      return null;
+    }
+  }
   public ArrayList<Room> getAllRooms()
   {
     ArrayList<Room> temp = new ArrayList<>();

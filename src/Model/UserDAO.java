@@ -4,9 +4,27 @@ import java.sql.*;
 
 public class UserDAO extends DatabaseHandlerFactory
 {
-  public UserDAO() throws SQLException
+  private static UserDAO instance;
+  private UserDAO() throws SQLException
   {
     DriverManager.registerDriver(new org.postgresql.Driver());
+  }
+
+  public static UserDAO getInstance()
+  {
+    try
+    {
+      if(instance == null)
+      {
+        instance = new UserDAO();
+      }
+      return instance;
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+      return null;
+    }
   }
 
   public Staff getStaffBasedOnUsername(String username)
