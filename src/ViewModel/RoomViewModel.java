@@ -1,8 +1,11 @@
 package ViewModel;
 
 import Model.HotelModel;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
 
 import java.beans.PropertyChangeSupport;
 
@@ -16,7 +19,6 @@ public class RoomViewModel
   {
     this.model = model;
     toggle = new SimpleStringProperty("To reservations");
-
   }
   public void bindToggle(StringProperty property)
   {

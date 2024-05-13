@@ -5,6 +5,7 @@ import ViewModel.RoomViewModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.Region;
 
@@ -14,6 +15,7 @@ public class RoomViewController
   private RoomViewModel roomViewModel;
   private ViewHandler viewHandler;
   @FXML private ToggleButton roomReservation;
+  @FXML private ListView roomsAndReservations;
 
 
   public void init(ViewHandler viewHandler, RoomViewModel roomViewModel, Region root)
