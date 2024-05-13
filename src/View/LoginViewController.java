@@ -24,6 +24,7 @@ public class LoginViewController implements PropertyChangeListener
   {
     this.loginViewModel = loginViewModel;
     this.root = root;
+    this.viewHandler = viewHandler;
     loginViewModel.bindError(error.textProperty());
     loginViewModel.bindPassword(password.textProperty());
     loginViewModel.bindUsername(username.textProperty());
@@ -44,7 +45,7 @@ public class LoginViewController implements PropertyChangeListener
   {
     if(evt.getPropertyName().equals("Login Successful"))
     {
-      System.out.println("Switching views");
+      viewHandler.openView(ViewFactory.ROOM);
     }
   }
 }

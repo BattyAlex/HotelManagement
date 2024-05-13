@@ -11,11 +11,12 @@ import java.security.PublicKey;
 public class ViewFactory
 {
   public static final String LOGIN = "login";
+  public static final String ROOM = "room";
   private final ViewHandler viewHandler;
   private final ViewModelFactory viewModelFactory;
   private LoginViewController loginViewController;
-  private ReservationViewController reservationViewController;
   private RoomViewController roomViewController;
+  private ReservationViewController reservationViewController;
 
   public ViewFactory(ViewHandler viewHandler, ViewModelFactory viewModelFactory)
   {
@@ -46,12 +47,34 @@ public class ViewFactory
     }
     return loginViewController.getRoot();
   }
+  public Region loadRoomView()
+  {
+    if(roomViewController == null)
+    {
+      FXMLLoader loader = new FXMLLoader();
+      loader.setLocation(getClass().getResource("RoomView.fxml"));
+      try
+      {
+        Region root = loader.load();
+        roomViewController = loader.getController();
+        roomViewController.init(viewHandler, viewModelFactory.getRoomViewModel(), root);
+      }
+      catch (IOException e)
+      {
+        System.out.println("Room View failed to load");
+        e.printStackTrace();
+      }
+    }
+    return roomViewController.getRoot();
+  }
+
 
   public Region load(String id)
   {
     Region root = switch (id)
     {
       case LOGIN -> loadLoginView();
+      case ROOM -> loadRoomView();
       default -> throw new IllegalArgumentException("Unknown view: " + id);
     };
     return root;
