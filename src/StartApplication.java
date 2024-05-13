@@ -1,3 +1,5 @@
+import Client.HotelClient;
+import Client.HotelClientImplementation;
 import Model.HotelModel;
 import Model.HotelModelManager;
 import View.ViewHandler;
@@ -10,7 +12,8 @@ public class StartApplication extends Application
 
   @Override public void start(Stage primaryStage) throws Exception
   {
-    HotelModel model = new HotelModelManager();
+    HotelClient client = new HotelClientImplementation("localhost", 8080);
+    HotelModel model = new HotelModelManager(client);
     ViewModelFactory viewModelFactory = new ViewModelFactory(model);
     ViewHandler viewHandler = new ViewHandler(viewModelFactory);
     viewHandler.start(primaryStage);

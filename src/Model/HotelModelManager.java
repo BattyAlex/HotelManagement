@@ -1,5 +1,6 @@
 package Model;
 
+import Client.HotelClient;
 import Server.UserDAO;
 
 import java.beans.PropertyChangeEvent;
@@ -10,9 +11,11 @@ public class HotelModelManager implements HotelModel
 {
   private Staff staff;
   private PropertyChangeSupport support;
+  private HotelClient client;
 
-  public HotelModelManager()
+  public HotelModelManager(HotelClient client)
   {
+    this.client = client;
     this.support = new PropertyChangeSupport(this);
   }
 
