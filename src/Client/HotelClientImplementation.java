@@ -1,6 +1,7 @@
 package Client;
 
 import Model.HotelModel;
+import Model.Staff;
 import com.google.gson.Gson;
 
 import java.beans.PropertyChangeListener;
@@ -12,7 +13,7 @@ public class HotelClientImplementation implements HotelClient
 {
   private PropertyChangeSupport support;
   private final Socket socket;
-  private final Gson gson;
+  private final Gson json;
   private final PrintWriter output;
   private final BufferedReader input;
   private final MessageListener listener;
@@ -20,7 +21,7 @@ public class HotelClientImplementation implements HotelClient
   public HotelClientImplementation(String host, int port) throws IOException
   {
     socket = new Socket(host, port);
-    gson = new Gson();
+    json = new Gson();
     OutputStream outputStream = socket.getOutputStream();
     output = new PrintWriter(outputStream);
     InputStream inputStream = socket.getInputStream();
@@ -35,7 +36,28 @@ public class HotelClientImplementation implements HotelClient
   @Override public void tryLogin(String username, String password)
       throws IOException
   {
-
+    output.println("Login attempt");
+    output.flush();
+    String request = (String) input.readLine();
+    if(request.equals("Which staff?"))
+    {
+      String sendOver = json.toJson(new Staff(username, password));
+      output.print(sendOver);
+      output.flush();
+    }
+    request = (String) input.readLine();
+    if(request.equals("Invalid username"))
+    {
+      support.firePropertyChange("Invalid username", username, null);
+    }
+    else if (request.equals("Approved"))
+    {
+      support.firePropertyChange("Login Approved", null, null);
+    }
+    else if (request.equals("Rejected"))
+    {
+      support.firePropertyChange("Login Rejected", username, null);
+    }
   }
 
   @Override public void addPropertyChangeListener(

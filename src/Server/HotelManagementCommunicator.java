@@ -1,5 +1,6 @@
 package Server;
 
+import Model.Staff;
 import com.google.gson.Gson;
 
 import java.io.*;
@@ -31,7 +32,33 @@ public class HotelManagementCommunicator implements Runnable
     {
       loop: while (true)
       {
-
+        String text = (String) reader.readLine();
+        if(text == null)
+        {
+          break loop;
+        }
+        else if(text.equals("Login attempt"))
+        {
+          writer.println("Which staff?");
+          writer.flush();
+          text = (String) reader.readLine();
+          Staff confirmation = gson.fromJson(text, Staff.class);
+          Staff loginRequest = UserDAO.getInstance().getStaffBasedOnUsername(
+              confirmation.getUsername());
+          if(loginRequest == null)
+          {
+            writer.println("Invalid username");
+          }
+          else if (loginRequest.equals(confirmation))
+          {
+            writer.println("Approved");
+          }
+          else
+          {
+            writer.println("Rejected");
+          }
+          writer.flush();
+        }
       }
     }
     finally
