@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
+/**
+ *This class represents a reservation in a hotel management system.
+ */
 public class Reservation
 {
   private Guest client;
@@ -15,6 +18,14 @@ public class Reservation
   private int numberOfGuests;
   private ArrayList<Service> services;
 
+  /**
+   * Constructs a new Reservation with specified details.
+   * @param payment The payment information.
+   * @param startDate The start date of the stay.
+   * @param endDate The end date of the date.
+   * @param client The guest making the reservation.
+   * @param room The room associated with this reservation.
+   */
   public Reservation(String payment, LocalDate startDate, LocalDate endDate, Guest client, Room room)
   {
     paymentInformation = payment;
@@ -26,74 +37,137 @@ public class Reservation
     services = new ArrayList<Service>();
   }
 
+  /**
+   * Returns paymentInformation
+   * @return the payment information
+   */
   public String getPaymentInformation()
   {
     return paymentInformation;
   }
 
+  /**
+   * Returns the startDate
+   * @return the start date.
+   */
   public LocalDate getStartDate()
   {
     return startDate;
   }
 
+  /**
+   * Returns the end date
+   * @return Returns EndDate
+   */
   public LocalDate getEndDate()
   {
     return endDate;
   }
 
+  /**
+   * Returns number of guests
+   * @return the number of guests
+   */
   public int getNumberOfGuests()
   {
     return numberOfGuests;
   }
 
+  /**
+   * Returns room
+   * @return the room
+   */
   public Room getRoom()
   {
     return room;
   }
 
+  /**
+   * Returns the client
+   * @return client
+   */
   public Guest getClient()
   {
     return client;
   }
 
+  /**
+   * Sets the payment information
+   * @param payment the new payment to set.
+   */
   public void setPaymentInformation(String payment)
   {
     this.paymentInformation = payment;
   }
 
+  /**
+   * Sets the start date
+   * @param date the new date to set
+   */
   public void setStartDate(LocalDate date)
   {
     this.startDate = date;
   }
 
+  /**
+   * Sets the end date
+   * @param date the new date to set
+   */
   public void setEndDate(LocalDate date)
   {
     this.endDate = date;
   }
 
+  /**
+   * Sets the number of guests
+   * @param numberOfGuests the new numberOfGuests to set
+   */
   public void setNumberOfGuests(int numberOfGuests)
   {
     this.numberOfGuests = numberOfGuests;
   }
 
+  /**
+   * Sets the client
+   * @param client the new client to set
+   */
   public void setClient(Guest client)
   {
     this.client = client;
   }
 
+  /**
+   * Sets the room
+   * @param room the new room to set
+   */
   public void setRoom(Room room)
   {
     this.room = room;
   }
 
+  /**
+   * Returns the length of stay
+   * @return the lengthOfStay.
+   */
   public int getLengthOfStay()
   {
     return lengthOfStay;
   }
+
+  /**
+   * Adds a service to the list of additional services.
+   * @param name The name of the service.
+   * @param price The price of the service.
+   */
   public void addService(String name, double price)
   {
     services.add(new Service(name, price));
   }
+
+  /**
+   * Removes a service from the list of additional services based on the service name.
+   * @param name The name of the service to remove.
+   */
   public void removeService(String name)
   {
     for(int i = 0; i<services.size(); i++)
@@ -102,6 +176,11 @@ public class Reservation
         services.remove(i);
     }
   }
+
+  /**
+   * Calculates the total set of all additional services requested.
+   * @return The total cost of the services.
+   */
   public double getServicesTotal()
   {
     int total = 0;
