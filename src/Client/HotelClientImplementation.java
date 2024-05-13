@@ -47,18 +47,25 @@ public class HotelClientImplementation implements HotelClient
       output.println(sendOver);
       output.flush();
     }
-    request = (String) input.readLine();
-    if(request.equals("Invalid username"))
+    try
     {
-      support.firePropertyChange("Invalid username", username, null);
+      request = (String) input.readLine();
+      if(request.equals("Invalid username"))
+      {
+        support.firePropertyChange("Invalid username", username, null);
+      }
+      else if (request.equals("Approved"))
+      {
+        support.firePropertyChange("Login Approved", null, null);
+      }
+      else if (request.equals("Rejected"))
+      {
+        support.firePropertyChange("Login Rejected", username, null);
+      }
     }
-    else if (request.equals("Approved"))
+    catch (NullPointerException e)
     {
-      support.firePropertyChange("Login Approved", null, null);
-    }
-    else if (request.equals("Rejected"))
-    {
-      support.firePropertyChange("Login Rejected", username, null);
+      System.out.println("Database connection may be offline.");
     }
   }
 
