@@ -1,4 +1,6 @@
-package Model;
+package Server;
+
+import Model.Room;
 
 import java.sql.*;
 import java.util.ArrayList;

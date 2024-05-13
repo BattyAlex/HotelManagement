@@ -1,9 +1,10 @@
 package Model;
 
+import Server.UserDAO;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
 
 public class HotelModelManager implements HotelModel
 {
