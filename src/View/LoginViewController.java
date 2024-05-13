@@ -3,6 +3,7 @@ package View;
 import ViewModel.LoginViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
 
@@ -12,7 +13,8 @@ import java.beans.PropertyChangeListener;
 public class LoginViewController implements PropertyChangeListener
 {
   @FXML public TextField username;
-  @FXML public TextField password;
+
+  @FXML public PasswordField password;
   @FXML public Label error;
   private Region root;
   private LoginViewModel loginViewModel;

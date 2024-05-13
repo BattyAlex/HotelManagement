@@ -1,4 +1,6 @@
-package Model;
+package Server;
+
+import Model.Staff;
 
 import java.sql.*;
 
