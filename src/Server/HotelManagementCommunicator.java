@@ -41,7 +41,7 @@ public class HotelManagementCommunicator implements Runnable
         {
           writer.println("Which staff?");
           writer.flush();
-          text = (String) reader.readLine();
+          text = reader.readLine();
           Staff confirmation = gson.fromJson(text, Staff.class);
           Staff loginRequest = UserDAO.getInstance().getStaffBasedOnUsername(
               confirmation.getUsername());

@@ -42,8 +42,9 @@ public class HotelClientImplementation implements HotelClient
     String request = (String) input.readLine();
     if(request.equals("Which staff?"))
     {
-      String sendOver = json.toJson(new Staff(username, password));
-      output.print(sendOver);
+      Staff staff = new Staff(username, password);
+      String sendOver = json.toJson(staff);
+      output.println(sendOver);
       output.flush();
     }
     request = (String) input.readLine();
