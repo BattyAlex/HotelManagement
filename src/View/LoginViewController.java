@@ -24,6 +24,7 @@ public class LoginViewController implements PropertyChangeListener
   {
     this.loginViewModel = loginViewModel;
     this.root = root;
+    this.viewHandler = viewHandler;
     loginViewModel.bindError(error.textProperty());
     loginViewModel.bindPassword(password.textProperty());
     loginViewModel.bindUsername(username.textProperty());
