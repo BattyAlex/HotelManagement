@@ -44,7 +44,7 @@ public class LoginViewController implements PropertyChangeListener
   {
     if(evt.getPropertyName().equals("Login Successful"))
     {
-      System.out.println("Switching views");
+      viewHandler.openView(ViewFactory.ROOM);
     }
   }
 }
