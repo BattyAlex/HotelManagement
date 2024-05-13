@@ -1,6 +1,7 @@
 package Client;
 
 import Model.HotelModel;
+
 import Model.Staff;
 import com.google.gson.Gson;
 

@@ -2,12 +2,14 @@ package Model;
 
 import Client.HotelClient;
 import Server.UserDAO;
+import javafx.application.Platform;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.IOException;
 
-public class HotelModelManager implements HotelModel
+public class HotelModelManager implements HotelModel, PropertyChangeListener
 {
   private Staff staff;
   private PropertyChangeSupport support;
@@ -20,6 +22,7 @@ public class HotelModelManager implements HotelModel
   {
     this.client = client;
     this.support = new PropertyChangeSupport(this);
+    client.addPropertyChangeListener(this);
   }
 
   /**
@@ -31,19 +34,14 @@ public class HotelModelManager implements HotelModel
 
   @Override public void tryLogin(String username, String password)
   {
-    staff = new Staff(username, password);
-    Staff loginRequest = UserDAO.getInstance().getStaffBasedOnUsername(username);
-    if(loginRequest == null)
+    try
     {
-      support.firePropertyChange("Username invalid", username, null);
+      client.tryLogin(username, password);
     }
-    else if(staff.equals(loginRequest))
+    catch (IOException e)
     {
-      support.firePropertyChange("Login Successful", null, null);
-    }
-    else
-    {
-      support.firePropertyChange("Login failed", username, null);
+      System.out.println("Login request rejected");
+      e.printStackTrace();
     }
   }
 
@@ -80,6 +78,20 @@ public class HotelModelManager implements HotelModel
 
   public void propertyChange(PropertyChangeEvent evt)
   {
+    Platform.runLater(()-> {
+      if (evt.getPropertyName().equals("Invalid username"))
+      {
+        support.firePropertyChange("Username invalid", evt.getOldValue(), null);
+      }
+      else if (evt.getPropertyName().equals("Login Approved"))
+      {
+        support.firePropertyChange("Login Successful", null, null);
+      }
+      else if (evt.getPropertyName().equals("Login Rejected"))
+      {
+        support.firePropertyChange("Login failed", evt.getOldValue(), null);
+      }
+    });
 
   }
 }
