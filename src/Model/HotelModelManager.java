@@ -1,7 +1,6 @@
 package Model;
 
 import Client.HotelClient;
-import Server.UserDAO;
 import javafx.application.Platform;
 
 import java.beans.PropertyChangeEvent;
