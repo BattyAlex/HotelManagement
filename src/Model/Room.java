@@ -91,4 +91,8 @@ public class Room
     return amenities;
   }
 
+  public String toString()
+  {
+    return null;
+  }
 }

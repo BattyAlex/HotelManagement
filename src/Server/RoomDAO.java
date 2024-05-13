@@ -132,7 +132,39 @@ public class RoomDAO extends DatabaseHandlerFactory
     return temp;
   }
 
-  public
+  public Room getRoomByRoomNumber(int roomNumber)
+  {
+    try(Connection connection = super.establishConnection())
+    {
+      PreparedStatement statement = connection.prepareStatement("SELECT Room.roomNumber, amenityName, RoomType.typeOfRoom, price, Room.roomNumber, stateOfRoom\n"
+          + "FROM Room LEFT OUTER JOIN Amenities ON (Room.roomNumber = Amenities.roomNumber), RoomType\n"
+          + "WHERE Room.typeOfRoom = RoomType.typeOfRoom AND Room.roomNumber = ?\n"
+          + "ORDER BY Room.roomNumber;");
+      statement.setInt(1, roomNumber);
+      ResultSet rs = statement.executeQuery();
+      Room temp = null;
+      while (rs.next())
+      {
+        String amenity = rs.getString("amenityName");
+        String typeOfRoom = rs.getString("typeOfRoom");
+        double price = rs.getInt("price");
+        String stateOfRoom = rs.getString("stateOfRoom");
+        if(temp == null)
+        {
+          temp = new Room(typeOfRoom, price, roomNumber, stateOfRoom);
+        }
+        if (amenity != null)
+        {
+          temp.addAmenities(amenity);
+        }
+      }
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+    }
+    return null;
+  }
 
   
 }
