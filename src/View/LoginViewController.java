@@ -13,7 +13,6 @@ import java.beans.PropertyChangeListener;
 public class LoginViewController implements PropertyChangeListener
 {
   @FXML public TextField username;
-
   @FXML public PasswordField password;
   @FXML public Label error;
   private Region root;
