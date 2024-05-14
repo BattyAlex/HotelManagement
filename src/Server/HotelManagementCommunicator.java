@@ -35,7 +35,7 @@ public class HotelManagementCommunicator implements Runnable
   /**
    * Handles communication over the socket. This method listens for incoming messages, processes them
    * and sends appropriate responses. It runs in a loop until the connection is closed or an error occurs.
-   * @throws IOException if an I/0 error occurs while communicating.
+   * @throws IOException if an I0 error occurs while communicating.
    */
 
   private void communicate() throws IOException
