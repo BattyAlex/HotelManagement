@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-
+import java.util.ArrayList;
 /**
  * The {@code HotelManagementCommunicator} class implements the Runnable interface to handle
  * communication with the hotel management system
