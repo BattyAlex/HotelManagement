@@ -2,8 +2,6 @@ package Server;
 
 import Model.Room;
 import Model.Staff;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -77,11 +75,6 @@ public class HotelManagementCommunicator implements Runnable
         else if (text.equals("Requesting All Rooms"))
         {
           ArrayList<Room> sendOver = RoomDAO.getInstance().getAllRooms();
-          System.out.println(sendOver);
-          for (int i = 0; i < sendOver.size(); i++)
-          {
-            System.out.println(sendOver.get(i));
-          }
           writer.writeObject(sendOver);
           writer.flush();
         }

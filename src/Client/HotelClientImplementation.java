@@ -75,10 +75,6 @@ public class HotelClientImplementation implements HotelClient
       output.writeObject("Requesting All Rooms");
       output.flush();
       ArrayList<Room> temp = (ArrayList<Room>) input.readObject();
-      for (int i = 0; i < temp.size(); i++)
-      {
-        System.out.println(temp.get(i));
-      }
       support.firePropertyChange("Sending All Rooms", null, temp);
     }
     catch (ClassNotFoundException e)
