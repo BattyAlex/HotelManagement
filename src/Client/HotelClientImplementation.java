@@ -10,6 +10,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class HotelClientImplementation implements HotelClient
 {
@@ -76,6 +77,33 @@ public class HotelClientImplementation implements HotelClient
       output.flush();
       ArrayList<Room> temp = (ArrayList<Room>) input.readObject();
       support.firePropertyChange("Sending All Rooms", null, temp);
+    }
+    catch (ClassNotFoundException e)
+    {
+      e.printStackTrace();
+    }
+  }
+
+  @Override public void getRoomsAvailable(Date startDate, Date endDate) throws IOException
+  {
+    try
+    {
+      output.writeObject("Request Rooms of Specific Period");
+      output.flush();
+      String request = (String) input.readObject();
+      if (request.equals("Start Date?"))
+      {
+        output.writeObject(startDate);
+        output.flush();
+      }
+      request = (String) input.readObject();
+      if(request.equals("End Date?"))
+      {
+        output.writeObject(endDate);
+        output.flush();
+      }
+      ArrayList<Room> result = (ArrayList<Room>) input.readObject();
+      support.firePropertyChange("Sending Available Rooms", null, result);
     }
     catch (ClassNotFoundException e)
     {

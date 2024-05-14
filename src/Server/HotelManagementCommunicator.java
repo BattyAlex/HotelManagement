@@ -6,6 +6,7 @@ import Model.Staff;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.Date;
 import java.util.ArrayList;
 /**
  * The {@code HotelManagementCommunicator} class implements the Runnable interface to handle
@@ -76,6 +77,22 @@ public class HotelManagementCommunicator implements Runnable
         {
           ArrayList<Room> sendOver = RoomDAO.getInstance().getAllRooms();
           writer.writeObject(sendOver);
+          writer.flush();
+        }
+        else if (text.equals("Request Rooms of Specific Period"))
+        {
+          Date startDate;
+          Date endDate;
+          writer.writeObject("Start Date?");
+          writer.flush();
+          java.util.Date receivedStart = (java.util.Date) reader.readObject();
+          startDate = new Date(receivedStart.getYear(), receivedStart.getMonth(), receivedStart.getDate());
+          writer.writeObject("End Date?");
+          writer.flush();
+          java.util.Date receivedEnd = (java.util.Date) reader.readObject();
+          endDate = new Date(receivedEnd.getYear(), receivedEnd.getMonth(), receivedEnd.getDate());
+          ArrayList<Room> available = RoomDAO.getInstance().getAllAvailableRooms(startDate, endDate);
+          writer.writeObject(available);
           writer.flush();
         }
       }
