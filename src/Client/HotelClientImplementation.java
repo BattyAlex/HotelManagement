@@ -77,6 +77,11 @@ public class HotelClientImplementation implements HotelClient
     output.flush();
     String text = (String) input.readLine();
     ArrayList<Room> rooms = json.fromJson(text, ArrayList.class);
+    /*ArrayList<Room> temp = new ArrayList<>();
+    for (int i = 0; i < rooms.size(); i++)
+    {
+      System.out.println(rooms.get(i));
+    }*/
     support.firePropertyChange("Sending All Rooms", null, rooms);
   }
 
