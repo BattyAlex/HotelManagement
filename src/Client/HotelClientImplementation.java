@@ -58,7 +58,7 @@ public class HotelClientImplementation implements HotelClient
         support.firePropertyChange("Login Rejected", username, null);
       }
     }
-    catch (NullPointerException e)
+    catch (EOFException e)
     {
       System.out.println("Database connection may be offline.");
     }
