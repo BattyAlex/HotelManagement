@@ -4,10 +4,6 @@ import Model.HotelModel;
 
 import Model.Room;
 import Model.Staff;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -19,7 +15,6 @@ public class HotelClientImplementation implements HotelClient
 {
   private PropertyChangeSupport support;
   private final Socket socket;
-  private final Gson json;
   private final ObjectOutputStream output;
   private final ObjectInputStream input;
   private final MessageListener listener;
@@ -27,7 +22,6 @@ public class HotelClientImplementation implements HotelClient
   public HotelClientImplementation(String host, int port) throws IOException
   {
     socket = new Socket(host, port);
-    json = new Gson();
     output = new ObjectOutputStream(socket.getOutputStream());
     input = new ObjectInputStream(socket.getInputStream());
     support = new PropertyChangeSupport(this);
