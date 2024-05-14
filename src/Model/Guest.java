@@ -8,19 +8,30 @@ public class Guest
 {
   private String firstName;
   private String lastName;
-  private String contact;
+  private String paymentInfo;
+  private int id;
 
   /**
    * Constructs a new Guest with the specified details
    * @param firstName the first name of the guest
    * @param lastName the last name of the guest
-   * @param contact the contact information of the guest
+   * @param paymentInfo the payment information of the guest
    */
-  public Guest(String firstName, String lastName, String contact)
+
+  public Guest(String firstName, String lastName, String paymentInfo)
   {
     this.firstName = firstName;
     this.lastName = lastName;
-    this.contact = contact;
+    this.paymentInfo = paymentInfo;
+    id = -1;
+  }
+
+  public Guest(String firstName, String lastName, String paymentInfo, int id)
+  {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.paymentInfo = paymentInfo;
+    this.id = id;
   }
 
   /**
@@ -42,12 +53,12 @@ public class Guest
   }
 
   /**
-   * Returns contact information of the guest.
-   * @return the contact information of the guest.
+   * Returns payment information of the guest.
+   * @return the payment information of the guest.
    */
-  public String getContact()
+  public String getPaymentInfo()
   {
-    return contact;
+    return paymentInfo;
   }
 
   /**
@@ -69,12 +80,12 @@ public class Guest
   }
 
   /**
-   * Sets the contact information of the guest.
-   * @param contact the new contact to set.
+   * Sets the payment information of the guest.
+   * @param paymentInfo the new payment information to set.
    */
-  public void setContact(String contact)
+  public void setContact(String paymentInfo)
   {
-    this.contact = contact;
+    this.paymentInfo = paymentInfo;
   }
 
 

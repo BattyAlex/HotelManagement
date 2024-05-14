@@ -122,7 +122,7 @@ public class RoomDAO extends DatabaseHandlerFactory
               + "FROM Room LEFT OUTER JOIN Amenities ON (Room.roomNumber = Amenities.roomNumber), RoomType, Reservation\n"
               + "WHERE Room.typeOfRoom = RoomType.typeOfRoom AND Room.roomNumber NOT IN (SELECT Room.roomNumber\n"
               + "FROM Room, Reservation\n"
-              + "WHERE Room.roomNumber = Reservation.roomNumber AND (Reservation.startDate < ? OR Reservation.endDate > ?))\n"
+              + "WHERE Room.roomNumber = Reservation.roomNumber AND (Reservation.startDate < ? AND Reservation.endDate > ?))\n"
               + "ORDER BY Room.roomNumber;");
       statement.setDate(1, endDate);
       statement.setDate(2, startDate);

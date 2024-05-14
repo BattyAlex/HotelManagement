@@ -7,6 +7,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class HotelModelManager implements HotelModel, PropertyChangeListener
@@ -94,6 +95,10 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
       else if (evt.getPropertyName().equals("Sending All Rooms"))
       {
         support.firePropertyChange("All Rooms", null, evt.getNewValue());
+      }
+      else if (evt.getPropertyName().equals("Sending Available Rooms"))
+      {
+        support.firePropertyChange("Available Rooms", null, evt.getNewValue());
       }
     });
 

@@ -59,7 +59,16 @@ public class RoomViewController implements PropertyChangeListener
 
   @Override public void propertyChange(PropertyChangeEvent evt)
   {
-    if(evt.getPropertyName().equals("Update Room List"))
+    if(evt.getPropertyName().equals("Load Room List"))
+    {
+      roomsAndReservations.getItems().clear();
+      ArrayList<Room> rooms = (ArrayList<Room>) evt.getNewValue();
+      for (int i = 0; i < rooms.size(); i++)
+      {
+        roomsAndReservations.getItems().add(rooms.get(i));
+      }
+    }
+    else if (evt.getPropertyName().equals("Update Room List"))
     {
       roomsAndReservations.getItems().clear();
       ArrayList<Room> rooms = (ArrayList<Room>) evt.getNewValue();
