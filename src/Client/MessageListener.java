@@ -4,12 +4,25 @@ import java.io.IOException;
 import java.net.*;
 import java.nio.channels.AsynchronousCloseException;
 
+/**
+ * The MessageListener class implements Runnable and is responsible for listening to multicast message
+ * from a specified group address and port
+ */
+
 public class MessageListener implements Runnable
 {
   private final MulticastSocket multicastSocket;
   private final InetSocketAddress socketAddress;
   private final NetworkInterface netInterface;
   private final HotelClientImplementation client;
+
+  /**
+   * Constructs a new MessageListener with the specified client, group address and port.
+   * @param client  the client implementation that will handle the received messages
+   * @param groupAddress the multicast group address to join
+   * @param port the port number tp listen on
+   * @throws IOException if an I/O error occurs
+   */
 
   public MessageListener(HotelClientImplementation client, String groupAddress,
       int port) throws IOException
@@ -20,6 +33,11 @@ public class MessageListener implements Runnable
     socketAddress = new InetSocketAddress(group, port);
     netInterface = NetworkInterface.getByInetAddress(group);
   }
+
+  /**
+   * Listens for incoming multicast messages and passes them to the client for handling.
+   * This method runs in an infinite loop until interrupted or an error occurs.
+   */
 
   @Override public void run()
   {
@@ -32,6 +50,12 @@ public class MessageListener implements Runnable
       e.printStackTrace();
     }
   }
+
+  /**
+   * Joins the multicast group and continuously listens for incoming datagram packets
+   * Each received message is passed to the client for processing
+   * @throws IOException if an I/O error occurs.
+   */
 
   private void listen() throws IOException
   {
@@ -53,6 +77,12 @@ public class MessageListener implements Runnable
         throw e;
     }
   }
+
+  /**
+   * Leaves the multicast group and closes the multicast socket.
+   *
+   * @throws IOException if an I/O error occurs.
+   */
 
   public void close() throws IOException
   {
