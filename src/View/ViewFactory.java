@@ -8,6 +8,11 @@ import javafx.scene.layout.Region;
 import java.io.IOException;
 import java.security.PublicKey;
 
+/**
+ * The ViewFactory class is responsible for loading different views in the application.
+ * It manages the controllers and their initialization for the views.
+ */
+
 public class ViewFactory
 {
   public static final String LOGIN = "login";
@@ -18,6 +23,13 @@ public class ViewFactory
   private RoomViewController roomViewController;
   private ReservationViewController reservationViewController;
 
+  /**
+   * Constructs a ViewFactory with the specified ViewHandler and ViewModel.
+   *
+   * @param viewHandler  The handler for managing views
+   * @param viewModelFactory The factory for creating view models.
+   */
+
   public ViewFactory(ViewHandler viewHandler, ViewModelFactory viewModelFactory)
   {
     this.viewHandler = viewHandler;
@@ -26,6 +38,12 @@ public class ViewFactory
     roomViewController = null;
     reservationViewController = null;
   }
+
+  /**
+   * Loads and returns the login view
+   *
+   * @return The root region of the login view.
+   */
 
   public Region loadLoginView()
   {
@@ -47,6 +65,12 @@ public class ViewFactory
     }
     return loginViewController.getRoot();
   }
+
+  /**
+   * Loads and returns the room view
+   *
+   * @return The root region of the room view
+   */
   public Region loadRoomView()
   {
     if(roomViewController == null)
@@ -67,6 +91,13 @@ public class ViewFactory
     }
     return roomViewController.getRoot();
   }
+
+  /**
+   * Loads and returns the view specified by the ID
+   *
+   * @param id The ID of the view to load
+   * @return The root region of the specified view
+   */
 
 
   public Region load(String id)
