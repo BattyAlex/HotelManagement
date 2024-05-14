@@ -4,7 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.Date;
 
-public interface HotelClient
+public interface  HotelClient
 {
   void tryLogin(String username, String password) throws IOException;
   void getAllRooms() throws IOException;
