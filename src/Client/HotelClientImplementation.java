@@ -12,6 +12,10 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * The HotelClientImplementation class implements the HotelClient interface
+ * It handles communication with the server and updates local data based on server responses
+ */
 public class HotelClientImplementation implements HotelClient
 {
   private PropertyChangeSupport support;
@@ -20,6 +24,12 @@ public class HotelClientImplementation implements HotelClient
   private final ObjectInputStream input;
   private final MessageListener listener;
 
+  /**
+   * Constructs a HotelClientImplementation object and establishes a connection to tthe server
+   * @param host The host address of the server
+   * @param port The port number of the server
+   * @throws IOException if an IO error occurs when creating the socket or streams
+   */
   public HotelClientImplementation(String host, int port) throws IOException
   {
     socket = new Socket(host, port);
@@ -31,6 +41,12 @@ public class HotelClientImplementation implements HotelClient
     thread.start();
   }
 
+  /**
+   * Tries to log in with the specified username and password
+   * @param username The username of the user trying to log in
+   * @param password The password of the user tryying to log in
+   * @throws IOException if an IO erroe occurs during communication with the server
+   */
   @Override public void tryLogin(String username, String password)
       throws IOException
   {
@@ -69,6 +85,10 @@ public class HotelClientImplementation implements HotelClient
     }
   }
 
+  /**
+   * Retrieves all rooms from the server
+   * @throws IOException if an IO error occurs during communication with the server
+   */
   @Override public void getAllRooms() throws IOException
   {
     try
@@ -84,6 +104,12 @@ public class HotelClientImplementation implements HotelClient
     }
   }
 
+  /**
+   * Retrieves available rooms for a specified period from the server
+   * @param startDate the start date of the period
+   * @param endDate the end date of the period
+   * @throws IOException if an IO error occurs during communication with the server
+   */
   @Override public void getRoomsAvailable(Date startDate, Date endDate) throws IOException
   {
     try
@@ -111,18 +137,30 @@ public class HotelClientImplementation implements HotelClient
     }
   }
 
+  /**
+   * Adds a PropertyChangeListener to this client
+   * @param listener the listener to add
+   */
   @Override public void addPropertyChangeListener(
       PropertyChangeListener listener)
   {
     support.addPropertyChangeListener(listener);
   }
 
+  /**
+   * Removes a property change listener from this client
+   * @param listener the listener to remove
+   */
   @Override public void removePropertyChangeListener(
       PropertyChangeListener listener)
   {
     support.removePropertyChangeListener(listener);
   }
 
+  /**
+   * Receives a broadcast message and fires a property change event
+   * @param message the broadcast message
+   */
   @Override public void receiveBroadcast(String message)
   {
     support.firePropertyChange("message", null, message);

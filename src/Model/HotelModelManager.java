@@ -73,7 +73,7 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
 
   /**
    * Method is called when a PropertyChangeEvent is about to get fired.
-   * @param evt the PropertyChangeEvent object containing the event details.??
+   * @param evt the PropertyChangeEvent object containing the event details.
    */
 
   public void propertyChange(PropertyChangeEvent evt)
