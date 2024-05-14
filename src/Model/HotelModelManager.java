@@ -97,4 +97,16 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
     });
 
   }
+  public void loadAllRooms()
+  {
+    try
+    {
+      client.getAllRooms();
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+
+  }
 }

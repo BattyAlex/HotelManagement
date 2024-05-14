@@ -28,4 +28,5 @@ public interface HotelModel
    * @param listener The property change listener to remove.
    */
   void removePropertyChangeListener(PropertyChangeListener listener);
+  void loadAllRooms();
 }

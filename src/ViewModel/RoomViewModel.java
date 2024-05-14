@@ -56,4 +56,8 @@ public class RoomViewModel implements PropertyChangeListener
       support.firePropertyChange("Update Room List", null, evt.getOldValue());
     }
   }
+  public void loadAllRooms()
+  {
+    model.loadAllRooms();
+  }
 }

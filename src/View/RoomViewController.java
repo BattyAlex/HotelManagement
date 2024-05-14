@@ -1,5 +1,6 @@
 package View;
 
+import Model.Room;
 import ViewModel.LoginViewModel;
 import ViewModel.RoomViewModel;
 import javafx.beans.property.SimpleStringProperty;
@@ -11,6 +12,7 @@ import javafx.scene.layout.Region;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 public class RoomViewController implements PropertyChangeListener
 {
@@ -26,6 +28,7 @@ public class RoomViewController implements PropertyChangeListener
     this.roomViewModel = roomViewModel;
     this.root = root;
     roomViewModel.bindToggle(roomReservation.textProperty());
+    loadAllRooms();
   }
   public Region getRoot()
   {
@@ -40,7 +43,16 @@ public class RoomViewController implements PropertyChangeListener
   {
     if(evt.getPropertyName().equals("Update Room List"))
     {
-      //do stuff here
+      roomsAndReservations.getItems().clear();
+      ArrayList<Room> rooms = (ArrayList<Room>) evt.getNewValue();
+      for (int i = 0; i < rooms.size(); i++)
+      {
+        roomsAndReservations.getItems().add(rooms.get(i));
+      }
     }
+  }
+  public void loadAllRooms()
+  {
+    roomViewModel.loadAllRooms();
   }
 }
