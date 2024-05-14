@@ -47,9 +47,9 @@
                         <Insets left="10.0" top="10.0" />
                      </VBox.margin>
                   </ToggleButton>
-                  <Button fx:id="search" mnemonicParsing="false" text="Search">
+                  <Button fx:id="search" mnemonicParsing="false" onAction="#onSearch" text="Search">
                      <VBox.margin>
-                        <Insets top="10.0" />
+                        <Insets bottom="10.0" top="10.0" />
                      </VBox.margin>
                   </Button>
                </children>

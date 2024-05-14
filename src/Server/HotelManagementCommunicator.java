@@ -81,6 +81,7 @@ public class HotelManagementCommunicator implements Runnable
         }
         else if (text.equals("Request Rooms of Specific Period"))
         {
+          System.out.println("hi");
           Date startDate;
           Date endDate;
           writer.writeObject("Start Date?");
@@ -93,6 +94,7 @@ public class HotelManagementCommunicator implements Runnable
           endDate = new Date(receivedEnd.getYear(), receivedEnd.getMonth(), receivedEnd.getDate());
           ArrayList<Room> available = RoomDAO.getInstance().getAllAvailableRooms(startDate, endDate);
           writer.writeObject(available);
+          System.out.println(available);
           writer.flush();
         }
       }
