@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class RoomViewModel implements PropertyChangeListener
@@ -65,7 +66,7 @@ public class RoomViewModel implements PropertyChangeListener
   {
     model.loadAllRooms();
   }
-  public void loadAvailableRooms(Date startDate, Date endDate)
+  public void loadAvailableRooms(LocalDate startDate, LocalDate endDate)
   {
     model.loadAvailableRooms(startDate,endDate);
   }

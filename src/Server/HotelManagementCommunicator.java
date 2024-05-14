@@ -7,6 +7,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 /**
  * The {@code HotelManagementCommunicator} class implements the Runnable interface to handle
@@ -85,12 +86,12 @@ public class HotelManagementCommunicator implements Runnable
           Date endDate;
           writer.writeObject("Start Date?");
           writer.flush();
-          java.util.Date receivedStart = (java.util.Date) reader.readObject();
-          startDate = new Date(receivedStart.getYear(), receivedStart.getMonth(), receivedStart.getDate());
+          LocalDate receivedStart = (LocalDate) reader.readObject();
+          startDate = new Date(receivedStart.getYear()-1900, receivedStart.getMonthValue()-1, receivedStart.getDayOfMonth());
           writer.writeObject("End Date?");
           writer.flush();
-          java.util.Date receivedEnd = (java.util.Date) reader.readObject();
-          endDate = new Date(receivedEnd.getYear(), receivedEnd.getMonth(), receivedEnd.getDate());
+          LocalDate receivedEnd = (LocalDate) reader.readObject();
+          endDate = new Date(receivedEnd.getYear()-1900, receivedEnd.getMonthValue()-1, receivedEnd.getDayOfMonth());
           ArrayList<Room> available = RoomDAO.getInstance().getAllAvailableRooms(startDate, endDate);
           writer.writeObject(available);
           writer.flush();

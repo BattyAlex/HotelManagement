@@ -51,9 +51,7 @@ public class RoomViewController implements PropertyChangeListener
   {
     if(dateStart != null && dateEnd != null)
     {
-      Date startDate = new Date(dateStart.getValue().getYear(), dateStart.getValue().getMonthValue(), dateStart.getValue().getDayOfMonth());
-      Date endDate = new Date(dateEnd.getValue().getYear(), dateEnd.getValue().getMonthValue(), dateEnd.getValue().getDayOfMonth());
-      roomViewModel.loadAvailableRooms(startDate, endDate);
+      roomViewModel.loadAvailableRooms(dateStart.getValue(), dateEnd.getValue());
     }
   }
 

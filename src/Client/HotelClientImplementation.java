@@ -9,6 +9,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
 import java.net.Socket;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -110,7 +111,7 @@ public class HotelClientImplementation implements HotelClient
    * @param endDate the end date of the period
    * @throws IOException if an IO error occurs during communication with the server
    */
-  @Override public void getRoomsAvailable(Date startDate, Date endDate) throws IOException
+  @Override public void getRoomsAvailable(LocalDate startDate, LocalDate endDate) throws IOException
   {
     try
     {

@@ -1,6 +1,7 @@
 package Model;
 
 import java.beans.PropertyChangeListener;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -30,5 +31,5 @@ public interface HotelModel
    */
   void removePropertyChangeListener(PropertyChangeListener listener);
   void loadAllRooms();
-  void loadAvailableRooms(Date startDate, Date endDate);
+  void loadAvailableRooms(LocalDate startDate, LocalDate endDate);
 }
