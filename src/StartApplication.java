@@ -1,7 +1,9 @@
 import Client.HotelClient;
 import Client.HotelClientImplementation;
+import Model.Guest;
 import Model.HotelModel;
 import Model.HotelModelManager;
+import Model.Room;
 import View.ViewHandler;
 import ViewModel.ViewModelFactory;
 import javafx.application.Application;

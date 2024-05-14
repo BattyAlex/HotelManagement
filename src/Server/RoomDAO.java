@@ -45,6 +45,7 @@ public class RoomDAO extends DatabaseHandlerFactory
       ResultSet rs = statement.executeQuery();
       while (rs.next())
       {
+        System.out.println(1);
         String amenity = rs.getString("amenityName");
         String typeOfRoom = rs.getString("typeOfRoom");
         double price = rs.getInt("price");
@@ -55,12 +56,16 @@ public class RoomDAO extends DatabaseHandlerFactory
           if (!(currentRoomNumber == -1))
           {
             incrementor ++;
+            System.out.println(2);
           }
           currentRoomNumber = roomNumber;
+
           temp.add(new Room(typeOfRoom, price, roomNumber, stateOfRoom));
+
           if(amenity != null)
           {
             temp.get(incrementor).addAmenities(amenity);
+
           }
         }
         else
@@ -68,6 +73,7 @@ public class RoomDAO extends DatabaseHandlerFactory
           if(amenity != null)
           {
             temp.get(incrementor).addAmenities(amenity);
+
           }
         }
       }
@@ -76,6 +82,8 @@ public class RoomDAO extends DatabaseHandlerFactory
     {
       e.printStackTrace();
     }
+
+
     return temp;
   }
 

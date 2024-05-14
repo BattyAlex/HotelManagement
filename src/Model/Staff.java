@@ -1,9 +1,11 @@
 package Model;
 
+import java.io.Serializable;
+
 /**
  * Represents a staff member in a hotel management system
  */
-public class Staff
+public class Staff implements Serializable
 {
   private final String username;
   private final String password;

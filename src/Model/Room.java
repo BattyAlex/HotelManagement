@@ -1,11 +1,12 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * This class represents a room in a hotel management system
  */
-public class Room
+public class Room implements Serializable
 {
   private int roomNumber;
   private double price;
@@ -61,6 +62,8 @@ public class Room
    */
   public String getType()
   {
+
+
     return type.getType();
   }
 
@@ -93,6 +96,19 @@ public class Room
 
   public String toString()
   {
-    return null;
+    String temp = "";
+    for (int i = 0; i < amenities.size(); i++)
+    {
+      temp += amenities.get(i);
+      temp += ", ";
+    }
+    if (temp.isEmpty())
+    {
+      return "Room: " + roomNumber + " (" + type.getType() + ")\nPrice of Room: " + price + "\nState of Room: " + state;
+    }
+    else
+    {
+      return "Room: " + roomNumber + " (" + type.getType() + ")\nPrice of Room: " + price + "\nState of Room: " + state + "\nList of Amenities: " + temp;
+    }
   }
 }

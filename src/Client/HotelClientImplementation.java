@@ -5,6 +5,9 @@ import Model.HotelModel;
 import Model.Room;
 import Model.Staff;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -17,19 +20,16 @@ public class HotelClientImplementation implements HotelClient
   private PropertyChangeSupport support;
   private final Socket socket;
   private final Gson json;
-  private final PrintWriter output;
-  private final BufferedReader input;
+  private final ObjectOutputStream output;
+  private final ObjectInputStream input;
   private final MessageListener listener;
 
   public HotelClientImplementation(String host, int port) throws IOException
   {
     socket = new Socket(host, port);
     json = new Gson();
-    OutputStream outputStream = socket.getOutputStream();
-    output = new PrintWriter(outputStream);
-    InputStream inputStream = socket.getInputStream();
-    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-    input = new BufferedReader(inputStreamReader);
+    output = new ObjectOutputStream(socket.getOutputStream());
+    input = new ObjectInputStream(socket.getInputStream());
     support = new PropertyChangeSupport(this);
     listener = new MessageListener(this, "230.0.0.0", 8888);
     Thread thread = new Thread(listener);
@@ -39,19 +39,18 @@ public class HotelClientImplementation implements HotelClient
   @Override public void tryLogin(String username, String password)
       throws IOException
   {
-    output.println("Login attempt");
-    output.flush();
-    String request = (String) input.readLine();
-    if(request.equals("Which staff?"))
-    {
-      Staff staff = new Staff(username, password);
-      String sendOver = json.toJson(staff);
-      output.println(sendOver);
-      output.flush();
-    }
     try
     {
-      request = (String) input.readLine();
+      output.writeObject("Login attempt");
+      output.flush();
+      String request = (String) input.readObject();
+      if(request.equals("Which staff?"))
+      {
+        Staff sendOver = new Staff(username, password);
+        output.writeObject(sendOver);
+        output.flush();
+      }
+      request = (String) input.readObject();
       if(request.equals("Invalid username"))
       {
         support.firePropertyChange("Invalid username", username, null);
@@ -69,20 +68,29 @@ public class HotelClientImplementation implements HotelClient
     {
       System.out.println("Database connection may be offline.");
     }
+    catch (ClassNotFoundException e)
+    {
+      e.printStackTrace();
+    }
   }
 
   @Override public void getAllRooms() throws IOException
   {
-    output.println("Requesting All Rooms");
-    output.flush();
-    String text = (String) input.readLine();
-    ArrayList<Room> rooms = json.fromJson(text, ArrayList.class);
-    /*ArrayList<Room> temp = new ArrayList<>();
-    for (int i = 0; i < rooms.size(); i++)
+    try
     {
-      System.out.println(rooms.get(i));
-    }*/
-    support.firePropertyChange("Sending All Rooms", null, rooms);
+      output.writeObject("Requesting All Rooms");
+      output.flush();
+      ArrayList<Room> temp = (ArrayList<Room>) input.readObject();
+      for (int i = 0; i < temp.size(); i++)
+      {
+        System.out.println(temp.get(i));
+      }
+      support.firePropertyChange("Sending All Rooms", null, temp);
+    }
+    catch (ClassNotFoundException e)
+    {
+      e.printStackTrace();
+    }
   }
 
   @Override public void addPropertyChangeListener(

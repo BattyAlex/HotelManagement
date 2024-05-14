@@ -3,6 +3,7 @@ package Server;
 import Model.Room;
 import Model.Staff;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -18,9 +19,8 @@ public class HotelManagementCommunicator implements Runnable
 {
   private final Socket socket;
   private final UDPBroadcaster broadcaster;
-  private final Gson gson;
-  private BufferedReader reader;
-  private PrintWriter writer;
+  private ObjectInputStream reader;
+  private ObjectOutputStream writer;
 
   /**
    * Constructs a new {@code HotelManagementCommunicator} with the specified socket and UDP broadcaster.
@@ -32,7 +32,6 @@ public class HotelManagementCommunicator implements Runnable
   {
     this.socket = socket;
     this.broadcaster = broadcaster;
-    this.gson = new Gson();
   }
 
   /**
@@ -43,49 +42,54 @@ public class HotelManagementCommunicator implements Runnable
 
   private void communicate() throws IOException
   {
-    InputStream inputStream = socket.getInputStream();
-    OutputStream outputStream = socket.getOutputStream();
-    reader = new BufferedReader(new InputStreamReader(inputStream));
-    writer = new PrintWriter(outputStream);
+    reader = new ObjectInputStream(socket.getInputStream());
+    writer = new ObjectOutputStream(socket.getOutputStream());
     try
     {
       loop: while (true)
       {
-        String text = (String) reader.readLine();
+        String text = (String) reader.readObject();
         if(text == null)
         {
           break loop;
         }
         else if(text.equals("Login attempt"))
         {
-          writer.println("Which staff?");
+          writer.writeObject("Which staff?");
           writer.flush();
-          text = reader.readLine();
-          Staff confirmation = gson.fromJson(text, Staff.class);
+          Staff confirmation = (Staff) reader.readObject();
           Staff loginRequest = UserDAO.getInstance().getStaffBasedOnUsername(
               confirmation.getUsername());
           if(loginRequest == null)
           {
-            writer.println("Invalid username");
+            writer.writeObject("Invalid username");
           }
           else if (loginRequest.equals(confirmation))
           {
-            writer.println("Approved");
+            writer.writeObject("Approved");
           }
           else
           {
-            writer.println("Rejected");
+            writer.writeObject("Rejected");
           }
           writer.flush();
         }
         else if (text.equals("Requesting All Rooms"))
         {
           ArrayList<Room> sendOver = RoomDAO.getInstance().getAllRooms();
-          String json = gson.toJson(sendOver);
-          writer.println(json);
+          System.out.println(sendOver);
+          for (int i = 0; i < sendOver.size(); i++)
+          {
+            System.out.println(sendOver.get(i));
+          }
+          writer.writeObject(sendOver);
           writer.flush();
         }
       }
+    }
+    catch (ClassNotFoundException e)
+    {
+      e.printStackTrace();
     }
     finally
     {

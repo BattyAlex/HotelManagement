@@ -1,11 +1,12 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
  * This class represents a room type in a hotel management system.
  */
-public class RoomType
+public class RoomType implements Serializable
 {
   private String key;
   private double price;
@@ -34,7 +35,7 @@ public class RoomType
    * @param price The price to set or update for the room type
    * @return The RoomType instance corresponding to the provided key
    */
-  public static RoomType getInstance(String key, double price)
+  public  static RoomType getInstance(String key, double price)
   {
     if (!instances.containsKey(key))
     {
