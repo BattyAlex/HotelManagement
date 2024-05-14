@@ -8,7 +8,6 @@ public interface  HotelClient
 /**
  * The HotelClient interface defines the methods required for a client that interacts witha hotel management system
  */
-public interface HotelClient
 {
   /**
    * Attempts to log in with the provided username and password
