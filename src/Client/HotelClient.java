@@ -6,13 +6,13 @@ import java.util.Date;
 
 public interface  HotelClient
 /**
- * The HotelClient interface defines the methods required for a client that interacts witha hotel management system
+ * The HotelClient interface defines the methods required for a client that interacts with a hotel management system
  */
 {
   /**
    * Attempts to log in with the provided username and password
    * @param username The username of the user trying to log in
-   * @param password The password of the user trying to llog in
+   * @param password The password of the user trying to log in
    * @throws IOException if an IO error occurs during the login attempt
    */
   void tryLogin(String username, String password) throws IOException;
