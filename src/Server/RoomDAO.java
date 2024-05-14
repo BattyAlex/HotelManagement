@@ -5,15 +5,28 @@ import Model.Room;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * The RoomDAO class handles the data access operations related to the Room entity.
+ * It extends the DatabaseHandlerFactory class and imnplements the Singleton pattern.
+ */
 public class RoomDAO extends DatabaseHandlerFactory
 {
   private static RoomDAO instance;
 
+  /**
+   * Private constructor to prevent instantiation.
+   * Registers the PostgreSQL driver.
+   * @throws SQLException If an error occurs during driver registration.
+   */
   private RoomDAO() throws SQLException
   {
     DriverManager.registerDriver(new org.postgresql.Driver());
   }
 
+  /**
+   * Provides the singleton instance of RoomDAO.
+   * @return The singleton instance of RoomDAO.
+   */
   public static synchronized RoomDAO getInstance()
   {
     try
@@ -30,6 +43,11 @@ public class RoomDAO extends DatabaseHandlerFactory
       return null;
     }
   }
+
+  /**
+   * Retrieves alll rooms from the database.
+   * @return An arraylist of Room objects.
+   */
   public ArrayList<Room> getAllRooms()
   {
     ArrayList<Room> temp = new ArrayList<>();
@@ -87,6 +105,13 @@ public class RoomDAO extends DatabaseHandlerFactory
     return temp;
   }
 
+  /**
+   * Retrieves all available rooms from the database for the given date range
+   * @param startDate The start date of the availability period.
+   * @param endDate The end date of the availabilty period
+   * @return An arraylist of available Room objects.
+   */
+
   public ArrayList<Room> getAllAvailableRooms(Date startDate, Date endDate)
   {
     ArrayList<Room> temp = new ArrayList<>();
@@ -140,6 +165,11 @@ public class RoomDAO extends DatabaseHandlerFactory
     return temp;
   }
 
+  /**
+   * Retrieves a room by its room number from the database
+   * @param roomNumber The room number of the desired room
+   * @return The Room object if found, otherwise null.
+   */
   public Room getRoomByRoomNumber(int roomNumber)
   {
     try(Connection connection = super.establishConnection())
