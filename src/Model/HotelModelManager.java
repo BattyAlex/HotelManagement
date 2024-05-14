@@ -7,6 +7,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
+import java.util.Date;
 
 public class HotelModelManager implements HotelModel, PropertyChangeListener
 {
@@ -108,5 +109,17 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
       e.printStackTrace();
     }
 
+  }
+
+  @Override public void loadAvailableRooms(Date startDate, Date endDate)
+  {
+    try
+    {
+      client.getRoomsAvailable(startDate,endDate);
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
   }
 }

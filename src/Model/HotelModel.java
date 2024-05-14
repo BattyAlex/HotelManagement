@@ -1,6 +1,7 @@
 package Model;
 
 import java.beans.PropertyChangeListener;
+import java.util.Date;
 
 /**
  * This interface defines the functionality for a hotel management system model
@@ -29,4 +30,5 @@ public interface HotelModel
    */
   void removePropertyChangeListener(PropertyChangeListener listener);
   void loadAllRooms();
+  void loadAvailableRooms(Date startDate, Date endDate);
 }

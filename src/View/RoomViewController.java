@@ -16,6 +16,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class RoomViewController implements PropertyChangeListener
 {
@@ -46,11 +47,13 @@ public class RoomViewController implements PropertyChangeListener
   {
     roomViewModel.onToggle();
   }
-  @FXML public void onClicked()
+  @FXML public void onSearch()
   {
     if(dateStart != null && dateEnd != null)
     {
-
+      Date startDate = new Date(dateStart.getValue().getYear(), dateStart.getValue().getMonthValue(), dateStart.getValue().getDayOfMonth());
+      Date endDate = new Date(dateEnd.getValue().getYear(), dateEnd.getValue().getMonthValue(), dateEnd.getValue().getDayOfMonth());
+      roomViewModel.loadAvailableRooms(startDate, endDate);
     }
   }
 
