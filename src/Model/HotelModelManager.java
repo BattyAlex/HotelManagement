@@ -90,7 +90,23 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
       {
         support.firePropertyChange("Login failed", evt.getOldValue(), null);
       }
+      else if (evt.getPropertyName().equals("Sending All Rooms"))
+      {
+        support.firePropertyChange("All Rooms", null, evt.getNewValue());
+      }
     });
+
+  }
+  public void loadAllRooms()
+  {
+    try
+    {
+      client.getAllRooms();
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
 
   }
 }

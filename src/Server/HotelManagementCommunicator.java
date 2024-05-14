@@ -1,15 +1,18 @@
 package Server;
 
+import Model.Room;
 import Model.Staff;
 import com.google.gson.Gson;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+
 /**
  * The {@code HotelManagementCommunicator} class implements the Runnable interface to handle
  * communication with the hotel management system
  */
+
 
 public class HotelManagementCommunicator implements Runnable
 {
@@ -73,6 +76,13 @@ public class HotelManagementCommunicator implements Runnable
           {
             writer.println("Rejected");
           }
+          writer.flush();
+        }
+        else if (text.equals("Requesting All Rooms"))
+        {
+          ArrayList<Room> sendOver = RoomDAO.getInstance().getAllRooms();
+          String json = gson.toJson(sendOver);
+          writer.println(json);
           writer.flush();
         }
       }

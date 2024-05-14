@@ -2,6 +2,7 @@ package Client;
 
 import Model.HotelModel;
 
+import Model.Room;
 import Model.Staff;
 import com.google.gson.Gson;
 
@@ -9,6 +10,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class HotelClientImplementation implements HotelClient
 {
@@ -67,6 +69,15 @@ public class HotelClientImplementation implements HotelClient
     {
       System.out.println("Database connection may be offline.");
     }
+  }
+
+  @Override public void getAllRooms() throws IOException
+  {
+    output.println("Requesting All Rooms");
+    output.flush();
+    String text = (String) input.readLine();
+    ArrayList<Room> rooms = json.fromJson(text, ArrayList.class);
+    support.firePropertyChange("Sending All Rooms", null, rooms);
   }
 
   @Override public void addPropertyChangeListener(
