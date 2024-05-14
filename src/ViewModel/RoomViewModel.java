@@ -53,7 +53,7 @@ public class RoomViewModel implements PropertyChangeListener
   {
     if(evt.getPropertyName().equals("All Rooms"))
     {
-      support.firePropertyChange("Update Room List", null, evt.getOldValue());
+      support.firePropertyChange("Update Room List", null, evt.getNewValue());
     }
   }
   public void loadAllRooms()

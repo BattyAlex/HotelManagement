@@ -27,6 +27,7 @@ public class RoomViewController implements PropertyChangeListener
   {
     this.roomViewModel = roomViewModel;
     this.root = root;
+    roomViewModel.addPropertyChangeListener(this);
     roomViewModel.bindToggle(roomReservation.textProperty());
     loadAllRooms();
   }
