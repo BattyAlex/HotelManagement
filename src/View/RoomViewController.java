@@ -9,7 +9,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.Region;
 
-public class RoomViewController
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+public class RoomViewController implements PropertyChangeListener
 {
   private Region root;
   private RoomViewModel roomViewModel;
@@ -33,4 +36,11 @@ public class RoomViewController
     roomViewModel.onToggle();
   }
 
+  @Override public void propertyChange(PropertyChangeEvent evt)
+  {
+    if(evt.getPropertyName().equals("Update Room List"))
+    {
+      //do stuff here
+    }
+  }
 }
