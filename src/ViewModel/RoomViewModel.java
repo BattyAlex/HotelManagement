@@ -18,6 +18,7 @@ public class RoomViewModel implements PropertyChangeListener
   private final HotelModel model;
   private StringProperty toggle;
   private PropertyChangeSupport support;
+  private StringProperty error;
 
 
   public RoomViewModel(HotelModel model)
@@ -26,10 +27,15 @@ public class RoomViewModel implements PropertyChangeListener
     model.addPropertyChangeListener(this);
     toggle = new SimpleStringProperty("To reservations");
     support = new PropertyChangeSupport(this);
+    error = new SimpleStringProperty();
   }
   public void bindToggle(StringProperty property)
   {
     property.bind(toggle);
+  }
+  public void bindError(StringProperty property)
+  {
+    property.bind(error);
   }
   public void onToggle()
   {
@@ -68,6 +74,18 @@ public class RoomViewModel implements PropertyChangeListener
   }
   public void loadAvailableRooms(LocalDate startDate, LocalDate endDate)
   {
-    model.loadAvailableRooms(startDate,endDate);
+    error.set("");
+    if(startDate == null || endDate == null)
+    {
+      error.set("Date from or until is empty, please choose a date.");
+    }
+    else if (endDate.isBefore(startDate))
+    {
+      error.set("The start date is earlier than the end date.");
+    }
+    else
+    {
+      model.loadAvailableRooms(startDate,endDate);
+    }
   }
 }

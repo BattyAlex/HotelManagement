@@ -6,10 +6,7 @@ import ViewModel.RoomViewModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 
 import java.beans.PropertyChangeEvent;
@@ -28,6 +25,7 @@ public class RoomViewController implements PropertyChangeListener
   @FXML private DatePicker dateStart;
   @FXML private DatePicker dateEnd;
   @FXML private Button search;
+  @FXML private Label error;
 
 
   public void init(ViewHandler viewHandler, RoomViewModel roomViewModel, Region root)
@@ -36,6 +34,7 @@ public class RoomViewController implements PropertyChangeListener
     this.root = root;
     roomViewModel.addPropertyChangeListener(this);
     roomViewModel.bindToggle(roomReservation.textProperty());
+    roomViewModel.bindError(error.textProperty());
     loadAllRooms();
 
   }
@@ -49,10 +48,7 @@ public class RoomViewController implements PropertyChangeListener
   }
   @FXML public void onSearch()
   {
-    if(dateStart != null && dateEnd != null)
-    {
       roomViewModel.loadAvailableRooms(dateStart.getValue(), dateEnd.getValue());
-    }
   }
 
   @Override public void propertyChange(PropertyChangeEvent evt)
