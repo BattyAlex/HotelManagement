@@ -38,7 +38,7 @@ public class ReservationViewModel implements PropertyChangeListener
     error.set("");
     if(startDate == null || endDate == null)
     {
-      error.set("Date from or until is empty, please choose a date.");
+      error.set("Date is empty, please choose a date.");
     }
     else if (endDate.isBefore(startDate))
     {

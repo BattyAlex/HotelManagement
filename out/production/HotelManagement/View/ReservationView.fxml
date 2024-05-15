@@ -12,7 +12,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" userData="Reservation" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.ReservationViewController">
    <children>
@@ -124,11 +123,6 @@
                         </Button>
                      </children>
                   </HBox>
-                  <Label fx:id="error" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="4">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                      <children>
                         <DatePicker fx:id="endDate">
@@ -147,5 +141,6 @@
             </GridPane>
          </children>
       </HBox>
+      <Label fx:id="error" prefHeight="18.0" prefWidth="3.0" textFill="RED" />
    </children>
 </VBox>

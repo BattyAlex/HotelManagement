@@ -102,8 +102,7 @@ public class ViewFactory
       {
         Region root = loader.load();
         reservationViewController = loader.getController();
-        reservationViewController.init(viewHandler,
-            viewModelFactory.getReservationViewModel(), root);
+        reservationViewController.init(viewHandler, viewModelFactory.getReservationViewModel(), root);
       }
       catch (IOException e)
       {
