@@ -15,6 +15,7 @@ public class ReservationViewModel implements PropertyChangeListener
   private StringProperty lastName;
   private StringProperty cardInfo;
   private StringProperty amenities;
+  private StringProperty error;
   
 
   public ReservationViewModel(HotelModel model)
@@ -25,10 +26,12 @@ public class ReservationViewModel implements PropertyChangeListener
     lastName = new SimpleStringProperty();
     cardInfo = new SimpleStringProperty();
     amenities = new SimpleStringProperty();
+    error = new SimpleStringProperty();
   }
 
   @Override public void propertyChange(PropertyChangeEvent evt)
   {
 
   }
+
 }
