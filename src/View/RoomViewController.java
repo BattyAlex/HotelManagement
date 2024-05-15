@@ -15,6 +15,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * The RoomViewController class acts as the controller for the root-related views.
+ * It implements PropertyChangeListener to handle property change events and updates the view accordingly.
+ *
+ */
+
 public class RoomViewController implements PropertyChangeListener
 {
   private Region root;
@@ -27,6 +33,14 @@ public class RoomViewController implements PropertyChangeListener
   @FXML private Button search;
   @FXML private Label error;
 
+  /**
+   * Initialozes the RoomViewController with the specified ViewHandler, RoomViewModel and root Region.
+   *
+   * @param viewHandler the ViewHandler to be used by this controller.
+   * @param roomViewModel the RoomViewModel to be used by this controller
+   * @param root the root Region of the view
+   */
+
 
   public void init(ViewHandler viewHandler, RoomViewModel roomViewModel, Region root)
   {
@@ -38,18 +52,42 @@ public class RoomViewController implements PropertyChangeListener
     roomViewModel.bindError(error.textProperty());
     loadAllRooms();
   }
+
+  /**
+   * Returns the root Region of the view
+   *
+   * @return the root Region of the view
+   */
   public Region getRoot()
   {
     return root;
   }
+
+  /**
+   * Handles the toggle button action and toggles the room reservation state.
+   */
   @FXML public void onToggle()
   {
     roomViewModel.onToggle();
   }
+
+  /**
+   * Handles the search button action and loads the available rooms for the specified date range.
+   *
+   */
   @FXML public void onSearch()
   {
+    if(roomViewModel.getToggle().equals("To reservations"))
       roomViewModel.loadAvailableRooms(dateStart.getValue(), dateEnd.getValue());
+    else
+      roomViewModel.loadReservationsInTimeframe(dateStart.getValue(), dateEnd.getValue());
   }
+
+  /**
+   * Handles property change events and updates the view accordingly
+   * @param evt A PropertyChangeEvent object describing the event source
+   *          and the property that has changed.
+   */
 
   @Override public void propertyChange(PropertyChangeEvent evt)
   {
@@ -72,8 +110,16 @@ public class RoomViewController implements PropertyChangeListener
       }
     }
   }
+
+  /**
+   * Loads all rooms using the RoomViewModel
+   */
   public void loadAllRooms()
   {
     roomViewModel.loadAllRooms();
+  }
+  public void loadAllReservations()
+  {
+    roomViewModel.loadAllReservations();
   }
 }

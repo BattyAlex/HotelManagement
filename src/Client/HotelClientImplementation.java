@@ -166,4 +166,15 @@ public class HotelClientImplementation implements HotelClient
   {
     support.firePropertyChange("message", null, message);
   }
+
+  @Override public void getAllReservations()
+  {
+
+  }
+
+  @Override public void getReservationsInTimeframe(LocalDate startDate,
+      LocalDate endDate)
+  {
+
+  }
 }

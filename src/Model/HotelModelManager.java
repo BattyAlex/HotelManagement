@@ -128,4 +128,15 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
       e.printStackTrace();
     }
   }
+
+  @Override public void loadAllReservations()
+  {
+      client.getAllReservations();
+  }
+
+  @Override public void loadReservationsInTimeframe(LocalDate startDate,
+      LocalDate endDate)
+  {
+    client.getReservationsInTimeframe(startDate, endDate);
+  }
 }
