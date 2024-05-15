@@ -17,7 +17,7 @@ public abstract class DatabaseHandlerFactory
   {
     try
     {
-      return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres?currentSchema=hotelmanagementsystem", "postgres", "Why1sthisn33ded");
+      return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres?currentSchema=hotelmanagementsystem", "postgres", "fatcat");
       //Why1sthisn33ded
     }
     catch (SQLException e)

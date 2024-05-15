@@ -4,14 +4,29 @@ import Model.Guest;
 
 import java.sql.*;
 
+/**
+ * The GuestDAO class provides data access operations for the Guest entity
+ * It extends the DatabaseHandlerFactory to assist with the handling of database connection
+ * This class uses the Singleton design pattern.
+ */
 public class GuestDAO extends DatabaseHandlerFactory
 {
   private static GuestDAO instance;
+
+  /**
+   * Private constructor to prevent instantiation from outside the class
+   * It also registers the PostgreSQL driver.
+   * @throws SQLException if a database access error occurs
+   */
   private GuestDAO() throws SQLException
   {
     DriverManager.registerDriver(new org.postgresql.Driver());
   }
 
+  /**
+   * Returns the singleton instance of GuestDAO
+   * @return the singleton instance of GuestDAO
+   */
   public static synchronized GuestDAO getInstance()
   {
     try
@@ -29,6 +44,12 @@ public class GuestDAO extends DatabaseHandlerFactory
     }
   }
 
+  /**
+   * Retrieves a Guest based on their full name
+   * If the guest does not exist, inserts the guest into the database
+   * @param guest the Guest to be retrieved or inserted
+   * @return the retrieved or newly inserted Guest or null if an error occurs.
+   */
   public Guest getGuestBasedOnName(Guest guest)
   {
     String fullName = guest.getFirstName() + guest.getLastName();
@@ -63,6 +84,11 @@ public class GuestDAO extends DatabaseHandlerFactory
     return null;
   }
 
+  /**
+   * Inserts a new Guest into the database
+   * @param guest the Guest to be inserted
+   * @return the inserted Guest with the generated client ID or null if an error occurs
+   */
   public Guest insertGuest(Guest guest)
   {
     String fullName = guest.getFirstName() + guest.getLastName();
