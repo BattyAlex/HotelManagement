@@ -84,6 +84,24 @@ public class RoomViewController implements PropertyChangeListener
       roomViewModel.loadReservationsInTimeframe(dateStart.getValue(), dateEnd.getValue());
   }
 
+  @FXML public void onClick()
+  {
+    if(roomsAndReservations.getSelectionModel().getSelectedItem() != null)
+    {
+      if(roomsAndReservations.getSelectionModel().getSelectedItem() instanceof Room)
+      {
+        Room selected = (Room) roomsAndReservations.getSelectionModel().getSelectedItem();
+        //send forward do shit
+      }
+      else if (roomsAndReservations.getSelectionModel().getSelectedItem() instanceof Reservation)
+      {
+        Reservation selected = (Reservation) roomsAndReservations.getSelectionModel().getSelectedItem();
+        //send forward do shit
+      }
+      //Open reservation view
+    }
+  }
+
   /**
    * Handles property change events and updates the view accordingly
    * @param evt A PropertyChangeEvent object describing the event source
