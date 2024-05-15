@@ -116,4 +116,34 @@ public class GuestDAO extends DatabaseHandlerFactory
     }
     return null;
   }
+
+  public Guest getGuestBasedOnId(int id)
+  {
+    try(Connection connection = super.establishConnection())
+    {
+      PreparedStatement statement = connection.prepareStatement("SELECT clientId, name, paymentInformation\n"
+          + "FROM Client\n" + "WHERE clientId = ?;");
+      statement.setInt(1, id);
+      ResultSet rs = statement.executeQuery();
+      if(rs.next())
+      {
+        String[] fullName = rs.getString("name").split(" ");
+        String firstName = fullName[0];
+        String lastName = "";
+        for (int i = 1; i < fullName.length; i++)
+        {
+          lastName += fullName[i];
+          lastName += " ";
+        }
+        lastName.strip();
+        return new Guest(firstName, lastName, rs.getString("paymentInformation"),
+            rs.getInt("clientId"));
+      }
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+    }
+    return null;
+  }
 }

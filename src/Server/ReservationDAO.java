@@ -1,9 +1,6 @@
 package Server;
 
-import Model.Guest;
-import Model.Reservation;
-import Model.Room;
-import Model.Staff;
+import Model.*;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -80,7 +77,17 @@ public class ReservationDAO extends DatabaseHandlerFactory
         int numberOfGuests = rs.getInt("numberOfGuests");
         Staff staff = new Staff(rs.getString("responsibleStaff"), "");
         Room room = RoomDAO.getInstance().getRoomByRoomNumber(rs.getInt("roomNumber"));
-        Guest guest;
+        Guest guest = GuestDAO.getInstance().getGuestBasedOnId(rs.getInt("clientId"));
+        Reservation element = new Reservation(startDate, endDate, guest, room, staff);
+        element.setNumberOfGuests(numberOfGuests);
+        element.setReservationId(reservation);
+        ArrayList<Service> services = ServicesDAO.getInstance()
+            .getAllServicesForReservation(reservation);
+        for (int i = 0; i < services.size(); i++)
+        {
+          element.addService(services.get(i).getName(), services.get(i).getPrice());
+        }
+        reservations.add(element);
       }
     }
     catch (SQLException e)
