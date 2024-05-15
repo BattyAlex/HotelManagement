@@ -49,4 +49,9 @@ public class ReservationViewModel implements PropertyChangeListener
     }
   }
 
+  public void bindError(StringProperty property)
+  {
+    property.bind(error);
+  }
+
 }

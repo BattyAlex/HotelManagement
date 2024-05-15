@@ -2,11 +2,10 @@ package View;
 
 import ViewModel.ReservationViewModel;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
+import javafx.scene.control.*;
 
 import javafx.scene.layout.Region;
-import java.awt.*;
+
 
 public class ReservationViewController
 {
@@ -20,12 +19,12 @@ public class ReservationViewController
   @FXML private DatePicker startDate;
   @FXML private DatePicker endDate;
   @FXML private ChoiceBox roomNumber;
-  @FXML private Checkbox roomService;
-  @FXML private Checkbox airportTransport;
-  @FXML private Checkbox breakfast;
-  @FXML private Checkbox lunch;
-  @FXML private Checkbox dinner;
-  @FXML private Checkbox wellness;
+  @FXML private CheckBox roomService;
+  @FXML private CheckBox airportTransport;
+  @FXML private CheckBox breakfast;
+  @FXML private CheckBox lunch;
+  @FXML private CheckBox dinner;
+  @FXML private CheckBox wellness;
   @FXML private Label error;
 
 
@@ -34,6 +33,7 @@ public class ReservationViewController
     this.reservationViewModel = reservationViewModel;
     this.root = root;
     this.viewHandler = viewHandler;
+    reservationViewModel.bindError(error.textProperty());
   }
 
   public Region getRoot()
@@ -43,5 +43,6 @@ public class ReservationViewController
 
   @FXML public void onSearch()
   {
+    reservationViewModel.loadAvailableRooms(startDate.getValue(), endDate.getValue());
   }
 }
