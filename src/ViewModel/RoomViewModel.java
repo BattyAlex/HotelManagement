@@ -62,6 +62,7 @@ public class RoomViewModel implements PropertyChangeListener
     if(toggle.get().equals("To reservations"))
     {
       toggle.set("To rooms");
+      loadAllReservations();
     }
     else
     {
@@ -105,6 +106,10 @@ public class RoomViewModel implements PropertyChangeListener
     {
       support.firePropertyChange("Update Room List", null, evt.getNewValue());
     }
+    else if (evt.getPropertyName().equals("All Reservations"))
+    {
+      support.firePropertyChange("Load Reservation List", null, evt.getNewValue());
+    }
   }
 
   /**
@@ -114,6 +119,7 @@ public class RoomViewModel implements PropertyChangeListener
   {
     model.loadAllRooms();
   }
+
 
   /**
    * Loads available rooms based on the provided start and end dates
@@ -152,7 +158,7 @@ public class RoomViewModel implements PropertyChangeListener
    */
   public void loadAllReservations()
   {
-    model.loadAllRooms();
+    model.loadAllReservations();
   }
 
   /**

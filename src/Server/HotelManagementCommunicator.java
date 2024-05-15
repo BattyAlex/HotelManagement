@@ -1,5 +1,6 @@
 package Server;
 
+import Model.Reservation;
 import Model.Room;
 import Model.Staff;
 
@@ -94,6 +95,12 @@ public class HotelManagementCommunicator implements Runnable
           endDate = new Date(receivedEnd.getYear()-1900, receivedEnd.getMonthValue()-1, receivedEnd.getDayOfMonth());
           ArrayList<Room> available = RoomDAO.getInstance().getAllAvailableRooms(startDate, endDate);
           writer.writeObject(available);
+          writer.flush();
+        }
+        else if (text.equals("Requesting All Reservations"))
+        {
+          ArrayList<Reservation> sendOver = ReservationDAO.getInstance().getAllReservations();
+          writer.writeObject(sendOver);
           writer.flush();
         }
       }

@@ -1,9 +1,11 @@
 package Model;
 
+import java.io.Serializable;
+
 /**
  * Represents a service that can be offered as part of a hotel reservation
  */
-public class Service
+public class Service implements Serializable
 {
   private String name;
   private double price;

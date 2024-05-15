@@ -2,6 +2,7 @@ package Client;
 
 import Model.HotelModel;
 
+import Model.Reservation;
 import Model.Room;
 import Model.Staff;
 
@@ -167,9 +168,19 @@ public class HotelClientImplementation implements HotelClient
     support.firePropertyChange("message", null, message);
   }
 
-  @Override public void getAllReservations()
+  @Override public void getAllReservations() throws IOException
   {
-
+    try
+    {
+      output.writeObject("Requesting All Reservations");
+      output.flush();
+      ArrayList<Reservation> reservations = (ArrayList<Reservation>) input.readObject();
+      support.firePropertyChange("Sending All Reservations", null, reservations);
+    }
+    catch (ClassNotFoundException e)
+    {
+      e.printStackTrace();
+    }
   }
 
   @Override public void getReservationsInTimeframe(LocalDate startDate,

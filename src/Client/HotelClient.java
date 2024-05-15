@@ -45,6 +45,6 @@ public interface  HotelClient
    */
   void receiveBroadcast(String message);
 
-  void getAllReservations();
+  void getAllReservations() throws IOException;
   void getReservationsInTimeframe(LocalDate startDate, LocalDate endDate);
 }

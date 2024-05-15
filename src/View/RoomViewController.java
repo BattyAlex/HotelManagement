@@ -1,5 +1,6 @@
 package View;
 
+import Model.Reservation;
 import Model.Room;
 import ViewModel.LoginViewModel;
 import ViewModel.RoomViewModel;
@@ -107,6 +108,15 @@ public class RoomViewController implements PropertyChangeListener
       for (int i = 0; i < rooms.size(); i++)
       {
         roomsAndReservations.getItems().add(rooms.get(i));
+      }
+    }
+    else if (evt.getPropertyName().equals("Load Reservation List"))
+    {
+      roomsAndReservations.getItems().clear();
+      ArrayList<Reservation> reservations = (ArrayList<Reservation>) evt.getNewValue();
+      for (int i = 0; i < reservations.size(); i++)
+      {
+        roomsAndReservations.getItems().add(reservations.get(i));
       }
     }
   }

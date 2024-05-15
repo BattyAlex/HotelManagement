@@ -102,6 +102,41 @@ public class ReservationDAO extends DatabaseHandlerFactory
     return reservations;
   }
 
+  public ArrayList<Reservation> getAllReservations()
+  {
+
+    ArrayList<Reservation> reservations = new ArrayList<>();
+    try(Connection connection = super.establishConnection())
+    {
+      PreparedStatement statement = connection.prepareStatement("SELECT reservationNumber, startDate, endDate, numberOfGuests, responsibleStaff, roomNumber, clientId\n"
+          + "FROM Reservation;");
+      ResultSet rs = statement.executeQuery();
+      while (rs.next())
+      {
+        int reservation = rs.getInt("reservationNumber");
+        int numberOfGuests = rs.getInt("numberOfGuests");
+        Staff staff = new Staff(rs.getString("responsibleStaff"), "");
+        Room room = RoomDAO.getInstance().getRoomByRoomNumber(rs.getInt("roomNumber"));
+        Guest guest = GuestDAO.getInstance().getGuestBasedOnId(rs.getInt("clientId"));
+        Reservation element = new Reservation(rs.getDate("startDate").toLocalDate(), rs.getDate("endDate").toLocalDate(), guest, room, staff);
+        element.setNumberOfGuests(numberOfGuests);
+        element.setReservationId(reservation);
+        ArrayList<Service> services = ServicesDAO.getInstance()
+            .getAllServicesForReservation(reservation);
+        for (int i = 0; i < services.size(); i++)
+        {
+          element.addService(services.get(i).getName(), services.get(i).getPrice());
+        }
+        reservations.add(element);
+      }
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+    }
+    return reservations;
+  }
+
   public Reservation getReservationById(int reservationId)
   {
     try(Connection connection = super.establishConnection())

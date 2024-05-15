@@ -1,10 +1,12 @@
 package Model;
 
+import java.io.Serializable;
+
 /**
  * Represents a guest in the hotel management system.
  * This class stores the personal details of the guest.
  */
-public class Guest
+public class Guest implements Serializable
 {
   private String firstName;
   private String lastName;

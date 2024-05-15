@@ -1,5 +1,6 @@
 package Model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 /**
  *This class represents a reservation in a hotel management system.
  */
-public class Reservation
+public class Reservation implements Serializable
 {
   private Guest client;
   private Room room;
