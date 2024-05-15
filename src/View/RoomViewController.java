@@ -98,7 +98,7 @@ public class RoomViewController implements PropertyChangeListener
         Reservation selected = (Reservation) roomsAndReservations.getSelectionModel().getSelectedItem();
         //send forward do shit
       }
-      //Open reservation view
+      viewHandler.openView(ViewFactory.RESERVATION);
     }
   }
 
