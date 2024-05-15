@@ -88,6 +88,7 @@ public class RoomViewController implements PropertyChangeListener
   {
     if(roomsAndReservations.getSelectionModel().getSelectedItem() != null)
     {
+      viewHandler.openView(ViewFactory.RESERVATION);
       if(roomsAndReservations.getSelectionModel().getSelectedItem() instanceof Room)
       {
         Room selected = (Room) roomsAndReservations.getSelectionModel().getSelectedItem();
@@ -98,7 +99,6 @@ public class RoomViewController implements PropertyChangeListener
         Reservation selected = (Reservation) roomsAndReservations.getSelectionModel().getSelectedItem();
         //send forward do shit
       }
-      viewHandler.openView(ViewFactory.RESERVATION);
     }
   }
 

@@ -57,7 +57,11 @@ public class ReservationViewController implements PropertyChangeListener
 
   @Override public void propertyChange(PropertyChangeEvent evt)
   {
-    System.out.println("hi");
-    System.out.println(evt.getPropertyName());
+    if(evt.getPropertyName().equals("Set Current Room"))
+    {
+      roomNumber.getItems().clear();
+      roomNumber.getItems().add((Integer)evt.getNewValue());
+      roomNumber.getSelectionModel().select(0);
+    }
   }
 }
