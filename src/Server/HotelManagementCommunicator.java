@@ -103,6 +103,19 @@ public class HotelManagementCommunicator implements Runnable
           writer.writeObject(sendOver);
           writer.flush();
         }
+        else if (text.equals("Requesting Reservations of Specific Period"))
+        {
+          writer.writeObject("Start Date?");
+          writer.flush();
+          LocalDate startDate = (LocalDate) reader.readObject();
+          writer.writeObject("End Date?");
+          writer.flush();
+          LocalDate endDate = (LocalDate) reader.readObject();
+          ArrayList<Reservation> reservations = ReservationDAO.getInstance()
+              .getAllReservationsForPeriod(startDate, endDate);
+          writer.writeObject(reservations);
+          writer.flush();
+        }
       }
     }
     catch (ClassNotFoundException e)

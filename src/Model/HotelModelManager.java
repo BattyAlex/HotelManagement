@@ -103,8 +103,11 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
       }
       else if (evt.getPropertyName().equals("Sending All Reservations"))
       {
-
         support.firePropertyChange("All Reservations", null, evt.getNewValue());
+      }
+      else if (evt.getPropertyName().equals("Sending All Reservations For Period"))
+      {
+        support.firePropertyChange("Reservations for Time Period", null, evt.getNewValue());
       }
     });
 
@@ -149,6 +152,13 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
   @Override public void loadReservationsInTimeframe(LocalDate startDate,
       LocalDate endDate)
   {
-    client.getReservationsInTimeframe(startDate, endDate);
+    try
+    {
+      client.getReservationsInTimeframe(startDate, endDate);
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
   }
 }

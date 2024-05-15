@@ -184,8 +184,30 @@ public class HotelClientImplementation implements HotelClient
   }
 
   @Override public void getReservationsInTimeframe(LocalDate startDate,
-      LocalDate endDate)
+      LocalDate endDate) throws IOException
   {
-
+    try
+    {
+      output.writeObject("Requesting Reservations of Specific Period");
+      output.flush();
+      String request = (String) input.readObject();
+      if (request.equals("Start Date?"))
+      {
+        output.writeObject(startDate);
+        output.flush();
+      }
+      request = (String) input.readObject();
+      if(request.equals("End Date?"))
+      {
+        output.writeObject(endDate);
+        output.flush();
+      }
+      ArrayList<Reservation> reservations = (ArrayList<Reservation>) input.readObject();
+      support.firePropertyChange("Sending All Reservations For Period", null, reservations);
+    }
+    catch (ClassNotFoundException e)
+    {
+      e.printStackTrace();
+    }
   }
 }

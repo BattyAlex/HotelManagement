@@ -83,7 +83,7 @@ public class ReservationDAO extends DatabaseHandlerFactory
         Staff staff = new Staff(rs.getString("responsibleStaff"), "");
         Room room = RoomDAO.getInstance().getRoomByRoomNumber(rs.getInt("roomNumber"));
         Guest guest = GuestDAO.getInstance().getGuestBasedOnId(rs.getInt("clientId"));
-        Reservation element = new Reservation(startDate, endDate, guest, room, staff);
+        Reservation element = new Reservation(rs.getDate("startDate").toLocalDate(), rs.getDate("endDate").toLocalDate(), guest, room, staff);
         element.setNumberOfGuests(numberOfGuests);
         element.setReservationId(reservation);
         ArrayList<Service> services = ServicesDAO.getInstance()
