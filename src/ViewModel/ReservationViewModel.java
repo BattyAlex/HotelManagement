@@ -1,6 +1,7 @@
 package ViewModel;
 
 import Model.HotelModel;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 import java.beans.PropertyChangeEvent;
@@ -13,14 +14,17 @@ public class ReservationViewModel implements PropertyChangeListener
   private StringProperty firstName;
   private StringProperty lastName;
   private StringProperty cardInfo;
-  private LocalDate startDate;
-  private LocalDate endDate;
+  private StringProperty amenities;
   
 
   public ReservationViewModel(HotelModel model)
   {
     this.model = model;
     model.addPropertyChangeListener(this);
+    firstName = new SimpleStringProperty();
+    lastName = new SimpleStringProperty();
+    cardInfo = new SimpleStringProperty();
+    amenities = new SimpleStringProperty();
   }
 
   @Override public void propertyChange(PropertyChangeEvent evt)
