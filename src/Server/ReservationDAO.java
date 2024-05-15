@@ -1,5 +1,8 @@
 package Server;
 
+import Model.Reservation;
+
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -28,7 +31,16 @@ public class ReservationDAO extends DatabaseHandlerFactory
     }
   }
 
+  public Reservation makeReservation(Reservation reservation)
+  {
+    try(Connection connection = super.establishConnection())
+    {
 
-
-
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+    }
+    return null;
+  }
 }
