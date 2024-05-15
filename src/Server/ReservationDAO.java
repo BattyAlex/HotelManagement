@@ -48,6 +48,12 @@ public class ReservationDAO extends DatabaseHandlerFactory
       reservation.setClient(guest);
       statement.setInt(6, guest.getId());
       statement.executeUpdate();
+      ArrayList<Service> services = reservation.getServices();
+      for (int i = 0; i < services.size(); i++)
+      {
+        ServicesDAO.getInstance().insertServiceForReservation(
+            reservation.getReservationId(), services.get(i).getName());
+      }
       return reservation;
     }
     catch (SQLException e)

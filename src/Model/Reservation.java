@@ -193,4 +193,9 @@ public class Reservation
     }
     return total;
   }
+
+  public ArrayList<Service> getServices()
+  {
+    return services;
+  }
 }
