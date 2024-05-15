@@ -161,4 +161,9 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
       e.printStackTrace();
     }
   }
+
+  @Override public void roomSelected(Room room)
+  {
+    support.firePropertyChange("Display Room Selected", room, null);
+  }
 }

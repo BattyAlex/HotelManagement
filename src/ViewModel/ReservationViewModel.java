@@ -1,6 +1,7 @@
 package ViewModel;
 
 import Model.HotelModel;
+import Model.Room;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -31,7 +32,10 @@ public class ReservationViewModel implements PropertyChangeListener
 
   @Override public void propertyChange(PropertyChangeEvent evt)
   {
-
+    if (evt.getPropertyName().equals("Display Room Selected"))
+    {
+      amenities.set(((Room) evt.getOldValue()).toString());
+    }
   }
   public void loadAvailableRooms(LocalDate startDate, LocalDate endDate)
   {
@@ -52,6 +56,11 @@ public class ReservationViewModel implements PropertyChangeListener
   public void bindError(StringProperty property)
   {
     property.bind(error);
+  }
+
+  public void bindAmenities(StringProperty property)
+  {
+    property.bind(amenities);
   }
 
 }

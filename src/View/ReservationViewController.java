@@ -34,6 +34,7 @@ public class ReservationViewController
     this.root = root;
     this.viewHandler = viewHandler;
     reservationViewModel.bindError(error.textProperty());
+    reservationViewModel.bindAmenities(amenities.textProperty());
   }
 
   public Region getRoot()

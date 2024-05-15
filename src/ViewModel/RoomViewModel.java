@@ -1,6 +1,7 @@
 package ViewModel;
 
 import Model.HotelModel;
+import Model.Room;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -186,5 +187,10 @@ public class RoomViewModel implements PropertyChangeListener
     {
       model.loadReservationsInTimeframe(startDate, endDate);
     }
+  }
+
+  public void roomSelected(Room room)
+  {
+    model.roomSelected(room);
   }
 }
