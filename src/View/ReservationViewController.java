@@ -6,8 +6,10 @@ import javafx.scene.control.*;
 
 import javafx.scene.layout.Region;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-public class ReservationViewController
+public class ReservationViewController implements PropertyChangeListener
 {
   private Region root;
   private ReservationViewModel reservationViewModel;
@@ -35,6 +37,7 @@ public class ReservationViewController
     this.viewHandler = viewHandler;
     reservationViewModel.bindError(error.textProperty());
     reservationViewModel.bindAmenities(amenities.textProperty());
+    reservationViewModel.addPropertyChangeListener(this);
   }
 
   public Region getRoot()
@@ -45,5 +48,16 @@ public class ReservationViewController
   @FXML public void onSearch()
   {
     reservationViewModel.loadAvailableRooms(startDate.getValue(), endDate.getValue());
+  }
+
+  @FXML public void onCancel()
+  {
+    viewHandler.openView(ViewFactory.ROOM);
+  }
+
+  @Override public void propertyChange(PropertyChangeEvent evt)
+  {
+    System.out.println("hi");
+    System.out.println(evt.getPropertyName());
   }
 }

@@ -7,6 +7,7 @@ import javafx.beans.property.StringProperty;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.time.LocalDate;
 
 public class ReservationViewModel implements PropertyChangeListener
@@ -17,6 +18,8 @@ public class ReservationViewModel implements PropertyChangeListener
   private StringProperty cardInfo;
   private StringProperty amenities;
   private StringProperty error;
+
+  private final PropertyChangeSupport support;
   
 
   public ReservationViewModel(HotelModel model)
@@ -28,13 +31,16 @@ public class ReservationViewModel implements PropertyChangeListener
     cardInfo = new SimpleStringProperty();
     amenities = new SimpleStringProperty();
     error = new SimpleStringProperty();
+    support = new PropertyChangeSupport(this);
   }
 
   @Override public void propertyChange(PropertyChangeEvent evt)
   {
     if (evt.getPropertyName().equals("Display Room Selected"))
     {
-      amenities.set(((Room) evt.getOldValue()).toString());
+      Room temp = (Room) evt.getOldValue();
+      amenities.set(temp.toString());
+      support.firePropertyChange("Set Current Room", null, temp.getRoomNumber());
     }
   }
   public void loadAvailableRooms(LocalDate startDate, LocalDate endDate)
@@ -61,6 +67,16 @@ public class ReservationViewModel implements PropertyChangeListener
   public void bindAmenities(StringProperty property)
   {
     property.bind(amenities);
+  }
+
+  public void addPropertyChangeListener(PropertyChangeListener listener)
+  {
+    support.addPropertyChangeListener(listener);
+  }
+
+  public void removePropertyChangeListener(PropertyChangeListener listener)
+  {
+    support.removePropertyChangeListener(listener);
   }
 
 }
