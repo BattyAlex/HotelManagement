@@ -83,9 +83,19 @@ public class Guest
    * Sets the payment information of the guest.
    * @param paymentInfo the new payment information to set.
    */
-  public void setContact(String paymentInfo)
+  public void setPaymentInfo(String paymentInfo)
   {
     this.paymentInfo = paymentInfo;
+  }
+
+  public int getId()
+  {
+    return id;
+  }
+
+  public void setId(int id)
+  {
+    this.id = id;
   }
 
 
