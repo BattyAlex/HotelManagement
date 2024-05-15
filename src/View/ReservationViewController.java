@@ -26,6 +26,8 @@ public class ReservationViewController
   @FXML private Checkbox lunch;
   @FXML private Checkbox dinner;
   @FXML private Checkbox wellness;
+  @FXML private Label error;
+
 
   public void init(ViewHandler viewHandler, ReservationViewModel reservationViewModel, Region root)
   {
@@ -37,5 +39,9 @@ public class ReservationViewController
   public Region getRoot()
   {
     return root;
+  }
+
+  @FXML public void onSearch()
+  {
   }
 }
