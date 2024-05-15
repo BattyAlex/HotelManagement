@@ -85,6 +85,11 @@ public class Reservation
     return client;
   }
 
+  public Staff getStaff()
+  {
+    return staff;
+  }
+
 
 
   /**
