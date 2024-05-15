@@ -17,6 +17,7 @@ public class ViewFactory
 {
   public static final String LOGIN = "login";
   public static final String ROOM = "room";
+  public static final String RESERVATION = "reservation";
   private final ViewHandler viewHandler;
   private final ViewModelFactory viewModelFactory;
   private LoginViewController loginViewController;
@@ -91,6 +92,27 @@ public class ViewFactory
     }
     return roomViewController.getRoot();
   }
+  public Region loadReservationView()
+  {
+    if(reservationViewController == null)
+    {
+      FXMLLoader loader = new FXMLLoader();
+      loader.setLocation(getClass().getResource("ReservationView.fxml"));
+      try
+      {
+        Region root = loader.load();
+        reservationViewController = loader.getController();
+        reservationViewController.init(viewHandler,
+            viewModelFactory.getReservationViewModel(), root);
+      }
+      catch (IOException e)
+      {
+        System.out.println("Reservation view failed to load");
+        e.printStackTrace();
+      }
+    }
+    return reservationViewController.getRoot();
+  }
 
   /**
    * Loads and returns the view specified by the ID
@@ -106,6 +128,7 @@ public class ViewFactory
     {
       case LOGIN -> loadLoginView();
       case ROOM -> loadRoomView();
+      case RESERVATION -> loadReservationView();
       default -> throw new IllegalArgumentException("Unknown view: " + id);
     };
     return root;
