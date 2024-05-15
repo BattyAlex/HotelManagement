@@ -199,4 +199,9 @@ public class Reservation implements Serializable
   {
     return services;
   }
+
+  public String toString()
+  {
+    return client.getFirstName() + " " + client.getLastName() + "( Reservation: " + reservationId + " For room: " + room.getRoomNumber() + " )\nFrom: " + startDate.getYear() + "/" + startDate.getMonthValue() + "/" + startDate.getDayOfMonth() + " Until: " + endDate.getYear() + "/" + endDate.getMonthValue() + "/" + endDate.getDayOfMonth();
+  }
 }

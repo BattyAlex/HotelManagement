@@ -194,6 +194,7 @@ public class RoomDAO extends DatabaseHandlerFactory
           temp.addAmenities(amenity);
         }
       }
+      return temp;
     }
     catch (SQLException e)
     {
