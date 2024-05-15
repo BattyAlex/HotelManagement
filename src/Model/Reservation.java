@@ -11,40 +11,34 @@ public class Reservation
 {
   private Guest client;
   private Room room;
-  private String paymentInformation;
+  private Staff staff;
   private LocalDate startDate;
   private LocalDate endDate;
   private int lengthOfStay;
   private int numberOfGuests;
+  private int reservationId;
   private ArrayList<Service> services;
 
   /**
    * Constructs a new Reservation with specified details.
-   * @param payment The payment information.
    * @param startDate The start date of the stay.
    * @param endDate The end date of the date.
    * @param client The guest making the reservation.
    * @param room The room associated with this reservation.
+   * @param staff The staff responsible for making the reservation.
    */
-  public Reservation(String payment, LocalDate startDate, LocalDate endDate, Guest client, Room room)
+  public Reservation(LocalDate startDate, LocalDate endDate, Guest client, Room room, Staff staff)
   {
-    paymentInformation = payment;
     this.startDate = startDate;
     this.endDate = endDate;
     this.client = client;
     this.room = room;
+    this.staff = staff;
     lengthOfStay = (int) ChronoUnit.DAYS.between(startDate,endDate);
     services = new ArrayList<Service>();
+    reservationId = -1;
   }
 
-  /**
-   * Returns paymentInformation
-   * @return the payment information
-   */
-  public String getPaymentInformation()
-  {
-    return paymentInformation;
-  }
 
   /**
    * Returns the startDate
@@ -91,14 +85,7 @@ public class Reservation
     return client;
   }
 
-  /**
-   * Sets the payment information
-   * @param payment the new payment to set.
-   */
-  public void setPaymentInformation(String payment)
-  {
-    this.paymentInformation = payment;
-  }
+
 
   /**
    * Sets the start date
@@ -149,9 +136,19 @@ public class Reservation
    * Returns the length of stay
    * @return the lengthOfStay.
    */
+
+  public void setReservationId(int reservationId)
+  {
+    this.reservationId = reservationId;
+  }
   public int getLengthOfStay()
   {
     return lengthOfStay;
+  }
+
+  public int getReservationId()
+  {
+    return reservationId;
   }
 
   /**
@@ -159,6 +156,7 @@ public class Reservation
    * @param name The name of the service.
    * @param price The price of the service.
    */
+
   public void addService(String name, double price)
   {
     services.add(new Service(name, price));

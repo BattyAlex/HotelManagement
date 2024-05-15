@@ -29,8 +29,6 @@ public class GuestDAO extends DatabaseHandlerFactory
     }
   }
 
-
-  //This is NOT FINISHED, if the client is not in the database, we should insert them
   public Guest getGuestBasedOnName(Guest guest)
   {
     String fullName = guest.getFirstName() + guest.getLastName();
@@ -51,9 +49,40 @@ public class GuestDAO extends DatabaseHandlerFactory
         }
         else
         {
-          return new Guest(guest.getFirstName(), guest.getLastName(), paymentInfo);
+          if(!rs.next())
+          {
+            return insertGuest(guest);
+          }
         }
       }
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  public Guest insertGuest(Guest guest)
+  {
+    String fullName = guest.getFirstName() + guest.getLastName();
+    try(Connection connection = super.establishConnection())
+    {
+      PreparedStatement statement = connection.prepareStatement("INSERT INTO Client(name, paymentInformation) VALUES (?, ?);");
+      statement.setString(1, fullName);
+      statement.setString(2, guest.getPaymentInfo());
+      statement.executeUpdate();
+      ResultSet generatedKeys = statement.getGeneratedKeys();
+      if(generatedKeys.next())
+      {
+        int id = generatedKeys.getInt("clientId");
+        guest.setId(id);
+      }
+      else
+      {
+        throw new SQLException("No generated keys");
+      }
+      return guest;
     }
     catch (SQLException e)
     {
