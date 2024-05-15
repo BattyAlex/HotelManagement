@@ -31,7 +31,6 @@ public class ReservationDAO extends DatabaseHandlerFactory
     }
   }
 
-  //This does not insert the services yet. Not good!
   public Reservation makeReservation(Reservation reservation)
   {
     try(Connection connection = super.establishConnection())
@@ -101,5 +100,40 @@ public class ReservationDAO extends DatabaseHandlerFactory
       e.printStackTrace();
     }
     return reservations;
+  }
+
+  public Reservation getReservationById(int reservationId)
+  {
+    try(Connection connection = super.establishConnection())
+    {
+      PreparedStatement statement = connection.prepareStatement("SELECT reservationNumber, startDate, endDate, numberOfGuests, responsibleStaff, roomNumber, clientId\n"
+          + "FROM Reservation\n" + "WHERE reservationNumber = ?;");
+      ResultSet rs = statement.executeQuery();
+      if(rs.next())
+      {
+        int reservationNumber = rs.getInt("reservationNumber");
+        LocalDate startDate = rs.getDate("startDate").toLocalDate();
+        LocalDate endDate = rs.getDate("endDate").toLocalDate();
+        int numberOfGuests = rs.getInt("numberOfGuests");
+        Staff staff = new Staff(rs.getString("responsibleStaff"), "");
+        Room room = RoomDAO.getInstance().getRoomByRoomNumber(rs.getInt("roomNumber"));
+        Guest guest = GuestDAO.getInstance().getGuestBasedOnId(rs.getInt("clientId"));
+        Reservation reservation = new Reservation(startDate, endDate, guest, room, staff);
+        reservation.setReservationId(reservationNumber);
+        reservation.setNumberOfGuests(numberOfGuests);
+        ArrayList<Service> services = ServicesDAO.getInstance()
+            .getAllServicesForReservation(reservationNumber);
+        for (int i = 0; i < services.size(); i++)
+        {
+          reservation.addService(services.get(i).getName(), services.get(i).getPrice());
+        }
+        return reservation;
+      }
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+    }
+    return null;
   }
 }
