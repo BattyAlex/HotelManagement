@@ -33,5 +33,20 @@ public class ReservationViewModel implements PropertyChangeListener
   {
 
   }
+  public void loadAvailableRooms(LocalDate startDate, LocalDate endDate)
+  {
+    error.set("");
+    if(startDate == null || endDate == null)
+    {
+      error.set("Date from or until is empty, please choose a date.");
+    }
+    else if (endDate.isBefore(startDate))
+    {
+      error.set("The end date is earlier than the start date.");
+    }
+    else
+    {
+    }
+  }
 
 }

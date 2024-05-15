@@ -119,7 +119,7 @@
                         </Button>
                         <Button mnemonicParsing="false" text="Cancel">
                            <HBox.margin>
-                              <Insets right="20.0" />
+                              <Insets right="13.0" />
                            </HBox.margin>
                         </Button>
                      </children>
@@ -136,7 +136,7 @@
                               <Insets left="5.0" />
                            </HBox.margin>
                         </DatePicker>
-                        <Button mnemonicParsing="false" text="Search">
+                        <Button mnemonicParsing="false" onAction="#onSearch" text="Search">
                            <HBox.margin>
                               <Insets left="5.0" />
                            </HBox.margin>
