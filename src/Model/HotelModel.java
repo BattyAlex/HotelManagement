@@ -32,4 +32,6 @@ public interface HotelModel
   void removePropertyChangeListener(PropertyChangeListener listener);
   void loadAllRooms();
   void loadAvailableRooms(LocalDate startDate, LocalDate endDate);
+  void loadAllReservations();
+  void loadReservationsInTimeframe(LocalDate startDate, LocalDate endDate);
 }

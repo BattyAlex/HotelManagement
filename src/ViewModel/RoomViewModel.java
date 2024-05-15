@@ -40,9 +40,14 @@ public class RoomViewModel implements PropertyChangeListener
   public void onToggle()
   {
     if(toggle.get().equals("To reservations"))
+    {
       toggle.set("To rooms");
+    }
     else
+    {
       toggle.set("To reservations");
+      loadAllRooms();
+    }
   }
 
   public void addPropertyChangeListener(
@@ -81,11 +86,35 @@ public class RoomViewModel implements PropertyChangeListener
     }
     else if (endDate.isBefore(startDate))
     {
-      error.set("The start date is earlier than the end date.");
+      error.set("The end date is earlier than the start date.");
     }
     else
     {
       model.loadAvailableRooms(startDate,endDate);
+    }
+  }
+  public String getToggle()
+  {
+    return toggle.get();
+  }
+  public void loadAllReservations()
+  {
+    model.loadAllRooms();
+  }
+  public void loadReservationsInTimeframe(LocalDate startDate, LocalDate endDate)
+  {
+    error.set("");
+    if(startDate == null || endDate == null)
+    {
+      error.set("Date from or until is empty, please choose a date.");
+    }
+    else if (endDate.isBefore(startDate))
+    {
+      error.set("The end date is earlier than the start date.");
+    }
+    else
+    {
+      model.loadReservationsInTimeframe(startDate, endDate);
     }
   }
 }

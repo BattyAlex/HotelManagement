@@ -44,4 +44,7 @@ public interface  HotelClient
    * @param message the message received in the broadcast
    */
   void receiveBroadcast(String message);
+
+  void getAllReservations();
+  void getReservationsInTimeframe(LocalDate startDate, LocalDate endDate);
 }

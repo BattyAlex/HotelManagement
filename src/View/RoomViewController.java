@@ -48,7 +48,10 @@ public class RoomViewController implements PropertyChangeListener
   }
   @FXML public void onSearch()
   {
+    if(roomViewModel.getToggle().equals("To reservations"))
       roomViewModel.loadAvailableRooms(dateStart.getValue(), dateEnd.getValue());
+    else
+      roomViewModel.loadReservationsInTimeframe(dateStart.getValue(), dateEnd.getValue());
   }
 
   @Override public void propertyChange(PropertyChangeEvent evt)
@@ -75,5 +78,9 @@ public class RoomViewController implements PropertyChangeListener
   public void loadAllRooms()
   {
     roomViewModel.loadAllRooms();
+  }
+  public void loadAllReservations()
+  {
+    roomViewModel.loadAllReservations();
   }
 }
