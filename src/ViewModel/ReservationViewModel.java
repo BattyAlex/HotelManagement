@@ -1,7 +1,6 @@
 package ViewModel;
 
-import Model.HotelModel;
-import Model.Room;
+import Model.*;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -99,15 +98,15 @@ public class ReservationViewModel implements PropertyChangeListener
   }
   public void bindFirstName(StringProperty property)
   {
-    property.bind(firstName);
+    property.bindBidirectional(firstName);
   }
   public void bindLastName(StringProperty property)
   {
-    property.bind(lastName);
+    property.bindBidirectional(lastName);
   }
   public void bindCard(StringProperty property)
   {
-    property.bind(cardInfo);
+    property.bindBidirectional(cardInfo);
   }
   public void bindBreakfast(BooleanProperty property)
   {
@@ -154,5 +153,19 @@ public class ReservationViewModel implements PropertyChangeListener
   {
     error.set("");
       model.roomSelected(roomNumber, startDate, endDate);
+  }
+  public void onConfirm(Room room, LocalDate startDate, LocalDate endDate)
+  {
+    if(firstName.get() == null || lastName.get() == null || cardInfo.get() == null || firstName.get().isEmpty() || lastName.get().isEmpty() || cardInfo.get().length() != 16)
+    {
+      support.firePropertyChange("invalid input", null, null);
+    }
+    else
+    {
+      Guest client = new Guest(firstName.get(), lastName.get(), cardInfo.get());
+      Staff staff = new Staff("", "");
+      Reservation reservation = new Reservation(startDate, endDate, client, room, staff);
+      model.makeOrUpdateReservation(reservation);
+    }
   }
 }

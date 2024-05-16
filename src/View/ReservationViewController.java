@@ -71,7 +71,12 @@ public class ReservationViewController implements PropertyChangeListener
     {
       viewHandler.openView(ViewFactory.ROOM);
     }
-
+  }
+  public void alert()
+  {
+    Alert alert = new Alert(Alert.AlertType.ERROR, "One or more input values are invalid. Check your information and try again", ButtonType.OK);
+    alert.setTitle("Error");
+    alert.showAndWait();
   }
 
   @Override public void propertyChange(PropertyChangeEvent evt)
@@ -88,6 +93,10 @@ public class ReservationViewController implements PropertyChangeListener
     {
       startDate.setValue((LocalDate) evt.getNewValue());
       endDate.setValue((LocalDate) evt.getOldValue());
+    }
+    else if(evt.getPropertyName().equals("invalid input"))
+    {
+      alert();
     }
     else if (evt.getPropertyName().equals("Display Available Rooms"))
     {
@@ -118,6 +127,14 @@ public class ReservationViewController implements PropertyChangeListener
   }
   @FXML public void onConfirm()
   {
-
+    if(roomNumber.getItems().isEmpty())
+    {
+      alert();
+    }
+    else
+    {
+      Room room = new Room((int)roomNumber.getItems().get(0));
+      reservationViewModel.onConfirm(room,startDate.getValue(), endDate.getValue());
+    }
   }
 }

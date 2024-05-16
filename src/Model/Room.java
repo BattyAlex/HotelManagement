@@ -6,7 +6,8 @@ import java.util.ArrayList;
 /**
  * This class represents a room in a hotel management system
  */
-public class Room implements Serializable
+public class
+Room implements Serializable
 {
   private int roomNumber;
   private double price;
@@ -27,6 +28,10 @@ public class Room implements Serializable
     this.price = price;
     this.roomNumber = roomNumber;
     this.state = state;
+  }
+  public Room(int roomNumber)
+  {
+    this.roomNumber = roomNumber;
   }
 
   /**
