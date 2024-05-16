@@ -2,6 +2,8 @@ package ViewModel;
 
 import Model.HotelModel;
 import Model.Room;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -18,6 +20,12 @@ public class ReservationViewModel implements PropertyChangeListener
   private StringProperty cardInfo;
   private StringProperty amenities;
   private StringProperty error;
+  private BooleanProperty breakfast;
+  private BooleanProperty lunch;
+  private BooleanProperty dinner;
+  private BooleanProperty airportTrans;
+  private BooleanProperty wellness;
+  private BooleanProperty roomService;
 
   private final PropertyChangeSupport support;
   
@@ -32,6 +40,12 @@ public class ReservationViewModel implements PropertyChangeListener
     amenities = new SimpleStringProperty();
     error = new SimpleStringProperty("");
     support = new PropertyChangeSupport(this);
+    breakfast = new SimpleBooleanProperty();
+    lunch = new SimpleBooleanProperty();
+    dinner = new SimpleBooleanProperty();
+    airportTrans = new SimpleBooleanProperty();
+    wellness = new SimpleBooleanProperty();
+    roomService = new SimpleBooleanProperty();
   }
 
   @Override public void propertyChange(PropertyChangeEvent evt)
@@ -94,6 +108,30 @@ public class ReservationViewModel implements PropertyChangeListener
   public void bindCard(StringProperty property)
   {
     property.bind(cardInfo);
+  }
+  public void bindBreakfast(BooleanProperty property)
+  {
+    property.bind(breakfast);
+  }
+  public void bindLunch(BooleanProperty property)
+  {
+    property.bind(lunch);
+  }
+  public void bindDinner(BooleanProperty property)
+  {
+    property.bind(dinner);
+  }
+  public void bindAirportTrans(BooleanProperty property)
+  {
+    property.bind(airportTrans);
+  }
+  public void bindWellness(BooleanProperty property)
+  {
+    property.bind(wellness);
+  }
+  public void bindRoomService(BooleanProperty property)
+  {
+    property.bind(roomService);
   }
 
   public void addPropertyChangeListener(PropertyChangeListener listener)
