@@ -96,6 +96,10 @@ public class ReservationViewController implements PropertyChangeListener
         roomNumber.getSelectionModel().select(0);
         reservationViewModel.roomSelected(rooms.get(0), startDate.getValue(), endDate.getValue());
       }
+      else
+      {
+        reservationViewModel.setAmenities("");
+      }
     }
   }
 
