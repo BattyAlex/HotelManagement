@@ -170,6 +170,10 @@ public class RoomViewController implements PropertyChangeListener
         roomsAndReservations.getItems().add(reservations.get(i));
       }
     }
+    else if (evt.getPropertyName().equals("Load All Reservations"))
+    {
+      loadAllReservations();
+    }
   }
 
   /**

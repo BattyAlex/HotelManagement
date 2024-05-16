@@ -125,6 +125,15 @@ public class HotelManagementCommunicator implements Runnable
           writer.writeObject(sendOver);
           writer.flush();
         }
+        else if (text.equals("Making or Updating Reservation"))
+        {
+          writer.writeObject("Reservation needed");
+          writer.flush();
+          Reservation received = (Reservation) reader.readObject();
+          Reservation sendBack = ReservationDAO.getInstance().makeOrUpdateReservation(received);
+          writer.writeObject(sendBack);
+          writer.flush();
+        }
       }
     }
     catch (ClassNotFoundException e)

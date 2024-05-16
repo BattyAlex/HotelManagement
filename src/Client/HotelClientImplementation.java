@@ -234,4 +234,25 @@ public class HotelClientImplementation implements HotelClient
     }
     return null;
   }
+
+  @Override public void makeOrUpdateReservation(Reservation reservation) throws IOException
+  {
+    try
+    {
+      output.writeObject("Making or Updating Reservation");
+      output.flush();
+      String request = (String) input.readObject();
+      if(request.equals("Reservation needed"))
+      {
+        output.writeObject(reservation);
+        output.flush();
+      }
+      Reservation made = (Reservation) input.readObject();
+      support.firePropertyChange("Reservation Made", null, made);
+    }
+    catch (ClassNotFoundException e)
+    {
+      e.printStackTrace();
+    }
+  }
 }

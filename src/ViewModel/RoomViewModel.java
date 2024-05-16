@@ -120,6 +120,13 @@ public class RoomViewModel implements PropertyChangeListener
     {
       support.firePropertyChange("Load Reservations for Period", null, evt.getNewValue());
     }
+    else if (evt.getPropertyName().equals("Update Reservations"))
+    {
+      if (toggle.get().equals("To rooms"))
+      {
+        support.firePropertyChange("Load All Reservations", null, evt.getNewValue());
+      }
+    }
   }
 
   /**

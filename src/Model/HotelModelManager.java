@@ -106,6 +106,10 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
       {
         support.firePropertyChange("Reservations for Time Period", null, evt.getNewValue());
       }
+      else if (evt.getPropertyName().equals("Reservation Made"))
+      {
+        support.firePropertyChange("Update Reservations", null, evt.getNewValue());
+      }
     });
 
   }
@@ -184,6 +188,18 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
     try
     {
       support.firePropertyChange("Getting All Available Rooms", null, client.getRoomsAvailable(startDate, endDate));
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+  }
+
+  @Override public void makeOrUpdateReservation(Reservation reservation)
+  {
+    try
+    {
+      client.makeOrUpdateReservation(reservation);
     }
     catch (IOException e)
     {

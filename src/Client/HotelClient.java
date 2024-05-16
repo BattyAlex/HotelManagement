@@ -1,5 +1,6 @@
 package Client;
 
+import Model.Reservation;
 import Model.Room;
 
 import java.beans.PropertyChangeListener;
@@ -51,4 +52,6 @@ public interface  HotelClient
   void getAllReservations() throws IOException;
   void getReservationsInTimeframe(LocalDate startDate, LocalDate endDate) throws IOException;
   Room getRoomByRoomNumber(int roomNumber) throws IOException;
+
+  void makeOrUpdateReservation(Reservation reservation) throws IOException;
 }
