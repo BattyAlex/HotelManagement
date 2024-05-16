@@ -171,4 +171,47 @@ public class ReservationDAO extends DatabaseHandlerFactory
     }
     return null;
   }
+
+  public Reservation getReservationByTimeAndRoom(Reservation reservation)
+  {
+    try(Connection connection = super.establishConnection())
+    {
+      Date start = new Date(reservation.getStartDate().getYear()-1900, reservation.getStartDate().getMonthValue() - 1, reservation.getStartDate().getDayOfMonth());
+      Date end = new Date(reservation.getEndDate().getYear() - 1900, reservation.getEndDate().getMonthValue() - 1, reservation.getEndDate().getDayOfMonth());
+      PreparedStatement statement = connection.prepareStatement("SELECT reservationNumber, startDate, endDate, numberOfGuests, responsibleStaff, roomNumber, clientId\n"
+          + "FROM Reservation\n"
+          + "WHERE startDate = ? AND endDate = ? AND roomNumber = ?;");
+      statement.setDate(1, start);
+      statement.setDate(2, end);
+      statement.setInt(3, reservation.getRoom().getRoomNumber());
+      ResultSet rs = statement.executeQuery();
+      if(rs.next())
+      {
+        int reservationNumber = rs.getInt("reservationNumber");
+        LocalDate startDate = rs.getDate("startDate").toLocalDate();
+        LocalDate endDate = rs.getDate("endDate").toLocalDate();
+        int numberOfGuests = rs.getInt("numberOfGuests");
+        Staff staff = new Staff(rs.getString("responsibleStaff"), "");
+        Room room = RoomDAO.getInstance().getRoomByRoomNumber(rs.getInt("roomNumber"));
+        Guest guest = GuestDAO.getInstance().getGuestBasedOnId(rs.getInt("clientId"));
+        Reservation returning = new Reservation(startDate, endDate, guest,
+            room, staff);
+        returning.setReservationId(reservationNumber);
+        returning.setNumberOfGuests(numberOfGuests);
+        ArrayList<Service> services = ServicesDAO.getInstance()
+            .getAllServicesForReservation(reservationNumber);
+        for (int i = 0; i < services.size(); i++)
+        {
+          returning.addService(services.get(i).getName(),
+              services.get(i).getPrice());
+        }
+        return returning;
+      }
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+    }
+    return null;
+  }
 }
