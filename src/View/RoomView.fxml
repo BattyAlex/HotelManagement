@@ -26,7 +26,7 @@
                               <Insets left="10.0" top="20.0" />
                            </HBox.margin>
                         </Label>
-                        <DatePicker fx:id="dateStart">
+                        <DatePicker fx:id="dateStart" onAction="#datesChanged">
                            <HBox.margin>
                               <Insets left="10.0" top="20.0" />
                            </HBox.margin>
@@ -39,7 +39,7 @@
                               <Insets left="10.0" top="20.0" />
                            </HBox.margin>
                         </Label>
-                        <DatePicker fx:id="dateEnd">
+                        <DatePicker fx:id="dateEnd" onAction="#datesChanged">
                            <HBox.margin>
                               <Insets left="10.0" top="20.0" />
                            </HBox.margin>

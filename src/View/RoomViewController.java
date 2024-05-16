@@ -21,7 +21,6 @@ import java.util.Date;
 /**
  * The RoomViewController class acts as the controller for the root-related views.
  * It implements PropertyChangeListener to handle property change events and updates the view accordingly.
- *
  */
 
 public class RoomViewController implements PropertyChangeListener
@@ -40,13 +39,13 @@ public class RoomViewController implements PropertyChangeListener
   /**
    * Initialozes the RoomViewController with the specified ViewHandler, RoomViewModel and root Region.
    *
-   * @param viewHandler the ViewHandler to be used by this controller.
+   * @param viewHandler   the ViewHandler to be used by this controller.
    * @param roomViewModel the RoomViewModel to be used by this controller
-   * @param root the root Region of the view
+   * @param root          the root Region of the view
    */
 
-
-  public void init(ViewHandler viewHandler, RoomViewModel roomViewModel, Region root)
+  public void init(ViewHandler viewHandler, RoomViewModel roomViewModel,
+      Region root)
   {
     this.roomViewModel = roomViewModel;
     this.root = root;
@@ -79,62 +78,60 @@ public class RoomViewController implements PropertyChangeListener
 
   /**
    * Handles the search button action and loads the available rooms for the specified date range.
-   *
    */
   @FXML public void onSearch()
   {
-    if(roomViewModel.getToggle().equals("To reservations"))
-      roomViewModel.loadAvailableRooms(dateStart.getValue(), dateEnd.getValue());
+    if (roomViewModel.getToggle().equals("To reservations"))
+      roomViewModel.loadAvailableRooms(dateStart.getValue(),
+          dateEnd.getValue());
     else
-      roomViewModel.loadReservationsInTimeframe(dateStart.getValue(), dateEnd.getValue());
+      roomViewModel.loadReservationsInTimeframe(dateStart.getValue(),
+          dateEnd.getValue());
   }
 
   @FXML public void onClick()
   {
-
-    if(roomViewModel.areDatesCorrect(dateStart.getValue(),dateEnd.getValue()))
+    if(roomsAndReservations.getSelectionModel().getSelectedItem() != null)
     {
-      if(canClick.getValue())
+      if(roomsAndReservations.getSelectionModel().getSelectedItem() instanceof Reservation)
       {
-        if(roomsAndReservations.getSelectionModel().getSelectedItem() != null)
+        Reservation selected = (Reservation) roomsAndReservations.getSelectionModel()
+            .getSelectedItem();
+        //roomViewModel.reservationSelected(selected);
+      }
+      else if (roomViewModel.areDatesCorrect(dateStart.getValue(), dateEnd.getValue()))
+      {
+        if(canClick.getValue())
         {
           if(roomsAndReservations.getSelectionModel().getSelectedItem() instanceof Room)
           {
             Room selected = (Room) roomsAndReservations.getSelectionModel().getSelectedItem();
-            if (roomViewModel.areDatesCorrect(dateStart.getValue(), dateEnd.getValue()))
-            {
-              viewHandler.openView(ViewFactory.RESERVATION);
-              roomViewModel.roomSelected(selected, dateStart.getValue(), dateEnd.getValue());
-            }
-          }
-          else if (roomsAndReservations.getSelectionModel().getSelectedItem() instanceof Reservation)
-          {
-            Reservation selected = (Reservation) roomsAndReservations.getSelectionModel().getSelectedItem();
-            //roomViewModel.reservationSelected(selected);
+            viewHandler.openView(ViewFactory.RESERVATION);
+            roomViewModel.roomSelected(selected, dateStart.getValue(), dateEnd.getValue());
           }
         }
-        else if (roomsAndReservations.getSelectionModel()
-            .getSelectedItem() instanceof Reservation)
+        else
         {
-          Reservation selected = (Reservation) roomsAndReservations.getSelectionModel()
-              .getSelectedItem();
-          //send forward do shit
+          roomViewModel.setError("Press search button to display available rooms");
         }
       }
+      else
+      {
+        roomViewModel.setError("Please select valid dates");
+      }
     }
-    else
-      roomViewModel.setError("Please select valid dates");
   }
 
   /**
    * Handles property change events and updates the view accordingly
+   *
    * @param evt A PropertyChangeEvent object describing the event source
-   *          and the property that has changed.
+   *            and the property that has changed.
    */
 
   @Override public void propertyChange(PropertyChangeEvent evt)
   {
-    if(evt.getPropertyName().equals("Load Room List"))
+    if (evt.getPropertyName().equals("Load Room List"))
     {
       roomsAndReservations.getItems().clear();
       ArrayList<Room> rooms = (ArrayList<Room>) evt.getNewValue();
@@ -176,6 +173,11 @@ public class RoomViewController implements PropertyChangeListener
     }
   }
 
+  @FXML public void datesChanged()
+  {
+    canClick.set(false);
+  }
+
   /**
    * Loads all rooms using the RoomViewModel
    */
@@ -183,6 +185,7 @@ public class RoomViewController implements PropertyChangeListener
   {
     roomViewModel.loadAllRooms();
   }
+
   public void loadAllReservations()
   {
     roomViewModel.loadAllReservations();

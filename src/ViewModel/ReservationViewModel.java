@@ -110,27 +110,27 @@ public class ReservationViewModel implements PropertyChangeListener
   }
   public void bindBreakfast(BooleanProperty property)
   {
-    property.bind(breakfast);
+    property.bindBidirectional(breakfast);
   }
   public void bindLunch(BooleanProperty property)
   {
-    property.bind(lunch);
+    property.bindBidirectional(lunch);
   }
   public void bindDinner(BooleanProperty property)
   {
-    property.bind(dinner);
+    property.bindBidirectional(dinner);
   }
   public void bindAirportTrans(BooleanProperty property)
   {
-    property.bind(airportTrans);
+    property.bindBidirectional(airportTrans);
   }
   public void bindWellness(BooleanProperty property)
   {
-    property.bind(wellness);
+    property.bindBidirectional(wellness);
   }
   public void bindRoomService(BooleanProperty property)
   {
-    property.bind(roomService);
+    property.bindBidirectional(roomService);
   }
 
   public void addPropertyChangeListener(PropertyChangeListener listener)

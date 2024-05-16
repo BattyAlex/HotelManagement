@@ -56,7 +56,7 @@ public class RoomViewModel implements PropertyChangeListener
 
   public void bindCanClick(SimpleBooleanProperty property)
   {
-    property.bind(canClick);
+    property.bindBidirectional(canClick);
   }
 
   /**
@@ -64,6 +64,7 @@ public class RoomViewModel implements PropertyChangeListener
    */
   public void onToggle()
   {
+    error.set("");
     if(toggle.get().equals("To reservations"))
     {
       toggle.set("To rooms");
