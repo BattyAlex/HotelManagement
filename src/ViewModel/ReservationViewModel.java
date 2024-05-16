@@ -38,6 +38,7 @@ public class ReservationViewModel implements PropertyChangeListener
   {
     if (evt.getPropertyName().equals("Display Room Selected"))
     {
+      amenities.set("");
       Room temp = (Room) evt.getOldValue();
       amenities.set(temp.toString());
       support.firePropertyChange("Set Current Room", null, temp.getRoomNumber());
