@@ -50,4 +50,5 @@ public interface  HotelClient
 
   void getAllReservations() throws IOException;
   void getReservationsInTimeframe(LocalDate startDate, LocalDate endDate) throws IOException;
+  Room getRoomByRoomNumber(int roomNumber) throws IOException;
 }

@@ -116,6 +116,15 @@ public class HotelManagementCommunicator implements Runnable
           writer.writeObject(reservations);
           writer.flush();
         }
+        else if (text.equals("Get room with room number"))
+        {
+          writer.writeObject("Which room?");
+          writer.flush();
+          int roomNumber = (int) reader.readObject();
+          Room sendOver = RoomDAO.getInstance().getRoomByRoomNumber(roomNumber);
+          writer.writeObject(sendOver);
+          writer.flush();
+        }
       }
     }
     catch (ClassNotFoundException e)

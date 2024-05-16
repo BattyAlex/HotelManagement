@@ -165,6 +165,19 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
     support.firePropertyChange("Display Dates for Selected Room", endDate, startDate);
   }
 
+  @Override public void roomSelected(int roomNumber, LocalDate startDate, LocalDate endDate)
+  {
+    try
+    {
+      support.firePropertyChange("Display Room Selected", client.getRoomByRoomNumber(roomNumber), null);
+      support.firePropertyChange("Display Dates for Selected Room", endDate, startDate);
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+  }
+
   @Override public void getAvailableRooms(LocalDate startDate,
       LocalDate endDate)
   {

@@ -23,7 +23,7 @@ public class ReservationViewController implements PropertyChangeListener
   @FXML private Label amenities;
   @FXML private DatePicker startDate;
   @FXML private DatePicker endDate;
-  @FXML private ChoiceBox roomNumber;
+  @FXML private ComboBox roomNumber;
   @FXML private CheckBox roomService;
   @FXML private CheckBox airportTransport;
   @FXML private CheckBox breakfast;
@@ -72,9 +72,11 @@ public class ReservationViewController implements PropertyChangeListener
   {
     if(evt.getPropertyName().equals("Set Current Room"))
     {
-      roomNumber.getItems().clear();
-      roomNumber.getItems().add((Integer)evt.getNewValue());
-      roomNumber.getSelectionModel().select(0);
+      if(roomNumber.getItems().isEmpty())
+      {
+        roomNumber.getItems().add((Integer)evt.getNewValue());
+        roomNumber.getSelectionModel().select(0);
+      }
     }
     else if(evt.getPropertyName().equals("Display Dates"))
     {
@@ -89,7 +91,19 @@ public class ReservationViewController implements PropertyChangeListener
       {
         roomNumber.getItems().add((Integer)rooms.get(i).getRoomNumber());
       }
-      roomNumber.getSelectionModel().select(0);
+      if(!roomNumber.getItems().isEmpty())
+      {
+        roomNumber.getSelectionModel().select(0);
+        reservationViewModel.roomSelected(rooms.get(0), startDate.getValue(), endDate.getValue());
+      }
+    }
+  }
+
+  @FXML public void onSelectNewRoom()
+  {
+    if(roomNumber.getSelectionModel().getSelectedItem() != null)
+    {
+      reservationViewModel.roomSelected((Integer) roomNumber.getSelectionModel().getSelectedItem(), startDate.getValue(), endDate.getValue());
     }
   }
   @FXML public void onConfirm()

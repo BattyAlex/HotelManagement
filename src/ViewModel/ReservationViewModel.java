@@ -102,4 +102,37 @@ public class ReservationViewModel implements PropertyChangeListener
     support.removePropertyChangeListener(listener);
   }
 
+  public void roomSelected(Room room, LocalDate startDate, LocalDate endDate)
+  {
+    error.set("");
+    if(startDate == null || endDate == null)
+    {
+      error.set("Date from or until is empty, please choose a date.");
+    }
+    else if (endDate.isBefore(startDate))
+    {
+      error.set("The end date is earlier than the start date.");
+    }
+    else
+    {
+      model.roomSelected(room, startDate, endDate);
+    }
+  }
+
+  public void roomSelected(int roomNumber, LocalDate startDate, LocalDate endDate)
+  {
+    error.set("");
+    if(startDate == null || endDate == null)
+    {
+      error.set("Date from or until is empty, please choose a date.");
+    }
+    else if (endDate.isBefore(startDate))
+    {
+      error.set("The end date is earlier than the start date.");
+    }
+    else
+    {
+      model.roomSelected(roomNumber, startDate, endDate);
+    }
+  }
 }

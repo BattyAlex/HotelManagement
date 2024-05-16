@@ -5,6 +5,7 @@ import Model.HotelModel;
 import Model.Reservation;
 import Model.Room;
 import Model.Staff;
+import Server.RoomDAO;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -210,5 +211,27 @@ public class HotelClientImplementation implements HotelClient
     {
       e.printStackTrace();
     }
+  }
+
+  @Override public Room getRoomByRoomNumber(int roomNumber) throws IOException
+  {
+    try
+    {
+      output.writeObject("Get room with room number");
+      output.flush();
+      String request = (String) input.readObject();
+      if(request.equals("Which room?"))
+      {
+        output.writeObject(roomNumber);
+        output.flush();
+      }
+      Room received = (Room) input.readObject();
+      return received;
+    }
+    catch (ClassNotFoundException e)
+    {
+      e.printStackTrace();
+    }
+    return null;
   }
 }
