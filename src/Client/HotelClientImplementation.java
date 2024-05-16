@@ -71,7 +71,7 @@ public class HotelClientImplementation implements HotelClient
       }
       else if (request.equals("Approved"))
       {
-        support.firePropertyChange("Login Approved", null, null);
+        support.firePropertyChange("Login Approved", null, username);
       }
       else if (request.equals("Rejected"))
       {

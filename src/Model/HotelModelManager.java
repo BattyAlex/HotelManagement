@@ -87,6 +87,7 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
       }
       else if (evt.getPropertyName().equals("Login Approved"))
       {
+        staff = new Staff((String) evt.getNewValue(), "");
         support.firePropertyChange("Login Successful", null, null);
       }
       else if (evt.getPropertyName().equals("Login Rejected"))
