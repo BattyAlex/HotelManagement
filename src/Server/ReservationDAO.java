@@ -49,7 +49,8 @@ public class ReservationDAO extends DatabaseHandlerFactory
       reservation.setClient(guest);
       statement.setInt(6, guest.getId());
       statement.executeUpdate();
-      ArrayList<Service> services = reservation.getServices();
+      Reservation currentReservation = getReservationByTimeAndRoom(reservation);
+      ArrayList<Service> services = currentReservation.getServices();
       for (int i = 0; i < services.size(); i++)
       {
         ServicesDAO.getInstance().insertServiceForReservation(

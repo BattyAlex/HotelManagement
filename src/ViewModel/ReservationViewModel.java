@@ -10,6 +10,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class ReservationViewModel implements PropertyChangeListener
 {
@@ -46,11 +47,37 @@ public class ReservationViewModel implements PropertyChangeListener
     wellness = new SimpleBooleanProperty();
     roomService = new SimpleBooleanProperty();
   }
+  private void setAllServicesToFalse()
+  {
+    breakfast.set(false);
+    lunch.set(false);
+    dinner.set(false);
+    airportTrans.set(false);
+    wellness.set(false);
+    roomService.set(false);
+  }
+  public void setError(String errorMessage)
+  {
+    error.set(errorMessage);
+  }
+  private void setService(String id)
+  {
+    switch (id)
+    {
+      case Service.BREAKFAST -> breakfast.set(true);
+      case Service.LUNCH -> lunch.set(true);
+      case Service.DINNER -> dinner.set(true);
+      case Service.AIRPORT_TRANSPORT -> airportTrans.set(true);
+      case Service.WELLNESS -> wellness.set(true);
+      case Service.ROOM_SERVICE -> roomService.set(true);
+    }
+  }
 
   @Override public void propertyChange(PropertyChangeEvent evt)
   {
     if (evt.getPropertyName().equals("Display Room Selected"))
     {
+      setAllServicesToFalse();
       Room temp = (Room) evt.getOldValue();
       setAmenities(temp.toString());
       support.firePropertyChange("Set Current Room", null, temp.getRoomNumber());
@@ -64,6 +91,21 @@ public class ReservationViewModel implements PropertyChangeListener
     else if (evt.getPropertyName().equals("Getting All Available Rooms"))
     {
       support.firePropertyChange("Display Available Rooms", null, evt.getNewValue());
+    }
+    else if (evt.getPropertyName().equals("Display Reservation Selected"))
+    {
+      Reservation selected = (Reservation) evt.getOldValue();
+      support.firePropertyChange("Set Reservation", selected, null);
+      firstName.set(selected.getClient().getFirstName());
+      lastName.set(selected.getClient().getLastName());
+      cardInfo.set(selected.getClient().getPaymentInfo());
+      amenities.set(selected.getRoom().toString());
+      ArrayList<Service> services = selected.getServices();
+      setAllServicesToFalse();
+      for (int i = 0; i < services.size(); i++)
+      {
+        setService(services.get(i).getName());
+      }
     }
   }
   public void setAmenities(String value)

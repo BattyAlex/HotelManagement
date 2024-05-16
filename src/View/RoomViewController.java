@@ -58,6 +58,7 @@ public class RoomViewController implements PropertyChangeListener
     loadAllRooms();
   }
 
+
   /**
    * Returns the root Region of the view
    *
@@ -95,9 +96,10 @@ public class RoomViewController implements PropertyChangeListener
     {
       if(roomsAndReservations.getSelectionModel().getSelectedItem() instanceof Reservation)
       {
+        viewHandler.openView(ViewFactory.RESERVATION);
         Reservation selected = (Reservation) roomsAndReservations.getSelectionModel()
             .getSelectedItem();
-        //roomViewModel.reservationSelected(selected);
+        roomViewModel.reservationSelected(selected);
       }
       else if (roomViewModel.areDatesCorrect(dateStart.getValue(), dateEnd.getValue()))
       {

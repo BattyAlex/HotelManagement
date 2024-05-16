@@ -1,7 +1,9 @@
 package View;
 
+import Model.Reservation;
 import Model.Room;
 import ViewModel.ReservationViewModel;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -31,6 +33,7 @@ public class ReservationViewController implements PropertyChangeListener
   @FXML private CheckBox dinner;
   @FXML private CheckBox wellness;
   @FXML private Label error;
+  private SimpleBooleanProperty canClick;
 
 
   public void init(ViewHandler viewHandler, ReservationViewModel reservationViewModel, Region root)
@@ -50,6 +53,7 @@ public class ReservationViewController implements PropertyChangeListener
     reservationViewModel.bindDinner(dinner.selectedProperty());
     reservationViewModel.bindRoomService(roomService.selectedProperty());
     reservationViewModel.bindWellness(wellness.selectedProperty());
+    canClick = new SimpleBooleanProperty(true);
   }
 
   public Region getRoot()
@@ -60,6 +64,7 @@ public class ReservationViewController implements PropertyChangeListener
   @FXML public void onSearch()
   {
     reservationViewModel.loadAvailableRooms(startDate.getValue(), endDate.getValue());
+    canClick.set(true);
   }
 
   @FXML public void onCancel()
@@ -116,6 +121,21 @@ public class ReservationViewController implements PropertyChangeListener
         reservationViewModel.setAmenities("");
       }
     }
+    else if (evt.getPropertyName().equals("Set Reservation"))
+    {
+      Reservation selected = (Reservation) evt.getOldValue();
+      startDate.setValue(selected.getStartDate());
+      endDate.setValue(selected.getEndDate());
+      roomNumber.getItems().clear();
+      roomNumber.getItems().add(selected.getRoom().getRoomNumber());
+      roomNumber.getSelectionModel().select(0);
+      canClick.set(true);
+    }
+  }
+
+  @FXML public void datesChanged()
+  {
+    canClick.set(false);
   }
 
   @FXML public void onSelectNewRoom()
@@ -127,14 +147,21 @@ public class ReservationViewController implements PropertyChangeListener
   }
   @FXML public void onConfirm()
   {
-    if(roomNumber.getItems().isEmpty())
+    if(canClick.get())
     {
-      alert();
+      if(roomNumber.getItems().isEmpty())
+      {
+        alert();
+      }
+      else
+      {
+        Room room = new Room((int)roomNumber.getItems().get(0));
+        reservationViewModel.onConfirm(room,startDate.getValue(), endDate.getValue());
+      }
     }
     else
     {
-      Room room = new Room((int)roomNumber.getItems().get(0));
-      reservationViewModel.onConfirm(room,startDate.getValue(), endDate.getValue());
+      reservationViewModel.setError("Please press search to display valid rooms.");
     }
   }
 }

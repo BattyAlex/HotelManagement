@@ -1,6 +1,7 @@
 package ViewModel;
 
 import Model.HotelModel;
+import Model.Reservation;
 import Model.Room;
 import javafx.beans.property.*;
 import javafx.collections.ObservableList;
@@ -208,23 +209,20 @@ public class RoomViewModel implements PropertyChangeListener
     error.set(message);
   }
 
-  public boolean roomSelected(Room room, LocalDate startDate, LocalDate endDate)
+  public void roomSelected(Room room, LocalDate startDate, LocalDate endDate)
   {
     error.set("");
     if(startDate == null || endDate == null)
     {
       setError("Date from or until is empty, please choose a date.");
-      return false;
     }
     else if (endDate.isBefore(startDate))
     {
       setError("The end date is earlier than the start date.");
-      return false;
     }
     else
     {
       model.roomSelected(room, startDate, endDate);
-      return true;
     }
   }
   public boolean areDatesCorrect(LocalDate startDate, LocalDate endDate)
@@ -238,5 +236,10 @@ public class RoomViewModel implements PropertyChangeListener
       return false;
     }
     return true;
+  }
+
+  public void reservationSelected(Reservation selected)
+  {
+    model.reservationSelected(selected);
   }
 }

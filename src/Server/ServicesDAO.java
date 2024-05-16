@@ -58,9 +58,9 @@ public class ServicesDAO extends DatabaseHandlerFactory
   {
     try(Connection connection = super.establishConnection())
     {
-      PreparedStatement statement = connection.prepareStatement("INSERT INTO Amenities(amenityName, roomNumber) VALUES (?, ?);");
-      statement.setString(1, nameOfService);
-      statement.setInt(2, reservationId);
+      PreparedStatement statement = connection.prepareStatement("INSERT INTO ReservationServices(reservationNumber, nameOfService) VALUES (?, ?);");
+      statement.setString(2, nameOfService);
+      statement.setInt(1, reservationId);
       statement.executeUpdate();
     }
     catch (SQLException e)

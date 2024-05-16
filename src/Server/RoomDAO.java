@@ -81,7 +81,6 @@ public class RoomDAO extends DatabaseHandlerFactory
           if(amenity != null)
           {
             temp.get(incrementor).addAmenities(amenity);
-
           }
         }
         else
@@ -89,7 +88,6 @@ public class RoomDAO extends DatabaseHandlerFactory
           if(amenity != null)
           {
             temp.get(incrementor).addAmenities(amenity);
-
           }
         }
       }
@@ -144,6 +142,7 @@ public class RoomDAO extends DatabaseHandlerFactory
           temp.add(new Room(typeOfRoom, price, roomNumber, stateOfRoom));
           if(amenity != null)
           {
+            System.out.println(3);
             temp.get(incrementor).addAmenities(amenity);
           }
         }
@@ -151,6 +150,7 @@ public class RoomDAO extends DatabaseHandlerFactory
         {
           if(amenity != null)
           {
+            System.out.println(5);
             temp.get(incrementor).addAmenities(amenity);
           }
         }

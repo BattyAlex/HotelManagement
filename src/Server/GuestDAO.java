@@ -52,7 +52,7 @@ public class GuestDAO extends DatabaseHandlerFactory
    */
   public Guest getGuestBasedOnName(Guest guest)
   {
-    String fullName = guest.getFirstName() + guest.getLastName();
+    String fullName = guest.getFirstName() + " " + guest.getLastName();
     try(Connection connection = super.establishConnection())
     {
       PreparedStatement statement = connection.prepareStatement("SELECT clientId, name, paymentInformation\n"
@@ -92,18 +92,7 @@ public class GuestDAO extends DatabaseHandlerFactory
       statement.setString(1, fullName);
       statement.setString(2, guest.getPaymentInfo());
       statement.executeUpdate();
-      ResultSet generatedKeys = statement.getGeneratedKeys();
-      System.out.println(generatedKeys);
-      if(generatedKeys.next())
-      {
-        int id = generatedKeys.getInt("clientId");
-        guest.setId(id);
-      }
-      else
-      {
-        throw new SQLException("No generated keys");
-      }
-      return guest;
+      return getGuestBasedOnName(guest);
     }
     catch (SQLException e)
     {
