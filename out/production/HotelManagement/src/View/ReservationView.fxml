@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="600.0" userData="Reservation" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.ReservationViewController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="600.0" userData="Reservation" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.ReservationViewController">
    <children>
       <Label text="Client information: ">
          <VBox.margin>
@@ -65,11 +65,6 @@
                   <RowConstraints maxHeight="214.39999771118164" minHeight="10.0" prefHeight="201.20000000000002" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ChoiceBox fx:id="roomNumber" prefHeight="26.0" prefWidth="60.0" GridPane.rowIndex="2">
-                     <GridPane.margin>
-                        <Insets left="20.0" />
-                     </GridPane.margin>
-                  </ChoiceBox>
                   <DatePicker fx:id="startDate" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label text="Room number" GridPane.rowIndex="1">
                      <GridPane.margin>
@@ -145,6 +140,11 @@
                      </children>
                   </HBox>
                   <Label fx:id="error" prefHeight="18.0" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <ComboBox fx:id="roomNumber" onAction="#onSelectNewRoom" prefHeight="25.0" prefWidth="67.0" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets left="20.0" />
+                     </GridPane.margin>
+                  </ComboBox>
                </children>
             </GridPane>
          </children>
