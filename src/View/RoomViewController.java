@@ -91,26 +91,39 @@ public class RoomViewController implements PropertyChangeListener
 
   @FXML public void onClick()
   {
-    if(canClick.getValue())
+
+    if(roomViewModel.areDatesCorrect(dateStart.getValue(),dateEnd.getValue()))
     {
-      if(roomsAndReservations.getSelectionModel().getSelectedItem() != null)
+      if(canClick.getValue())
       {
-        if(roomsAndReservations.getSelectionModel().getSelectedItem() instanceof Room)
+        if(roomsAndReservations.getSelectionModel().getSelectedItem() != null)
         {
-          Room selected = (Room) roomsAndReservations.getSelectionModel().getSelectedItem();
-          if (roomViewModel.areDatesCorrect(dateStart.getValue(), dateEnd.getValue()))
+          if(roomsAndReservations.getSelectionModel().getSelectedItem() instanceof Room)
           {
-            viewHandler.openView(ViewFactory.RESERVATION);
-            roomViewModel.roomSelected(selected, dateStart.getValue(), dateEnd.getValue());
+            Room selected = (Room) roomsAndReservations.getSelectionModel().getSelectedItem();
+            if (roomViewModel.areDatesCorrect(dateStart.getValue(), dateEnd.getValue()))
+            {
+              viewHandler.openView(ViewFactory.RESERVATION);
+              roomViewModel.roomSelected(selected, dateStart.getValue(), dateEnd.getValue());
+            }
+          }
+          else if (roomsAndReservations.getSelectionModel().getSelectedItem() instanceof Reservation)
+          {
+            Reservation selected = (Reservation) roomsAndReservations.getSelectionModel().getSelectedItem();
+            //send forward do shit
           }
         }
-        else if (roomsAndReservations.getSelectionModel().getSelectedItem() instanceof Reservation)
+        else if (roomsAndReservations.getSelectionModel()
+            .getSelectedItem() instanceof Reservation)
         {
-          Reservation selected = (Reservation) roomsAndReservations.getSelectionModel().getSelectedItem();
+          Reservation selected = (Reservation) roomsAndReservations.getSelectionModel()
+              .getSelectedItem();
           //send forward do shit
         }
       }
     }
+    else
+      roomViewModel.setError("Please select valid dates");
   }
 
   /**

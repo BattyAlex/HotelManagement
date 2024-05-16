@@ -195,18 +195,22 @@ public class RoomViewModel implements PropertyChangeListener
       canClick.set(true);
     }
   }
+  public void setError(String message)
+  {
+    error.set(message);
+  }
 
   public boolean roomSelected(Room room, LocalDate startDate, LocalDate endDate)
   {
     error.set("");
     if(startDate == null || endDate == null)
     {
-      error.set("Date from or until is empty, please choose a date.");
+      setError("Date from or until is empty, please choose a date.");
       return false;
     }
     else if (endDate.isBefore(startDate))
     {
-      error.set("The end date is earlier than the start date.");
+      setError("The end date is earlier than the start date.");
       return false;
     }
     else
