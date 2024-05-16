@@ -68,6 +68,18 @@ public class ReservationViewModel implements PropertyChangeListener
   {
     property.bind(amenities);
   }
+  public void bindFirstName(StringProperty property)
+  {
+    property.bind(firstName);
+  }
+  public void bindLastName(StringProperty property)
+  {
+    property.bind(lastName);
+  }
+  public void bindCard(StringProperty property)
+  {
+    property.bind(cardInfo);
+  }
 
   public void addPropertyChangeListener(PropertyChangeListener listener)
   {

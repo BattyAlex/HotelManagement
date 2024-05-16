@@ -38,6 +38,9 @@ public class ReservationViewController implements PropertyChangeListener
     reservationViewModel.bindError(error.textProperty());
     reservationViewModel.bindAmenities(amenities.textProperty());
     reservationViewModel.addPropertyChangeListener(this);
+    reservationViewModel.bindCard(cardInfo.textProperty());
+    reservationViewModel.bindFirstName(firstName.textProperty());
+    reservationViewModel.bindLastName(lastName.textProperty());
   }
 
   public Region getRoot()
@@ -52,7 +55,14 @@ public class ReservationViewController implements PropertyChangeListener
 
   @FXML public void onCancel()
   {
-    viewHandler.openView(ViewFactory.ROOM);
+    Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure you want to discard your changes?", ButtonType.YES, ButtonType.NO);
+    alert.setTitle("Cancel");
+    alert.showAndWait();
+    if(alert.getResult() == ButtonType.YES)
+    {
+      viewHandler.openView(ViewFactory.ROOM);
+    }
+
   }
 
   @Override public void propertyChange(PropertyChangeEvent evt)
@@ -63,5 +73,9 @@ public class ReservationViewController implements PropertyChangeListener
       roomNumber.getItems().add((Integer)evt.getNewValue());
       roomNumber.getSelectionModel().select(0);
     }
+  }
+  @FXML public void onConfirm()
+  {
+
   }
 }
