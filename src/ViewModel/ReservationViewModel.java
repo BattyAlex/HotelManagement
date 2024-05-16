@@ -165,6 +165,30 @@ public class ReservationViewModel implements PropertyChangeListener
       Guest client = new Guest(firstName.get(), lastName.get(), cardInfo.get());
       Staff staff = new Staff("", "");
       Reservation reservation = new Reservation(startDate, endDate, client, room, staff);
+      if(breakfast.get())
+      {
+        reservation.addService(Service.BREAKFAST, 0);
+      }
+      if(lunch.get())
+      {
+        reservation.addService(Service.LUNCH, 0);
+      }
+      if(dinner.get())
+      {
+        reservation.addService(Service.DINNER, 0);
+      }
+      if(airportTrans.get())
+      {
+        reservation.addService(Service.AIRPORT_TRANSPORT, 0);
+      }
+      if(wellness.get())
+      {
+        reservation.addService(Service.AIRPORT_TRANSPORT, 0);
+      }
+      if(roomService.get())
+      {
+        reservation.addService(Service.ROOM_SERVICE, 0);
+      }
       model.makeOrUpdateReservation(reservation);
     }
   }
