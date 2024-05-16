@@ -44,6 +44,12 @@ public class ReservationViewController implements PropertyChangeListener
     reservationViewModel.bindCard(cardInfo.textProperty());
     reservationViewModel.bindFirstName(firstName.textProperty());
     reservationViewModel.bindLastName(lastName.textProperty());
+    reservationViewModel.bindAirportTrans(airportTransport.selectedProperty());
+    reservationViewModel.bindBreakfast(breakfast.selectedProperty());
+    reservationViewModel.bindLunch(lunch.selectedProperty());
+    reservationViewModel.bindDinner(dinner.selectedProperty());
+    reservationViewModel.bindRoomService(roomService.selectedProperty());
+    reservationViewModel.bindWellness(wellness.selectedProperty());
   }
 
   public Region getRoot()
