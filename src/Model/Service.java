@@ -7,6 +7,12 @@ import java.io.Serializable;
  */
 public class Service implements Serializable
 {
+  public static final String ROOM_SERVICE = "room service";
+  public static final String AIRPORT_TRANSPORT = "airport transport";
+  public static final String BREAKFAST =  "breakfast";
+  public static final String LUNCH = "lunch";
+  public static final String DINNER = "dinner";
+  public static final String WELLNESS = "wellness";
   private String name;
   private double price;
 
