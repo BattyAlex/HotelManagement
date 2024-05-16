@@ -112,7 +112,7 @@ public class HotelClientImplementation implements HotelClient
    * @param endDate the end date of the period
    * @throws IOException if an IO error occurs during communication with the server
    */
-  @Override public void getRoomsAvailable(LocalDate startDate, LocalDate endDate) throws IOException
+  @Override public ArrayList<Room> getRoomsAvailable(LocalDate startDate, LocalDate endDate) throws IOException
   {
     try
     {
@@ -131,12 +131,13 @@ public class HotelClientImplementation implements HotelClient
         output.flush();
       }
       ArrayList<Room> result = (ArrayList<Room>) input.readObject();
-      support.firePropertyChange("Sending Available Rooms", null, result);
+      return result;
     }
     catch (ClassNotFoundException e)
     {
       e.printStackTrace();
     }
+    return null;
   }
 
   /**

@@ -1,8 +1,11 @@
 package Client;
 
+import Model.Room;
+
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 
 public interface  HotelClient
@@ -28,7 +31,7 @@ public interface  HotelClient
    * @param endDate the end date of the availability period
    * @throws IOException  if an IO error occurs while retrieving the available rooms
    */
-  void getRoomsAvailable(LocalDate startDate, LocalDate endDate) throws IOException;
+  ArrayList<Room> getRoomsAvailable(LocalDate startDate, LocalDate endDate) throws IOException;
   /**
    * Adds a property change listener to the client
    * @param listener the listener to be added

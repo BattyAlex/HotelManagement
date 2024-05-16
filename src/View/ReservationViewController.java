@@ -1,5 +1,6 @@
 package View;
 
+import Model.Room;
 import ViewModel.ReservationViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -9,6 +10,7 @@ import javafx.scene.layout.Region;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class ReservationViewController implements PropertyChangeListener
 {
@@ -78,6 +80,16 @@ public class ReservationViewController implements PropertyChangeListener
     {
       startDate.setValue((LocalDate) evt.getNewValue());
       endDate.setValue((LocalDate) evt.getOldValue());
+    }
+    else if (evt.getPropertyName().equals("Display Available Rooms"))
+    {
+      roomNumber.getItems().clear();
+      ArrayList<Room> rooms = (ArrayList<Room>) evt.getNewValue();
+      for (int i = 0; i < rooms.size(); i++)
+      {
+        roomNumber.getItems().add((Integer)rooms.get(i).getRoomNumber());
+      }
+      roomNumber.getSelectionModel().select(0);
     }
   }
   @FXML public void onConfirm()

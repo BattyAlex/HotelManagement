@@ -48,6 +48,10 @@ public class ReservationViewModel implements PropertyChangeListener
       LocalDate start = (LocalDate) evt.getNewValue();
       support.firePropertyChange("Display Dates", end, start);
     }
+    else if (evt.getPropertyName().equals("Getting All Available Rooms"))
+    {
+      support.firePropertyChange("Display Available Rooms", null, evt.getNewValue());
+    }
   }
   public void loadAvailableRooms(LocalDate startDate, LocalDate endDate)
   {
@@ -62,6 +66,7 @@ public class ReservationViewModel implements PropertyChangeListener
     }
     else
     {
+      model.getAvailableRooms(startDate, endDate);
     }
   }
 

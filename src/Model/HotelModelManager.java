@@ -97,10 +97,7 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
       {
         support.firePropertyChange("All Rooms", null, evt.getNewValue());
       }
-      else if (evt.getPropertyName().equals("Sending Available Rooms"))
-      {
-        support.firePropertyChange("Available Rooms", null, evt.getNewValue());
-      }
+
       else if (evt.getPropertyName().equals("Sending All Reservations"))
       {
         support.firePropertyChange("All Reservations", null, evt.getNewValue());
@@ -129,7 +126,7 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
   {
     try
     {
-      client.getRoomsAvailable(startDate,endDate);
+      support.firePropertyChange("Available Rooms", null, client.getRoomsAvailable(startDate,endDate));
     }
     catch (IOException e)
     {
@@ -165,7 +162,19 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
   @Override public void roomSelected(Room room, LocalDate startDate, LocalDate endDate)
   {
     support.firePropertyChange("Display Room Selected", room, null);
-    //This isn't being received yet.
     support.firePropertyChange("Display Dates for Selected Room", endDate, startDate);
+  }
+
+  @Override public void getAvailableRooms(LocalDate startDate,
+      LocalDate endDate)
+  {
+    try
+    {
+      support.firePropertyChange("Getting All Available Rooms", null, client.getRoomsAvailable(startDate, endDate));
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
   }
 }
