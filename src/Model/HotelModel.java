@@ -34,5 +34,5 @@ public interface HotelModel
   void loadAvailableRooms(LocalDate startDate, LocalDate endDate);
   void loadAllReservations();
   void loadReservationsInTimeframe(LocalDate startDate, LocalDate endDate);
-  void roomSelected(Room room);
+  void roomSelected(Room room, LocalDate startDate, LocalDate endDate);
 }
