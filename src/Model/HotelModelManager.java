@@ -22,6 +22,7 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
    */
   public HotelModelManager(HotelClient client)
   {
+    staff = new Staff("", "");
     this.client = client;
     this.support = new PropertyChangeSupport(this);
     client.addPropertyChangeListener(this);
@@ -87,7 +88,7 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
       }
       else if (evt.getPropertyName().equals("Login Approved"))
       {
-        staff = new Staff((String) evt.getNewValue(), "");
+        staff.setUsername((String) evt.getNewValue());
         support.firePropertyChange("Login Successful", null, null);
       }
       else if (evt.getPropertyName().equals("Login Rejected"))
@@ -200,6 +201,7 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
   {
     try
     {
+      reservation.getStaff().setUsername(this.staff.getUsername());
       client.makeOrUpdateReservation(reservation);
     }
     catch (IOException e)

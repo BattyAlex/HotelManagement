@@ -110,7 +110,7 @@ public class RoomViewController implements PropertyChangeListener
           else if (roomsAndReservations.getSelectionModel().getSelectedItem() instanceof Reservation)
           {
             Reservation selected = (Reservation) roomsAndReservations.getSelectionModel().getSelectedItem();
-            //send forward do shit
+            //roomViewModel.reservationSelected(selected);
           }
         }
         else if (roomsAndReservations.getSelectionModel()

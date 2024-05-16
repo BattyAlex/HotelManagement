@@ -7,8 +7,8 @@ import java.io.Serializable;
  */
 public class Staff implements Serializable
 {
-  private final String username;
-  private final String password;
+  private String username;
+  private String password;
 
   /**
    * Constructs a new staff member with specified username and password
@@ -19,6 +19,11 @@ public class Staff implements Serializable
   {
     this.username = username;
     this.password = password;
+  }
+
+  public void setUsername(String username)
+  {
+    this.username = username;
   }
 
   /**

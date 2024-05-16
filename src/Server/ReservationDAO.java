@@ -42,7 +42,9 @@ public class ReservationDAO extends DatabaseHandlerFactory
       statement.setDate(2, endDate);
       statement.setInt(3, reservation.getNumberOfGuests());
       statement.setString(4, reservation.getStaff().getUsername());
-      statement.setInt(5, reservation.getRoom().getRoomNumber());
+      Room room = RoomDAO.getInstance().getRoomByRoomNumber(reservation.getRoom().getRoomNumber());
+      reservation.setRoom(room);
+      statement.setInt(5, room.getRoomNumber());
       Guest guest = GuestDAO.getInstance().getGuestBasedOnName(reservation.getClient());
       reservation.setClient(guest);
       statement.setInt(6, guest.getId());
@@ -311,6 +313,8 @@ public class ReservationDAO extends DatabaseHandlerFactory
       else
       {
         reservation.setReservationId(exists.getReservationId());
+        Room room = RoomDAO.getInstance().getRoomByRoomNumber(reservation.getRoom().getRoomNumber());
+        reservation.setRoom(room);
         ArrayList<Service> reservationServices = reservation.getServices();
         ArrayList<Service> toUpdate = ServicesDAO.getInstance()
             .getAllServicesForReservation(reservation.getReservationId());
