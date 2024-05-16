@@ -2,10 +2,7 @@ package ViewModel;
 
 import Model.HotelModel;
 import Model.Room;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 
 import java.beans.PropertyChangeEvent;
@@ -23,6 +20,7 @@ public class RoomViewModel implements PropertyChangeListener
   private StringProperty toggle;
   private PropertyChangeSupport support;
   private StringProperty error;
+  private BooleanProperty canClick;
 
   /**
    * Constructor to initialize RoomViewModel with the given HotelModel
@@ -35,6 +33,7 @@ public class RoomViewModel implements PropertyChangeListener
     toggle = new SimpleStringProperty("To reservations");
     support = new PropertyChangeSupport(this);
     error = new SimpleStringProperty();
+    canClick = new SimpleBooleanProperty(false);
   }
 
   /**
@@ -55,6 +54,11 @@ public class RoomViewModel implements PropertyChangeListener
     property.bind(error);
   }
 
+  public void bindCanClick(SimpleBooleanProperty property)
+  {
+    property.bind(canClick);
+  }
+
   /**
    * Toggles the value of the toggle property between "to reservations" and "to rooms"
    */
@@ -70,6 +74,7 @@ public class RoomViewModel implements PropertyChangeListener
       toggle.set("To reservations");
       loadAllRooms ();
     }
+    canClick.set(false);
   }
 
   /**
@@ -146,6 +151,7 @@ public class RoomViewModel implements PropertyChangeListener
     else
     {
       model.loadAvailableRooms(startDate,endDate);
+      canClick.set(true);
     }
   }
 
@@ -186,6 +192,7 @@ public class RoomViewModel implements PropertyChangeListener
     else
     {
       model.loadReservationsInTimeframe(startDate, endDate);
+      canClick.set(true);
     }
   }
 

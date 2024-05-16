@@ -4,6 +4,8 @@ import Model.Reservation;
 import Model.Room;
 import ViewModel.LoginViewModel;
 import ViewModel.RoomViewModel;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
@@ -33,6 +35,7 @@ public class RoomViewController implements PropertyChangeListener
   @FXML private DatePicker dateEnd;
   @FXML private Button search;
   @FXML private Label error;
+  private SimpleBooleanProperty canClick;
 
   /**
    * Initialozes the RoomViewController with the specified ViewHandler, RoomViewModel and root Region.
@@ -48,9 +51,11 @@ public class RoomViewController implements PropertyChangeListener
     this.roomViewModel = roomViewModel;
     this.root = root;
     this.viewHandler = viewHandler;
+    canClick = new SimpleBooleanProperty();
     roomViewModel.addPropertyChangeListener(this);
     roomViewModel.bindToggle(roomReservation.textProperty());
     roomViewModel.bindError(error.textProperty());
+    roomViewModel.bindCanClick(canClick);
     loadAllRooms();
   }
 
@@ -86,21 +91,24 @@ public class RoomViewController implements PropertyChangeListener
 
   @FXML public void onClick()
   {
-    if(roomsAndReservations.getSelectionModel().getSelectedItem() != null)
+    if(canClick.getValue())
     {
-      if(roomsAndReservations.getSelectionModel().getSelectedItem() instanceof Room)
+      if(roomsAndReservations.getSelectionModel().getSelectedItem() != null)
       {
-        Room selected = (Room) roomsAndReservations.getSelectionModel().getSelectedItem();
-        if (roomViewModel.areDatesCorrect(dateStart.getValue(), dateEnd.getValue()))
+        if(roomsAndReservations.getSelectionModel().getSelectedItem() instanceof Room)
         {
-          viewHandler.openView(ViewFactory.RESERVATION);
-          roomViewModel.roomSelected(selected, dateStart.getValue(), dateEnd.getValue());
+          Room selected = (Room) roomsAndReservations.getSelectionModel().getSelectedItem();
+          if (roomViewModel.areDatesCorrect(dateStart.getValue(), dateEnd.getValue()))
+          {
+            viewHandler.openView(ViewFactory.RESERVATION);
+            roomViewModel.roomSelected(selected, dateStart.getValue(), dateEnd.getValue());
+          }
         }
-      }
-      else if (roomsAndReservations.getSelectionModel().getSelectedItem() instanceof Reservation)
-      {
-        Reservation selected = (Reservation) roomsAndReservations.getSelectionModel().getSelectedItem();
-        //send forward do shit
+        else if (roomsAndReservations.getSelectionModel().getSelectedItem() instanceof Reservation)
+        {
+          Reservation selected = (Reservation) roomsAndReservations.getSelectionModel().getSelectedItem();
+          //send forward do shit
+        }
       }
     }
   }
