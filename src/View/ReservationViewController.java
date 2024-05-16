@@ -8,6 +8,7 @@ import javafx.scene.layout.Region;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.time.LocalDate;
 
 public class ReservationViewController implements PropertyChangeListener
 {
@@ -72,6 +73,11 @@ public class ReservationViewController implements PropertyChangeListener
       roomNumber.getItems().clear();
       roomNumber.getItems().add((Integer)evt.getNewValue());
       roomNumber.getSelectionModel().select(0);
+    }
+    else if(evt.getPropertyName().equals("Display Dates"))
+    {
+      startDate.setValue((LocalDate) evt.getNewValue());
+      endDate.setValue((LocalDate) evt.getOldValue());
     }
   }
   @FXML public void onConfirm()

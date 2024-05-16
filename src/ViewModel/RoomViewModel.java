@@ -208,4 +208,16 @@ public class RoomViewModel implements PropertyChangeListener
       return true;
     }
   }
+  public boolean areDatesCorrect(LocalDate startDate, LocalDate endDate)
+  {
+    if(startDate == null || endDate == null)
+    {
+      return false;
+    }
+    else if (endDate.isBefore(startDate))
+    {
+      return false;
+    }
+    return true;
+  }
 }

@@ -42,6 +42,12 @@ public class ReservationViewModel implements PropertyChangeListener
       amenities.set(temp.toString());
       support.firePropertyChange("Set Current Room", null, temp.getRoomNumber());
     }
+    else if(evt.getPropertyName().equals("Display Dates for Selected Room"))
+    {
+      LocalDate end = (LocalDate) evt.getOldValue();
+      LocalDate start = (LocalDate) evt.getNewValue();
+      support.firePropertyChange("Display Dates", end, start);
+    }
   }
   public void loadAvailableRooms(LocalDate startDate, LocalDate endDate)
   {
