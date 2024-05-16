@@ -68,14 +68,8 @@ public class GuestDAO extends DatabaseHandlerFactory
           guest.setId(id);
           return guest;
         }
-        else
-        {
-          if(!rs.next())
-          {
-            return insertGuest(guest);
-          }
-        }
       }
+      return insertGuest(guest);
     }
     catch (SQLException e)
     {
@@ -91,7 +85,7 @@ public class GuestDAO extends DatabaseHandlerFactory
    */
   public Guest insertGuest(Guest guest)
   {
-    String fullName = guest.getFirstName() + guest.getLastName();
+    String fullName = guest.getFirstName() + " " +  guest.getLastName();
     try(Connection connection = super.establishConnection())
     {
       PreparedStatement statement = connection.prepareStatement("INSERT INTO Client(name, paymentInformation) VALUES (?, ?);");
@@ -99,6 +93,7 @@ public class GuestDAO extends DatabaseHandlerFactory
       statement.setString(2, guest.getPaymentInfo());
       statement.executeUpdate();
       ResultSet generatedKeys = statement.getGeneratedKeys();
+      System.out.println(generatedKeys);
       if(generatedKeys.next())
       {
         int id = generatedKeys.getInt("clientId");
