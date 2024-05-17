@@ -51,53 +51,33 @@ public class RoomDAO extends DatabaseHandlerFactory
   public ArrayList<Room> getAllRooms()
   {
     ArrayList<Room> temp = new ArrayList<>();
-    int currentRoomNumber = -1;
-    int incrementor = 0;
     try (Connection connection = super.establishConnection())
     {
       PreparedStatement statement = connection.prepareStatement(
-          "SELECT Room.roomNumber, amenityName, RoomType.typeOfRoom, price, Room.roomNumber, stateOfRoom\n"
-              + "FROM Room LEFT OUTER JOIN Amenities ON (Room.roomNumber = Amenities.roomNumber), RoomType\n"
-              + "WHERE Room.typeOfRoom = RoomType.typeOfRoom\n"
-              + "ORDER BY Room.roomNumber;");
+          "SELECT Room.roomNumber, RoomType.typeOfRoom, price, stateOfRoom\n"
+              + "FROM Room, RoomType\n"
+              + "WHERE Room.typeOfRoom = RoomType.typeOfRoom;");
       ResultSet rs = statement.executeQuery();
       while (rs.next())
       {
-        String amenity = rs.getString("amenityName");
         String typeOfRoom = rs.getString("typeOfRoom");
         double price = rs.getInt("price");
         int roomNumber = rs.getInt("roomNumber");
         String stateOfRoom = rs.getString("stateOfRoom");
-        if(roomNumber != currentRoomNumber)
+        Room returning = new Room(typeOfRoom, price, roomNumber, stateOfRoom);
+        ArrayList<String> amenities = AmenitiesDAO.getInstance()
+            .returnAmenitiesForRoom(roomNumber);
+        for (int i = 0; i < amenities.size(); i++)
         {
-          if (!(currentRoomNumber == -1))
-          {
-            incrementor ++;
-          }
-          currentRoomNumber = roomNumber;
-
-          temp.add(new Room(typeOfRoom, price, roomNumber, stateOfRoom));
-
-          if(amenity != null)
-          {
-            temp.get(incrementor).addAmenities(amenity);
-          }
+          returning.addAmenities(amenities.get(i));
         }
-        else
-        {
-          if(amenity != null)
-          {
-            temp.get(incrementor).addAmenities(amenity);
-          }
-        }
+        temp.add(returning);
       }
     }
     catch (SQLException e)
     {
       e.printStackTrace();
     }
-
-
     return temp;
   }
 
@@ -111,49 +91,32 @@ public class RoomDAO extends DatabaseHandlerFactory
   public ArrayList<Room> getAllAvailableRooms(Date startDate, Date endDate)
   {
     ArrayList<Room> temp = new ArrayList<>();
-    int currentRoomNumber = -1;
-    int incrementor = 0;
     try (Connection connection = super.establishConnection())
     {
       PreparedStatement statement = connection.prepareStatement(
-          "SELECT Room.roomNumber, amenityName, RoomType.typeOfRoom, price, Room.roomNumber, stateOfRoom\n"
-              + "FROM Room LEFT OUTER JOIN Amenities ON (Room.roomNumber = Amenities.roomNumber), RoomType, Reservation\n"
-              + "WHERE Room.typeOfRoom = RoomType.typeOfRoom AND Room.roomNumber NOT IN (SELECT Room.roomNumber\n"
-              + "FROM Room, Reservation\n"
-              + "WHERE Room.roomNumber = Reservation.roomNumber AND (Reservation.startDate < ? AND Reservation.endDate > ?))\n"
-              + "ORDER BY Room.roomNumber;");
+          "SELECT Room.roomNumber, RoomType.typeOfRoom, price, stateOfRoom\n"
+              + "FROM Room, RoomType\n"
+              + "WHERE Room.typeOfRoom = RoomType.typeOfRoom AND roomNumber NOT IN\n"
+              + "(\n" + "SELECT Room.roomNumber\n" + "FROM Room, Reservation\n"
+              + "WHERE Room.roomNumber = Reservation.roomNumber AND (Reservation.startDate < ? AND Reservation.endDate > ?)\n"
+              + ");");
       statement.setDate(1, endDate);
       statement.setDate(2, startDate);
       ResultSet rs = statement.executeQuery();
       while (rs.next())
       {
-        String amenity = rs.getString("amenityName");
         String typeOfRoom = rs.getString("typeOfRoom");
         double price = rs.getInt("price");
         int roomNumber = rs.getInt("roomNumber");
         String stateOfRoom = rs.getString("stateOfRoom");
-        if(roomNumber != currentRoomNumber)
+        Room returning = new Room(typeOfRoom, price, roomNumber, stateOfRoom);
+        ArrayList<String> amenities = AmenitiesDAO.getInstance()
+            .returnAmenitiesForRoom(roomNumber);
+        for (int i = 0; i < amenities.size(); i++)
         {
-          if (!(currentRoomNumber == -1))
-          {
-            incrementor ++;
-          }
-          currentRoomNumber = roomNumber;
-          temp.add(new Room(typeOfRoom, price, roomNumber, stateOfRoom));
-          if(amenity != null)
-          {
-            System.out.println(3);
-            temp.get(incrementor).addAmenities(amenity);
-          }
+          returning.addAmenities(amenities.get(i));
         }
-        else
-        {
-          if(amenity != null)
-          {
-            System.out.println(5);
-            temp.get(incrementor).addAmenities(amenity);
-          }
-        }
+        temp.add(returning);
       }
     }
     catch (SQLException e)
@@ -172,29 +135,25 @@ public class RoomDAO extends DatabaseHandlerFactory
   {
     try(Connection connection = super.establishConnection())
     {
-      PreparedStatement statement = connection.prepareStatement("SELECT Room.roomNumber, amenityName, RoomType.typeOfRoom, price, Room.roomNumber, stateOfRoom\n"
-          + "FROM Room LEFT OUTER JOIN Amenities ON (Room.roomNumber = Amenities.roomNumber), RoomType\n"
-          + "WHERE Room.typeOfRoom = RoomType.typeOfRoom AND Room.roomNumber = ?\n"
-          + "ORDER BY Room.roomNumber;");
+      PreparedStatement statement = connection.prepareStatement("SELECT Room.roomNumber, RoomType.typeOfRoom, price, stateOfRoom\n"
+          + "FROM Room, RoomType\n"
+          + "WHERE Room.typeOfRoom = RoomType.typeOfRoom AND roomNumber = ?;");
       statement.setInt(1, roomNumber);
       ResultSet rs = statement.executeQuery();
-      Room temp = null;
       while (rs.next())
       {
-        String amenity = rs.getString("amenityName");
         String typeOfRoom = rs.getString("typeOfRoom");
         double price = rs.getInt("price");
         String stateOfRoom = rs.getString("stateOfRoom");
-        if(temp == null)
+        Room returning = new Room(typeOfRoom, price, roomNumber, stateOfRoom);
+        ArrayList<String> amenities = AmenitiesDAO.getInstance()
+            .returnAmenitiesForRoom(roomNumber);
+        for (int i = 0; i < amenities.size(); i++)
         {
-          temp = new Room(typeOfRoom, price, roomNumber, stateOfRoom);
+          returning.addAmenities(amenities.get(i));
         }
-        if (amenity != null)
-        {
-          temp.addAmenities(amenity);
-        }
+        return returning;
       }
-      return temp;
     }
     catch (SQLException e)
     {

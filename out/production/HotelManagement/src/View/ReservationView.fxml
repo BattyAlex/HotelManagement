@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="600.0" userData="Reservation" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.ReservationViewController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="600.0" userData="Reservation" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.ReservationViewController">
    <children>
       <Label text="Client information: ">
          <VBox.margin>
@@ -65,7 +65,7 @@
                   <RowConstraints maxHeight="214.39999771118164" minHeight="10.0" prefHeight="201.20000000000002" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <DatePicker fx:id="startDate" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <DatePicker fx:id="startDate" onAction="#datesChanged" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label text="Room number" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets left="20.0" />
@@ -127,7 +127,7 @@
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <children>
-                        <DatePicker fx:id="endDate">
+                        <DatePicker fx:id="endDate" onAction="#datesChanged">
                            <HBox.margin>
                               <Insets left="5.0" />
                            </HBox.margin>
