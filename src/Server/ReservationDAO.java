@@ -51,6 +51,8 @@ public class ReservationDAO extends DatabaseHandlerFactory
       statement.executeUpdate();
       ArrayList<Service> services = reservation.getServices();
       Reservation currentReservation = getReservationByTimeAndRoom(reservation);
+      reservation.setServices(ServicesDAO.getInstance()
+          .getAllServicesForReservation(currentReservation.getReservationId()));
       for (int i = 0; i < services.size(); i++)
       {
         ServicesDAO.getInstance().insertServiceForReservation(
@@ -378,6 +380,8 @@ public class ReservationDAO extends DatabaseHandlerFactory
           updateResponsibleStaff(reservation.getStaff().getUsername(), reservation.getReservationId());
         }
       }
+      reservation.setServices(ServicesDAO.getInstance()
+          .getAllServicesForReservation(reservation.getReservationId()));
       return reservation;
     }
     catch (SQLException e)
