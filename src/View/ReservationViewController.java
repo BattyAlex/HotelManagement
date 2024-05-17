@@ -134,6 +134,18 @@ public class ReservationViewController implements PropertyChangeListener
       roomNumber.getSelectionModel().select(0);
       canClick.set(true);
     }
+    else if (evt.getPropertyName().equals("Display Reservation Made Popup"))
+    {
+      Reservation reservation = (Reservation) evt.getNewValue();
+      String contentText = "Reservation " + reservation.getReservationId() + " successfully made / updated.\nThe total is: " + reservation.getTotalForStay() + "$";
+      Alert alert = new Alert(Alert.AlertType.CONFIRMATION, contentText, ButtonType.OK);
+      alert.setTitle("Reservation Successfully Made");
+      alert.showAndWait();
+      if(alert.getResult() == ButtonType.OK)
+      {
+        viewHandler.openView(ViewFactory.ROOM);
+      }
+    }
   }
 
   @FXML public void datesChanged()
@@ -174,6 +186,7 @@ public class ReservationViewController implements PropertyChangeListener
     alert.showAndWait();
     if(alert.getResult() == ButtonType.YES)
     {
+
     }
   }
 }

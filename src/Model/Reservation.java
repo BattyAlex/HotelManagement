@@ -200,6 +200,25 @@ public class Reservation implements Serializable
     return services;
   }
 
+  public void setServices(ArrayList<Service> services)
+  {
+    this.services.clear();
+    for (int i = 0; i < services.size(); i++)
+    {
+      this.services.add(services.get(i));
+    }
+  }
+
+  public double getTotalForRoom()
+  {
+    return getLengthOfStay() * getRoom().getPrice();
+  }
+
+  public double getTotalForStay()
+  {
+    return getTotalForRoom() + getServicesTotal();
+  }
+
   public String toString()
   {
     return client.getFirstName() + " " + client.getLastName() + "( Reservation: " + reservationId + " For room: " + room.getRoomNumber() + " )\nFrom: " + startDate.getYear() + "/" + startDate.getMonthValue() + "/" + startDate.getDayOfMonth() + " Until: " + endDate.getYear() + "/" + endDate.getMonthValue() + "/" + endDate.getDayOfMonth();
