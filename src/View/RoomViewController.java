@@ -123,6 +123,10 @@ public class RoomViewController implements PropertyChangeListener
       }
     }
   }
+  @FXML public void onCleaning()
+  {
+    roomViewModel.onCleaning();
+  }
 
   /**
    * Handles property change events and updates the view accordingly

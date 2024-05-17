@@ -39,4 +39,5 @@ public interface HotelModel
   void getAvailableRooms(LocalDate startDate, LocalDate endDate);
   void makeOrUpdateReservation(Reservation reservation);
   void reservationSelected(Reservation selected);
+  void getRoomsForCleaning();
 }

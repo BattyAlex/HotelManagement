@@ -237,6 +237,10 @@ public class RoomViewModel implements PropertyChangeListener
     }
     return true;
   }
+  public void onCleaning()
+  {
+    model.getRoomsForCleaning();
+  }
 
   public void reservationSelected(Reservation selected)
   {
