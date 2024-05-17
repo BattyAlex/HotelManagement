@@ -1,6 +1,6 @@
 package View;
 
-import ViewModel.LoginViewModel;
+import ViewModel.CleaningViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
@@ -9,14 +9,15 @@ public class CleaningViewController
 {
   @FXML private Label roomInfo;
   private Region root;
-  private LoginViewModel loginViewModel;
+  private CleaningViewModel cleaningViewModel;
   private ViewHandler viewHandler;
 
-  public void init(ViewHandler viewHandler, LoginViewModel loginViewModel, Region root)
+  public void init(ViewHandler viewHandler, CleaningViewModel cleaningViewModel, Region root)
   {
-    this.loginViewModel = loginViewModel;
+    this.cleaningViewModel = cleaningViewModel;
     this.root = root;
     this.viewHandler = viewHandler;
+
   }
 
   public Region getRoot()

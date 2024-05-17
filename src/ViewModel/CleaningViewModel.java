@@ -16,4 +16,9 @@ public class CleaningViewModel
     this.model = model;
     roomInfo = new SimpleStringProperty();
   }
+
+  public void bindRoomInfo(StringProperty property)
+  {
+    property.bind(roomInfo);
+  }
 }
