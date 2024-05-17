@@ -210,6 +210,15 @@ public class ReservationViewModel implements PropertyChangeListener
     }
     else
     {
+      int numOfGuests = 0;
+      try
+      {
+        numOfGuests = Integer.parseInt(noOfGuests.get());
+      }
+      catch (NumberFormatException e)
+      {
+        support.firePropertyChange("invalid input", null, null);
+      }
       Guest client = new Guest(firstName.get(), lastName.get(), cardInfo.get());
       Staff staff = new Staff("", "");
       Reservation reservation = new Reservation(startDate, endDate, client, room, staff);
@@ -237,6 +246,8 @@ public class ReservationViewModel implements PropertyChangeListener
       {
         reservation.addService(Service.ROOM_SERVICE, 0);
       }
+      reservation.setNumberOfGuests(numOfGuests);
+
       model.makeOrUpdateReservation(reservation);
     }
   }
