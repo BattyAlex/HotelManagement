@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="600.0" userData="Reservation" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.ReservationViewController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="600.0" userData="Reservation" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.ReservationViewController">
    <children>
       <Label text="Client information: ">
          <VBox.margin>
@@ -33,6 +33,11 @@
                <HBox.margin>
                   <Insets left="10.0" top="10.0" />
                </HBox.margin></TextField>
+            <TextField fx:id="noOfGuests" prefHeight="26.0" prefWidth="58.0" promptText="Guests">
+               <HBox.margin>
+                  <Insets left="10.0" top="10.0" />
+               </HBox.margin>
+            </TextField>
          </children>
       </HBox>
       <HBox prefHeight="85.0" prefWidth="600.0">
@@ -145,6 +150,11 @@
                         <Insets left="20.0" />
                      </GridPane.margin>
                   </ComboBox>
+                  <Button mnemonicParsing="false" onAction="#onDelete" text="Delete reservation" textFill="#080808" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets left="20.0" top="145.0" />
+                     </GridPane.margin>
+                  </Button>
                </children>
             </GridPane>
          </children>
