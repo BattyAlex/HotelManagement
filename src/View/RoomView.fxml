@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="643.0" userData="Rooms and Reservations" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.RoomViewController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="643.0" userData="Rooms and Reservations" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.RoomViewController">
    <children>
       <HBox prefHeight="63.0" prefWidth="600.0">
          <children>
@@ -46,14 +46,20 @@
                         </DatePicker>
                      </children>
                   </HBox>
-                  <Label fx:id="error" textFill="RED">
-                     <VBox.margin>
-                        <Insets left="10.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="error" textFill="RED">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <ToggleButton fx:id="cleaningToggle" mnemonicParsing="false" onAction="#onCleaning">
+                           <HBox.margin>
+                              <Insets left="305.0" top="5.0" />
+                           </HBox.margin>
+                        </ToggleButton>
+                     </children>
+                  </HBox>
                </children>
             </VBox>
             <VBox alignment="CENTER" prefHeight="80.0" prefWidth="156.0">
@@ -65,7 +71,7 @@
                   </ToggleButton>
                   <Button fx:id="search" mnemonicParsing="false" onAction="#onSearch" text="Search">
                      <VBox.margin>
-                        <Insets bottom="10.0" top="10.0" />
+                        <Insets bottom="5.0" top="15.0" />
                      </VBox.margin>
                   </Button>
                </children>

@@ -61,6 +61,10 @@ public class RoomViewModel implements PropertyChangeListener
   {
     property.bindBidirectional(canClick);
   }
+  public void bindCleaningToggle(StringProperty property)
+  {
+    property.bind(cleaningToggle);
+  }
 
   /**
    * Toggles the value of the toggle property between "to reservations" and "to rooms"
