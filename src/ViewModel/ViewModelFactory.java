@@ -12,6 +12,7 @@ public class ViewModelFactory
   private LoginViewModel loginViewModel;
   private ReservationViewModel reservationViewModel;
   private RoomViewModel roomViewModel;
+  private CleaningViewModel cleaningViewModel;
 
   /**
    * Constructs a ViewModelFactory with the specified HotelModel
@@ -24,6 +25,7 @@ public class ViewModelFactory
     loginViewModel = new LoginViewModel(model);
     reservationViewModel = new ReservationViewModel(model);
     roomViewModel = new RoomViewModel(model);
+    cleaningViewModel = new CleaningViewModel(model);
   }
 
   /**
@@ -55,5 +57,9 @@ public class ViewModelFactory
   public RoomViewModel getRoomViewModel()
   {
     return roomViewModel;
+  }
+  public CleaningViewModel getCleaningViewModel()
+  {
+    return cleaningViewModel;
   }
 }

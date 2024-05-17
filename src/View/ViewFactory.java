@@ -23,6 +23,7 @@ public class ViewFactory
   private LoginViewController loginViewController;
   private RoomViewController roomViewController;
   private ReservationViewController reservationViewController;
+  private CleaningViewController cleaningViewController;
 
   /**
    * Constructs a ViewFactory with the specified ViewHandler and ViewModel.
@@ -38,6 +39,7 @@ public class ViewFactory
     loginViewController = null;
     roomViewController = null;
     reservationViewController = null;
+    cleaningViewController = null;
   }
 
   /**
@@ -111,6 +113,26 @@ public class ViewFactory
       }
     }
     return reservationViewController.getRoot();
+  }
+  public Region loadCleaningView()
+  {
+    if(cleaningViewController == null)
+    {
+      FXMLLoader loader = new FXMLLoader();
+      loader.setLocation(getClass().getResource("CleaningView.fxml"));
+      try
+      {
+        Region root = loader.load();
+        cleaningViewController = loader.getController();
+        cleaningViewController.init(viewHandler, viewModelFactory.getCleaningViewModel(), root);
+      }
+      catch (IOException e)
+      {
+        System.out.println("Cleaning View failed to load");
+        e.printStackTrace();
+      }
+    }
+    return roomViewController.getRoot();
   }
 
   /**
