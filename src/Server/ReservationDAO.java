@@ -49,12 +49,12 @@ public class ReservationDAO extends DatabaseHandlerFactory
       reservation.setClient(guest);
       statement.setInt(6, guest.getId());
       statement.executeUpdate();
+      ArrayList<Service> services = reservation.getServices();
       Reservation currentReservation = getReservationByTimeAndRoom(reservation);
-      ArrayList<Service> services = currentReservation.getServices();
       for (int i = 0; i < services.size(); i++)
       {
         ServicesDAO.getInstance().insertServiceForReservation(
-            reservation.getReservationId(), services.get(i).getName());
+            currentReservation.getReservationId(), services.get(i).getName());
       }
       return reservation;
     }
@@ -321,8 +321,18 @@ public class ReservationDAO extends DatabaseHandlerFactory
             .getAllServicesForReservation(reservation.getReservationId());
         for (int i = 0; i < reservationServices.size(); i++)
         {
-          if (!toUpdate.contains(reservationServices.get(i)))
+          boolean contains = false;
+          for (int j = 0; j < toUpdate.size(); j++)
           {
+            if(reservationServices.get(i).getName().equals(toUpdate.get(j).getName()))
+            {
+              contains = true;
+            }
+
+          }
+          if(!contains)
+          {
+            System.out.println("Inserts");
             ServicesDAO.getInstance().insertServiceForReservation(reservation.getReservationId(), reservationServices.get(i).getName());
           }
         }
@@ -330,10 +340,18 @@ public class ReservationDAO extends DatabaseHandlerFactory
             .getAllServicesForReservation(reservation.getReservationId());
         for (int i = 0; i < toUpdate.size(); i++)
         {
-          if(!reservationServices.contains(toUpdate.get(i)))
+          boolean contains = false;
+          for (int j = 0; j < reservationServices.size(); j++)
           {
-            ServicesDAO.getInstance().deleteServiceForRoom(
-                reservation.getReservationId(), toUpdate.get(i).getName());
+            if(toUpdate.get(i).getName().equals(reservationServices.get(j).getName()))
+            {
+              contains = true;
+            }
+          }
+          if(!contains)
+          {
+            System.out.println("Deletes");
+            ServicesDAO.getInstance().deleteServiceForRoom(reservation.getReservationId(), toUpdate.get(i).getName());
           }
         }
         if (exists.getStartDate() != reservation.getStartDate())

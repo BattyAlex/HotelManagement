@@ -247,7 +247,6 @@ public class HotelClientImplementation implements HotelClient
         output.writeObject(reservation);
         output.flush();
       }
-
       Reservation made = (Reservation) input.readObject();
       support.firePropertyChange("Reservation Made", null, made);
     }
