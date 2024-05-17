@@ -34,6 +34,7 @@ public class RoomViewController implements PropertyChangeListener
   @FXML private DatePicker dateEnd;
   @FXML private Button search;
   @FXML private Label error;
+  @FXML private ToggleButton cleaningToggle;
   private SimpleBooleanProperty canClick;
 
   /**
@@ -55,6 +56,7 @@ public class RoomViewController implements PropertyChangeListener
     roomViewModel.bindToggle(roomReservation.textProperty());
     roomViewModel.bindError(error.textProperty());
     roomViewModel.bindCanClick(canClick);
+    roomViewModel.bindCleaningToggle(cleaningToggle.textProperty());
     loadAllRooms();
   }
 
