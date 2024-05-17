@@ -14,7 +14,7 @@
    <children>
       <HBox prefHeight="63.0" prefWidth="600.0">
          <children>
-            <VBox prefHeight="80.0" prefWidth="528.0">
+            <VBox prefHeight="82.0" prefWidth="552.0">
                <children>
                   <HBox prefHeight="59.0" prefWidth="220.0">
                      <children>
@@ -46,16 +46,19 @@
                         </DatePicker>
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label fx:id="error" textFill="RED">
+                        <Label fx:id="error" prefHeight="27.0" textFill="RED">
                            <font>
-                              <Font size="18.0" />
+                              <Font size="14.0" />
                            </font>
-                        </Label>
-                        <ToggleButton fx:id="cleaningToggle" mnemonicParsing="false" onAction="#onCleaning">
                            <HBox.margin>
-                              <Insets left="305.0" top="5.0" />
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ToggleButton fx:id="cleaningToggle" mnemonicParsing="false" onAction="#onCleaning" prefHeight="26.0">
+                           <HBox.margin>
+                              <Insets right="40.0" top="5.0" />
                            </HBox.margin>
                         </ToggleButton>
                      </children>
