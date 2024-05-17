@@ -22,6 +22,7 @@ public class RoomViewModel implements PropertyChangeListener
   private PropertyChangeSupport support;
   private StringProperty error;
   private BooleanProperty canClick;
+  private StringProperty cleaningToggle;
 
   /**
    * Constructor to initialize RoomViewModel with the given HotelModel
@@ -35,6 +36,7 @@ public class RoomViewModel implements PropertyChangeListener
     support = new PropertyChangeSupport(this);
     error = new SimpleStringProperty();
     canClick = new SimpleBooleanProperty(false);
+    cleaningToggle = new SimpleStringProperty("To cleaning");
   }
 
   /**
@@ -239,11 +241,24 @@ public class RoomViewModel implements PropertyChangeListener
   }
   public void onCleaning()
   {
-    model.getRoomsForCleaning();
+    if(cleaningToggle.get().equals("To cleaning"))
+    {
+      model.getRoomsForCleaning();
+      cleaningToggle.set("To rooms");
+    }
+    else
+    {
+      loadAllRooms();
+      cleaningToggle.set("To cleaning");
+    }
   }
 
   public void reservationSelected(Reservation selected)
   {
     model.reservationSelected(selected);
+  }
+  public String getCleaningToggle()
+  {
+    return cleaningToggle.get();
   }
 }
