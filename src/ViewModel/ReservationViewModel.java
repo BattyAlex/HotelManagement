@@ -26,6 +26,7 @@ public class ReservationViewModel implements PropertyChangeListener
   private BooleanProperty airportTrans;
   private BooleanProperty wellness;
   private BooleanProperty roomService;
+  private StringProperty noOfGuests;
 
   private final PropertyChangeSupport support;
   
@@ -46,6 +47,8 @@ public class ReservationViewModel implements PropertyChangeListener
     airportTrans = new SimpleBooleanProperty();
     wellness = new SimpleBooleanProperty();
     roomService = new SimpleBooleanProperty();
+    noOfGuests = new SimpleStringProperty();
+
   }
   private void setAllServicesToFalse()
   {
@@ -174,7 +177,10 @@ public class ReservationViewModel implements PropertyChangeListener
   {
     property.bindBidirectional(roomService);
   }
-
+  public void bindNoOfGuests(StringProperty property)
+  {
+    property.bindBidirectional(noOfGuests);
+  }
   public void addPropertyChangeListener(PropertyChangeListener listener)
   {
     support.addPropertyChangeListener(listener);
@@ -198,7 +204,7 @@ public class ReservationViewModel implements PropertyChangeListener
   }
   public void onConfirm(Room room, LocalDate startDate, LocalDate endDate)
   {
-    if(firstName.get() == null || lastName.get() == null || cardInfo.get() == null || firstName.get().isEmpty() || lastName.get().isEmpty() || cardInfo.get().length() != 16)
+    if(firstName.get() == null || lastName.get() == null || cardInfo.get() == null || noOfGuests.get() == null || firstName.get().isEmpty() || lastName.get().isEmpty() || cardInfo.get().length() != 16 || noOfGuests.get().isEmpty())
     {
       support.firePropertyChange("invalid input", null, null);
     }

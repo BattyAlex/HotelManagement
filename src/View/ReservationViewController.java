@@ -33,6 +33,7 @@ public class ReservationViewController implements PropertyChangeListener
   @FXML private CheckBox dinner;
   @FXML private CheckBox wellness;
   @FXML private Label error;
+  @FXML private TextField noOfGuests;
   private SimpleBooleanProperty canClick;
 
 
@@ -53,6 +54,7 @@ public class ReservationViewController implements PropertyChangeListener
     reservationViewModel.bindDinner(dinner.selectedProperty());
     reservationViewModel.bindRoomService(roomService.selectedProperty());
     reservationViewModel.bindWellness(wellness.selectedProperty());
+    reservationViewModel.bindNoOfGuests(noOfGuests.textProperty());
     canClick = new SimpleBooleanProperty(true);
   }
 
@@ -162,6 +164,15 @@ public class ReservationViewController implements PropertyChangeListener
     else
     {
       reservationViewModel.setError("Please press search to display valid rooms.");
+    }
+  }
+  @FXML public void onDelete()
+  {
+    Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure you want to delete this reservation from the system?", ButtonType.YES, ButtonType.NO);
+    alert.setTitle("Delete");
+    alert.showAndWait();
+    if(alert.getResult() == ButtonType.YES)
+    {
     }
   }
 }
