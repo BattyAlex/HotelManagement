@@ -100,6 +100,7 @@ public class ReservationViewController implements PropertyChangeListener
     {
       startDate.setValue((LocalDate) evt.getNewValue());
       endDate.setValue((LocalDate) evt.getOldValue());
+      canClick.set(true);
     }
     else if(evt.getPropertyName().equals("invalid input"))
     {

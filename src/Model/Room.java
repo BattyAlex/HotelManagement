@@ -78,7 +78,6 @@ Room implements Serializable
    */
   public void addAmenities(String amenity)
   {
-    System.out.println("Added now");
     amenities.add(amenity);
   }
 
