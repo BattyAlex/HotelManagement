@@ -54,4 +54,5 @@ public interface  HotelClient
   Room getRoomByRoomNumber(int roomNumber) throws IOException;
 
   void makeOrUpdateReservation(Reservation reservation) throws IOException;
+  void close();
 }

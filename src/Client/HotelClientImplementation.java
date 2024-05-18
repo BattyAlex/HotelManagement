@@ -255,4 +255,17 @@ public class HotelClientImplementation implements HotelClient
       e.printStackTrace();
     }
   }
+
+  @Override public void close()
+  {
+    try
+    {
+      socket.close();
+      listener.close();
+    }
+    catch (IOException e)
+    {
+      System.out.println("Unable to close client.");
+    }
+  }
 }

@@ -61,6 +61,7 @@ public class RoomViewModel implements PropertyChangeListener
   {
     property.bindBidirectional(canClick);
   }
+
   public void bindCleaningToggle(StringProperty property)
   {
     property.bind(cleaningToggle);

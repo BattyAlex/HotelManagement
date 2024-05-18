@@ -49,7 +49,15 @@ public class HotelManagementCommunicator implements Runnable
     {
       loop: while (true)
       {
-        String text = (String) reader.readObject();
+        String text = "";
+        try
+        {
+          text = (String) reader.readObject();
+        }
+        catch (EOFException e)
+        {
+          break loop;
+        }
         if(text == null)
         {
           break loop;

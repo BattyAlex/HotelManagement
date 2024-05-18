@@ -80,11 +80,6 @@ public class ReservationViewModel implements PropertyChangeListener
   {
     if (evt.getPropertyName().equals("Display Room Selected"))
     {
-      setAllServicesToFalse();
-      firstName.set("");
-      lastName.set("");
-      cardInfo.set("");
-      noOfGuests.set("");
       Room temp = (Room) evt.getOldValue();
       setAmenities(temp.toString());
       support.firePropertyChange("Set Current Room", null, temp.getRoomNumber());
@@ -259,6 +254,20 @@ public class ReservationViewModel implements PropertyChangeListener
       }
       reservation.setNumberOfGuests(numOfGuests);
       model.makeOrUpdateReservation(reservation);
+      setAllServicesToFalse();
+      firstName.set("");
+      lastName.set("");
+      cardInfo.set("");
+      noOfGuests.set("");
     }
+  }
+
+  public void onCancel()
+  {
+    setAllServicesToFalse();
+    firstName.set("");
+    lastName.set("");
+    cardInfo.set("");
+    noOfGuests.set("");
   }
 }

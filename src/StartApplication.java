@@ -9,6 +9,8 @@ import ViewModel.ViewModelFactory;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class StartApplication extends Application
 {
 
@@ -19,6 +21,10 @@ public class StartApplication extends Application
     ViewModelFactory viewModelFactory = new ViewModelFactory(model);
     ViewHandler viewHandler = new ViewHandler(viewModelFactory);
     viewHandler.start(primaryStage);
+    primaryStage.setOnCloseRequest(event -> {
+      model.exitClient();
+      viewHandler.closeView();
+    });
   }
 
   public static void main(String[] args)

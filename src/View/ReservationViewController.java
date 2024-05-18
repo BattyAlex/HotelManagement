@@ -34,6 +34,7 @@ public class ReservationViewController implements PropertyChangeListener
   @FXML private CheckBox wellness;
   @FXML private Label error;
   @FXML private TextField noOfGuests;
+  @FXML private Button delete;
   private SimpleBooleanProperty canClick;
 
 
@@ -76,6 +77,7 @@ public class ReservationViewController implements PropertyChangeListener
     alert.showAndWait();
     if(alert.getResult() == ButtonType.YES)
     {
+      reservationViewModel.onCancel();
       viewHandler.openView(ViewFactory.ROOM);
     }
   }
@@ -95,6 +97,7 @@ public class ReservationViewController implements PropertyChangeListener
         roomNumber.getItems().add((Integer)evt.getNewValue());
         roomNumber.getSelectionModel().select(0);
       }
+      delete.disableProperty().set(true);
     }
     else if(evt.getPropertyName().equals("Display Dates"))
     {
@@ -133,6 +136,7 @@ public class ReservationViewController implements PropertyChangeListener
       roomNumber.getItems().add(selected.getRoom().getRoomNumber());
       roomNumber.getSelectionModel().select(0);
       canClick.set(true);
+      delete.disableProperty().set(false);
     }
     else if (evt.getPropertyName().equals("Display Reservation Made Popup"))
     {
@@ -151,6 +155,7 @@ public class ReservationViewController implements PropertyChangeListener
   @FXML public void datesChanged()
   {
     canClick.set(false);
+    delete.disableProperty().set(true);
   }
 
   @FXML public void onSelectNewRoom()
@@ -186,7 +191,6 @@ public class ReservationViewController implements PropertyChangeListener
     alert.showAndWait();
     if(alert.getResult() == ButtonType.YES)
     {
-
     }
   }
 }
