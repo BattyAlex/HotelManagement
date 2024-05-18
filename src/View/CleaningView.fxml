@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="197.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.CleaningViewController">
    <children>
       <HBox prefHeight="253.0" prefWidth="514.0">
@@ -16,7 +15,7 @@
                   <Insets left="20.0" top="30.0" />
                </HBox.margin>
             </Label>
-            <Label text="Information">
+            <Label fx:id="roomInfo" text="Information">
                <HBox.margin>
                   <Insets left="30.0" top="30.0" />
                </HBox.margin>
@@ -25,17 +24,17 @@
       </HBox>
       <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button mnemonicParsing="false" text="Under cleaning">
+            <Button mnemonicParsing="false" onAction="#onUnderCleaning" text="Under cleaning">
                <HBox.margin>
                   <Insets bottom="10.0" right="10.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Cleaned">
+            <Button mnemonicParsing="false" onAction="#onCleaned" text="Cleaned">
                <HBox.margin>
                   <Insets bottom="10.0" right="10.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Cancel">
+            <Button mnemonicParsing="false" onAction="#onCancel" text="Cancel">
                <HBox.margin>
                   <Insets bottom="10.0" right="20.0" />
                </HBox.margin>
