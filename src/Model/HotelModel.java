@@ -40,4 +40,5 @@ public interface HotelModel
   void makeOrUpdateReservation(Reservation reservation);
   void reservationSelected(Reservation selected);
   void getRoomsForCleaning();
+  void onDelete(Reservation reservation);
 }

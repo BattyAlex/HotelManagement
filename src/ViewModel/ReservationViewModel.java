@@ -114,7 +114,10 @@ public class ReservationViewModel implements PropertyChangeListener
     }
     else if (evt.getPropertyName().equals("Update Reservations"))
     {
-      support.firePropertyChange("Display Reservation Made Popup", null, evt.getNewValue());
+      if(evt.getNewValue() != null)
+      {
+        support.firePropertyChange("Display Reservation Made Popup", null, evt.getNewValue());
+      }
     }
   }
   public void setAmenities(String value)
@@ -269,5 +272,10 @@ public class ReservationViewModel implements PropertyChangeListener
     lastName.set("");
     cardInfo.set("");
     noOfGuests.set("");
+  }
+
+  public void onDelete(Reservation reservation)
+  {
+    model.onDelete(reservation);
   }
 }

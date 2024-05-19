@@ -1,7 +1,9 @@
 package View;
 
+import Model.Guest;
 import Model.Reservation;
 import Model.Room;
+import Model.Staff;
 import ViewModel.ReservationViewModel;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
@@ -191,6 +193,9 @@ public class ReservationViewController implements PropertyChangeListener
     alert.showAndWait();
     if(alert.getResult() == ButtonType.YES)
     {
+      Reservation reservation = new Reservation(startDate.getValue(), endDate.getValue(), new Guest("", "", ""), new Room((int)roomNumber.getSelectionModel().getSelectedItem()), new Staff("", ""));
+      reservationViewModel.onDelete(reservation);
+      viewHandler.openView(ViewFactory.ROOM);
     }
   }
 }

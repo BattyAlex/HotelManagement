@@ -55,4 +55,5 @@ public interface  HotelClient
 
   void makeOrUpdateReservation(Reservation reservation) throws IOException;
   void close();
+  void onDelete(Reservation reservation) throws IOException;
 }

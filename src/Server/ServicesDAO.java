@@ -84,4 +84,20 @@ public class ServicesDAO extends DatabaseHandlerFactory
       e.printStackTrace();
     }
   }
+
+  public void deleteAllServicesForReservation(int reservationId)
+  {
+    try(Connection connection = super.establishConnection())
+    {
+      PreparedStatement statement = connection.prepareStatement("DELETE FROM ReservationServices\n"
+          + "WHERE reservationNumber = ?;");
+      statement.setInt(1, reservationId);
+      statement.executeUpdate();
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+    }
+  }
+
 }

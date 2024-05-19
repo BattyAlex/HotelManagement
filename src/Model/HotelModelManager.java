@@ -219,4 +219,18 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
   {
 
   }
+
+  @Override public void onDelete(Reservation reservation)
+  {
+    try
+    {
+      client.onDelete(reservation);
+      support.firePropertyChange("Update Reservations", null, null);
+    }
+    catch (IOException e)
+    {
+      System.out.println("Reservation could not be deleted.");
+      e.printStackTrace();
+    }
+  }
 }

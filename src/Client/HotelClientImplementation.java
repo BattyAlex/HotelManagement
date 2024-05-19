@@ -11,6 +11,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -266,6 +267,25 @@ public class HotelClientImplementation implements HotelClient
     catch (IOException e)
     {
       System.out.println("Unable to close client.");
+    }
+  }
+
+  @Override public void onDelete(Reservation reservation) throws IOException
+  {
+    try
+    {
+      output.writeObject("Deleting reservation");
+      output.flush();
+      String request = (String) input.readObject();
+      if(request.equals("Which Reservation?"))
+      {
+        output.writeObject(reservation);
+        output.flush();
+      }
+    }
+    catch (ClassNotFoundException e)
+    {
+      e.printStackTrace();
     }
   }
 }

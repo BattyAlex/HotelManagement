@@ -142,6 +142,13 @@ public class HotelManagementCommunicator implements Runnable
           writer.writeObject(sendBack);
           writer.flush();
         }
+        else if (text.equals("Deleting reservation"))
+        {
+          writer.writeObject("Which Reservation?");
+          writer.flush();
+          Reservation received = (Reservation) reader.readObject();
+          ReservationDAO.getInstance().deleteReservation(received);
+        }
       }
     }
     catch (ClassNotFoundException e)
