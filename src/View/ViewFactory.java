@@ -18,6 +18,7 @@ public class ViewFactory
   public static final String LOGIN = "login";
   public static final String ROOM = "room";
   public static final String RESERVATION = "reservation";
+  public static final String CLEANING = "cleaning";
   private final ViewHandler viewHandler;
   private final ViewModelFactory viewModelFactory;
   private LoginViewController loginViewController;
@@ -132,7 +133,7 @@ public class ViewFactory
         e.printStackTrace();
       }
     }
-    return roomViewController.getRoot();
+    return cleaningViewController.getRoot();
   }
 
   /**
@@ -150,6 +151,7 @@ public class ViewFactory
       case LOGIN -> loadLoginView();
       case ROOM -> loadRoomView();
       case RESERVATION -> loadReservationView();
+      case CLEANING -> loadCleaningView();
       default -> throw new IllegalArgumentException("Unknown view: " + id);
     };
     return root;

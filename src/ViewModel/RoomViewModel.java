@@ -246,7 +246,7 @@ public class RoomViewModel implements PropertyChangeListener
   }
   public void onCleaning()
   {
-    if(cleaningToggle.get().equals("To cleaning"))
+    if(cleaningToggle.get().equals("Needs cleaning"))
     {
       model.getRoomsForCleaning();
       cleaningToggle.set("To rooms");
@@ -254,7 +254,7 @@ public class RoomViewModel implements PropertyChangeListener
     else
     {
       loadAllRooms();
-      cleaningToggle.set("To cleaning");
+      cleaningToggle.set("Needs cleaning");
     }
   }
 

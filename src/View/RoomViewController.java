@@ -103,9 +103,9 @@ public class RoomViewController implements PropertyChangeListener
             .getSelectedItem();
         roomViewModel.reservationSelected(selected);
       }
-      else if (roomViewModel.areDatesCorrect(dateStart.getValue(), dateEnd.getValue()))
+      else if (canClick.getValue())
       {
-        if(canClick.getValue())
+        if(roomViewModel.areDatesCorrect(dateStart.getValue(), dateEnd.getValue()))
         {
           if(roomsAndReservations.getSelectionModel().getSelectedItem() instanceof Room)
           {
@@ -116,12 +116,12 @@ public class RoomViewController implements PropertyChangeListener
         }
         else
         {
-          roomViewModel.setError("Press search button to display available rooms");
+          roomViewModel.setError("Please select valid dates");
         }
       }
       else
       {
-        roomViewModel.setError("Please select valid dates");
+        viewHandler.openView(ViewFactory.CLEANING);
       }
     }
   }

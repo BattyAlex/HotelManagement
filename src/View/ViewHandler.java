@@ -41,15 +41,19 @@ public class ViewHandler
 
   /**
    * Opens the specified view by loading it from the ViewFactory
+   *
    * @param id The ID of the view to load
    */
   public void openView(String id)
   {
     Region root = viewFactory.load(id);
     currentScene.setRoot(root);
-    if (root.getUserData() == null) {
+    if (root.getUserData() == null)
+    {
       primaryStage.setTitle("");
-    } else {
+    }
+    else
+    {
       primaryStage.setTitle(root.getUserData().toString());
     }
     primaryStage.setScene(currentScene);
