@@ -8,6 +8,8 @@ import javafx.scene.layout.Region;
 public class CleaningViewController
 {
   @FXML private Label roomInfo;
+  @FXML private Label roomNumber;
+  @FXML private Label roomState;
   private Region root;
   private CleaningViewModel cleaningViewModel;
   private ViewHandler viewHandler;
@@ -17,7 +19,9 @@ public class CleaningViewController
     this.cleaningViewModel = cleaningViewModel;
     this.root = root;
     this.viewHandler = viewHandler;
-
+    cleaningViewModel.bindRoomInfo(roomInfo.textProperty());
+    cleaningViewModel.bindRoomNumber(roomNumber.textProperty());
+    cleaningViewModel.bindRoomState(roomState.textProperty());
   }
 
   public Region getRoot()
@@ -31,10 +35,12 @@ public class CleaningViewController
   }
   @FXML public void onCleaned()
   {
-
+    cleaningViewModel.setCleaned();
+    viewHandler.openView(ViewFactory.ROOM);
   }
   @FXML public void onUnderCleaning()
   {
-
+    cleaningViewModel.setUndergoingCleaning();
+    viewHandler.openView(ViewFactory.ROOM);
   }
 }

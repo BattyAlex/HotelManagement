@@ -25,7 +25,7 @@ public interface  HotelClient
    * Retrieves all rooms available in the hotel
    * @throws IOException if an IO error occurs while retrieving the rooms
    */
-  void getAllRooms() throws IOException;
+  ArrayList<Room> getAllRooms() throws IOException;
   /**
    * Retrieves the rooms available within the specific date range
    * @param startDate the start date of the availability period

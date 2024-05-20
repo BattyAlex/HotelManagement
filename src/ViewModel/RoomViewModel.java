@@ -115,6 +115,7 @@ public class RoomViewModel implements PropertyChangeListener
   {
     if(evt.getPropertyName().equals("All Rooms"))
     {
+      cleaningToggle.set("Needs cleaning");
       support.firePropertyChange("Load Room List", null, evt.getNewValue());
     }
     else if(evt.getPropertyName().equals("Available Rooms"))
@@ -270,5 +271,10 @@ public class RoomViewModel implements PropertyChangeListener
   public String getCleaningToggle()
   {
     return cleaningToggle.get();
+  }
+
+  public void selectRoomForCleaning(Room room)
+  {
+    model.selectRoomToClean(room);
   }
 }

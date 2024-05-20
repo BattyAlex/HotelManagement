@@ -93,19 +93,20 @@ public class HotelClientImplementation implements HotelClient
    * Retrieves all rooms from the server
    * @throws IOException if an IO error occurs during communication with the server
    */
-  @Override public void getAllRooms() throws IOException
+  @Override public ArrayList<Room> getAllRooms() throws IOException
   {
     try
     {
       output.writeObject("Requesting All Rooms");
       output.flush();
       ArrayList<Room> temp = (ArrayList<Room>) input.readObject();
-      support.firePropertyChange("Sending All Rooms", null, temp);
+      return temp;
     }
     catch (ClassNotFoundException e)
     {
       e.printStackTrace();
     }
+    return null;
   }
 
   /**

@@ -96,11 +96,6 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
       {
         support.firePropertyChange("Login failed", evt.getOldValue(), null);
       }
-      else if (evt.getPropertyName().equals("Sending All Rooms"))
-      {
-        support.firePropertyChange("All Rooms", null, evt.getNewValue());
-      }
-
       else if (evt.getPropertyName().equals("Sending All Reservations"))
       {
         support.firePropertyChange("All Reservations", null, evt.getNewValue());
@@ -120,7 +115,7 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
   {
     try
     {
-      client.getAllRooms();
+      support.firePropertyChange("All Rooms", null, client.getAllRooms());
     }
     catch (IOException e)
     {
@@ -253,5 +248,10 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
     {
       e.printStackTrace();
     }
+  }
+
+  @Override public void selectRoomToClean(Room room)
+  {
+    support.firePropertyChange("Room Selected For Cleaning", room, null);
   }
 }

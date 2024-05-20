@@ -122,6 +122,7 @@ public class RoomViewController implements PropertyChangeListener
       else
       {
         Room selected = (Room) roomsAndReservations.getSelectionModel().getSelectedItem();
+        roomViewModel.selectRoomForCleaning(selected);
         viewHandler.openView(ViewFactory.CLEANING);
       }
     }
