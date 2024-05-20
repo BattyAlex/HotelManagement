@@ -220,6 +220,7 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
 
   }
 
+
   @Override public void onDelete(Reservation reservation)
   {
     try
