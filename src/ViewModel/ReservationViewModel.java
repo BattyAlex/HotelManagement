@@ -301,4 +301,9 @@ public class ReservationViewModel implements PropertyChangeListener
   {
     model.onDelete(reservation);
   }
+
+  public void checkOut(Reservation reservation)
+  {
+    onDelete(reservation);
+  }
 }

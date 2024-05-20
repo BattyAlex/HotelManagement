@@ -228,7 +228,7 @@ public class ReservationViewController implements PropertyChangeListener
     else
     {
       Reservation reservation = new Reservation(startDate.getValue(), endDate.getValue(), new Guest("", "", ""), new Room((int)roomNumber.getSelectionModel().getSelectedItem()), new Staff("", ""));
-      reservationViewModel.onDelete(reservation);
+      reservationViewModel.checkOut(reservation);
       viewHandler.openView(ViewFactory.ROOM);
     }
   }
