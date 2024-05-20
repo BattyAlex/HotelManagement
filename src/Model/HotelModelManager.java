@@ -234,4 +234,16 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
       e.printStackTrace();
     }
   }
+
+  @Override public void checkOut(Room room)
+  {
+    try
+    {
+      client.updateStateOfRoom(room);
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+  }
 }

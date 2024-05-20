@@ -306,5 +306,6 @@ public class ReservationViewModel implements PropertyChangeListener
   {
     reservation.getRoom().setState(Room.NEEDS_CLEANING);
     onDelete(reservation);
+    model.checkOut(reservation.getRoom());
   }
 }
