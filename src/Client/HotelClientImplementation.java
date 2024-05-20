@@ -296,25 +296,10 @@ public class HotelClientImplementation implements HotelClient
       output.writeObject("Updating State of Room");
       output.flush();
       String request = (String) input.readObject();
-      if(request.equals("Requesting room"))
+      if(request.equals(""))
       {
-        output.writeObject(room);
-        output.flush();
-      }
-    }
-    catch (ClassNotFoundException e)
-    {
-      e.printStackTrace();
-    }
-  }
 
-  @Override public void getAllRoomsNeedingCleaning() throws IOException
-  {
-    try
-    {
-      output.writeObject("Requesting Rooms In Need of Cleaning");
-      output.flush();
-      ArrayList<Room> received = (ArrayList<Room>) input.readObject();
+      }
     }
     catch (ClassNotFoundException e)
     {
