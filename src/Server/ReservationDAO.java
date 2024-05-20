@@ -500,6 +500,7 @@ public class ReservationDAO extends DatabaseHandlerFactory
    * Deletes a reservation from the database.
    *
    * @param reservation The reservation object containing the details of the reservation to be deleted.
+   * @return The deleted reservation.
    */
   public Reservation deleteReservation(Reservation reservation)
   {
