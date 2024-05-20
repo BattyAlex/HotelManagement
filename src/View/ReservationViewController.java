@@ -218,6 +218,8 @@ public class ReservationViewController implements PropertyChangeListener
 
       if(warning.getResult() == ButtonType.YES)
       {
+        Reservation reservation = new Reservation(startDate.getValue(), endDate.getValue(), new Guest("", "", ""), new Room((int)roomNumber.getSelectionModel().getSelectedItem()), new Staff("", ""));
+        reservationViewModel.onDelete(reservation);
         Alert popup = new Alert(Alert.AlertType.INFORMATION, "Guest is checked out \nThe total for the stay is: ", ButtonType.OK);
         popup.setTitle("Check out");
         popup.showAndWait();
@@ -225,10 +227,6 @@ public class ReservationViewController implements PropertyChangeListener
         {
           viewHandler.openView(ViewFactory.ROOM);
         }
-
-        Reservation reservation = new Reservation(startDate.getValue(), endDate.getValue(), new Guest("", "", ""), new Room((int)roomNumber.getSelectionModel().getSelectedItem()), new Staff("", ""));
-        reservationViewModel.onDelete(reservation);
-        viewHandler.openView(ViewFactory.ROOM);
       }
     }
     else
@@ -243,9 +241,6 @@ public class ReservationViewController implements PropertyChangeListener
       {
         viewHandler.openView(ViewFactory.ROOM);
       }
-
-
-      viewHandler.openView(ViewFactory.ROOM);
     }
   }
 }
