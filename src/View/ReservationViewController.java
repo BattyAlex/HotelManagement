@@ -37,7 +37,6 @@ public class ReservationViewController implements PropertyChangeListener
   @FXML private Label error;
   @FXML private TextField noOfGuests;
   @FXML private Button delete;
-  @FXML private Button checkOut;
   private SimpleBooleanProperty canClick;
 
 
@@ -101,7 +100,6 @@ public class ReservationViewController implements PropertyChangeListener
         roomNumber.getSelectionModel().select(0);
       }
       delete.disableProperty().set(true);
-      checkOut.disableProperty().set(true);
     }
     else if(evt.getPropertyName().equals("Display Dates"))
     {
@@ -141,7 +139,6 @@ public class ReservationViewController implements PropertyChangeListener
       roomNumber.getSelectionModel().select(0);
       canClick.set(true);
       delete.disableProperty().set(false);
-      checkOut.disableProperty().set(false);
     }
     else if (evt.getPropertyName().equals("Display Reservation Made Popup"))
     {
@@ -161,7 +158,6 @@ public class ReservationViewController implements PropertyChangeListener
   {
     canClick.set(false);
     delete.disableProperty().set(true);
-    checkOut.disableProperty().set(true);
   }
 
   @FXML public void onSelectNewRoom()
@@ -197,50 +193,6 @@ public class ReservationViewController implements PropertyChangeListener
     alert.showAndWait();
     if(alert.getResult() == ButtonType.YES)
     {
-      Reservation reservation = new Reservation(startDate.getValue(), endDate.getValue(), new Guest("", "", ""), new Room((int)roomNumber.getSelectionModel().getSelectedItem()), new Staff("", ""));
-      reservationViewModel.onDelete(reservation);
-      viewHandler.openView(ViewFactory.ROOM);
-    }
-  }
-  @FXML public void onCheckOut()
-  {
-    if(LocalDate.now().isBefore(startDate.getValue()))
-    {
-      Alert alert = new Alert(Alert.AlertType.ERROR, "You cannot check out before the start date", ButtonType.OK);
-      alert.setTitle("Check out");
-      alert.showAndWait();
-    }
-    else if(LocalDate.now().isBefore(endDate.getValue()))
-    {
-      Alert warning = new Alert(Alert.AlertType.WARNING, "Are you sure you want to check out early?", ButtonType.YES, ButtonType.NO);
-      warning.setTitle("Check out");
-      warning.showAndWait();
-
-      if(warning.getResult() == ButtonType.YES)
-      {
-        Alert popup = new Alert(Alert.AlertType.INFORMATION, "Guest is checked out \nThe total for the stay is: ", ButtonType.OK);
-        popup.setTitle("Check out");
-        popup.showAndWait();
-        if(popup.getResult() == ButtonType.OK)
-        {
-          viewHandler.openView(ViewFactory.ROOM);
-        }
-
-        Reservation reservation = new Reservation(startDate.getValue(), endDate.getValue(), new Guest("", "", ""), new Room((int)roomNumber.getSelectionModel().getSelectedItem()), new Staff("", ""));
-        reservationViewModel.onDelete(reservation);
-        viewHandler.openView(ViewFactory.ROOM);
-      }
-    }
-    else
-    {
-      Alert popup = new Alert(Alert.AlertType.INFORMATION, "Guest is checked out \nThe total for the stay is: ", ButtonType.OK);
-      popup.setTitle("Check out");
-      popup.showAndWait();
-      if(popup.getResult() == ButtonType.OK)
-      {
-        viewHandler.openView(ViewFactory.ROOM);
-      }
-
       Reservation reservation = new Reservation(startDate.getValue(), endDate.getValue(), new Guest("", "", ""), new Room((int)roomNumber.getSelectionModel().getSelectedItem()), new Staff("", ""));
       reservationViewModel.onDelete(reservation);
       viewHandler.openView(ViewFactory.ROOM);

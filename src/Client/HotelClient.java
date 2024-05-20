@@ -57,5 +57,4 @@ public interface  HotelClient
   void close();
   void onDelete(Reservation reservation) throws IOException;
   void updateStateOfRoom(Room room) throws IOException;
-  void getAllRoomsNeedingCleaning() throws IOException;
 }
