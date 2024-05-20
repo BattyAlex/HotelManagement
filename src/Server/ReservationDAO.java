@@ -84,7 +84,7 @@ public class ReservationDAO extends DatabaseHandlerFactory
         ServicesDAO.getInstance().insertServiceForReservation(
             currentReservation.getReservationId(), services.get(i).getName());
       }
-      return reservation;
+      return currentReservation;
     }
     catch (SQLException e)
     {
@@ -438,7 +438,6 @@ public class ReservationDAO extends DatabaseHandlerFactory
           }
           if(!contains)
           {
-            System.out.println("Inserts");
             ServicesDAO.getInstance().insertServiceForReservation(reservation.getReservationId(), reservationServices.get(i).getName());
           }
         }
@@ -456,7 +455,6 @@ public class ReservationDAO extends DatabaseHandlerFactory
           }
           if(!contains)
           {
-            System.out.println("Deletes");
             ServicesDAO.getInstance().deleteServiceForRoom(reservation.getReservationId(), toUpdate.get(i).getName());
           }
         }
@@ -486,6 +484,7 @@ public class ReservationDAO extends DatabaseHandlerFactory
       }
       reservation.setServices(ServicesDAO.getInstance()
           .getAllServicesForReservation(reservation.getReservationId()));
+      reservation = getReservationByTimeAndRoom(reservation);
       return reservation;
     }
     catch (SQLException e)
