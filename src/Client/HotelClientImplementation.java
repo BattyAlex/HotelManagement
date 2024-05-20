@@ -311,4 +311,20 @@ public class HotelClientImplementation implements HotelClient
     }
   }
 
+  @Override public ArrayList<Room> getAllRoomsForCleaning() throws IOException
+  {
+    try
+    {
+      output.writeObject("Requesting Rooms Needing Cleaning");
+      output.flush();
+      ArrayList<Room> received = (ArrayList<Room>) input.readObject();
+      return received;
+    }
+    catch (ClassNotFoundException e)
+    {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
 }

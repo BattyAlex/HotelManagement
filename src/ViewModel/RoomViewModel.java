@@ -36,7 +36,7 @@ public class RoomViewModel implements PropertyChangeListener
     support = new PropertyChangeSupport(this);
     error = new SimpleStringProperty();
     canClick = new SimpleBooleanProperty(false);
-    cleaningToggle = new SimpleStringProperty("To cleaning");
+    cleaningToggle = new SimpleStringProperty("Needs cleaning");
   }
 
   /**
@@ -135,6 +135,11 @@ public class RoomViewModel implements PropertyChangeListener
       {
         support.firePropertyChange("Load All Reservations", null, evt.getNewValue());
       }
+    }
+    else if (evt.getPropertyName().equals("Display Rooms For Cleaning"))
+    {
+      if(cleaningToggle.get().equals("To rooms"))
+        support.firePropertyChange("Load Room List", null, evt.getNewValue());
     }
   }
 

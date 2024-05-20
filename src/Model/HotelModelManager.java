@@ -217,7 +217,15 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
   }
   @Override public void getRoomsForCleaning()
   {
-
+    try
+    {
+      ArrayList<Room> temp = client.getAllRoomsForCleaning();
+      support.firePropertyChange("Display Rooms For Cleaning", null, temp);
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
   }
 
 

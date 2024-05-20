@@ -179,5 +179,37 @@ public class RoomDAO extends DatabaseHandlerFactory
       e.printStackTrace();
     }
   }
+
+  public ArrayList<Room> getRoomsInNeedOfCleaning()
+  {
+    ArrayList<Room> temp = new ArrayList<>();
+    try(Connection connection = super.establishConnection())
+    {
+      PreparedStatement statement = connection.prepareStatement("SELECT Room.roomNumber, RoomType.typeOfRoom, price, stateOfRoom\n"
+          + "FROM Room, RoomType\n"
+          + "WHERE Room.typeOfRoom = RoomType.typeOfRoom AND (stateOfRoom IN ('undergoing cleaning', 'needs cleaning'));");
+      ResultSet rs = statement.executeQuery();
+      while (rs.next())
+      {
+        String typeOfRoom = rs.getString("typeOfRoom");
+        double price = rs.getInt("price");
+        int roomNumber = rs.getInt("roomNumber");
+        String stateOfRoom = rs.getString("stateOfRoom");
+        Room returning = new Room(typeOfRoom, price, roomNumber, stateOfRoom);
+        ArrayList<String> amenities = AmenitiesDAO.getInstance()
+            .returnAmenitiesForRoom(roomNumber);
+        for (int i = 0; i < amenities.size(); i++)
+        {
+          returning.addAmenities(amenities.get(i));
+        }
+        temp.add(returning);
+      }
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+    }
+    return temp;
+  }
   
 }

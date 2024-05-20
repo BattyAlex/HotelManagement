@@ -158,6 +158,12 @@ public class HotelManagementCommunicator implements Runnable
           Room toClean = (Room) reader.readObject();
           RoomDAO.getInstance().updateStateOfRoom(toClean);
         }
+        else if (text.equals("Requesting Rooms Needing Cleaning"))
+        {
+          ArrayList<Room> sendOver = RoomDAO.getInstance().getRoomsInNeedOfCleaning();
+          writer.writeObject(sendOver);
+          writer.flush();
+        }
       }
     }
     catch (ClassNotFoundException e)
