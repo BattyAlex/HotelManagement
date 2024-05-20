@@ -399,7 +399,7 @@ public class ReservationDAO extends DatabaseHandlerFactory
     return null;
   }
 
-  public void deleteReservation(Reservation reservation)
+  public Reservation deleteReservation(Reservation reservation)
   {
     try(Connection connection = super.establishConnection())
     {
@@ -410,10 +410,12 @@ public class ReservationDAO extends DatabaseHandlerFactory
           + "WHERE reservationNumber = ?;");
       statement.setInt(1, toDelete.getReservationId());
       statement.executeUpdate();
+      return toDelete;
     }
     catch (SQLException e)
     {
       e.printStackTrace();
     }
+    return null;
   }
 }

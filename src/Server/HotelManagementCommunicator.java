@@ -147,7 +147,9 @@ public class HotelManagementCommunicator implements Runnable
           writer.writeObject("Which Reservation?");
           writer.flush();
           Reservation received = (Reservation) reader.readObject();
-          ReservationDAO.getInstance().deleteReservation(received);
+          Reservation sendOver = ReservationDAO.getInstance().deleteReservation(received);
+          writer.writeObject(sendOver);
+          writer.flush();
         }
         else if (text.equals("Updating State of Room"))
         {
