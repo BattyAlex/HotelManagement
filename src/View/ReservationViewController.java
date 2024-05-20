@@ -146,7 +146,7 @@ public class ReservationViewController implements PropertyChangeListener
     else if (evt.getPropertyName().equals("Display Reservation Made Popup"))
     {
       Reservation reservation = (Reservation) evt.getNewValue();
-      String contentText = "Reservation " + reservation.getReservationId() + " successfully made / updated.\nThe total is: " + reservation.getTotalForStay() + "$";
+      String contentText = "Reservation " + reservation.getReservationId() + " successfully made / updated / ended.\nThe total is: " + reservation.getTotalForStay() + "$";
       Alert alert = new Alert(Alert.AlertType.CONFIRMATION, contentText, ButtonType.OK);
       alert.setTitle("Reservation Successfully Made");
       alert.showAndWait();
@@ -220,27 +220,14 @@ public class ReservationViewController implements PropertyChangeListener
       {
         Reservation reservation = new Reservation(startDate.getValue(), endDate.getValue(), new Guest("", "", ""), new Room((int)roomNumber.getSelectionModel().getSelectedItem()), new Staff("", ""));
         reservationViewModel.onDelete(reservation);
-        Alert popup = new Alert(Alert.AlertType.INFORMATION, "Guest is checked out \nThe total for the stay is: ", ButtonType.OK);
-        popup.setTitle("Check out");
-        popup.showAndWait();
-        if(popup.getResult() == ButtonType.OK)
-        {
-          viewHandler.openView(ViewFactory.ROOM);
-        }
+        viewHandler.openView(ViewFactory.ROOM);
       }
     }
     else
     {
-
       Reservation reservation = new Reservation(startDate.getValue(), endDate.getValue(), new Guest("", "", ""), new Room((int)roomNumber.getSelectionModel().getSelectedItem()), new Staff("", ""));
       reservationViewModel.onDelete(reservation);
-      Alert popup = new Alert(Alert.AlertType.INFORMATION, "Guest is checked out \nThe total for the stay is: " + reservation.getTotalForStay(), ButtonType.OK);
-      popup.setTitle("Check out");
-      popup.showAndWait();
-      if(popup.getResult() == ButtonType.OK)
-      {
-        viewHandler.openView(ViewFactory.ROOM);
-      }
+      viewHandler.openView(ViewFactory.ROOM);
     }
   }
 }
