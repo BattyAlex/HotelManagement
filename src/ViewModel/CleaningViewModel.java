@@ -48,6 +48,7 @@ public class CleaningViewModel implements PropertyChangeListener
       toClean.setState(Room.CLEANED);
       model.checkOut(toClean);
       model.loadAllRooms();
+      resetFields();
     }
     catch (NumberFormatException e)
     {
@@ -64,11 +65,19 @@ public class CleaningViewModel implements PropertyChangeListener
       toClean.setState(Room.UNDER_CLEANING);
       model.checkOut(toClean);
       model.loadAllRooms();
+      resetFields();
     }
     catch (NumberFormatException e)
     {
       System.out.println("Something went wrong while converting integer");
     }
+  }
+
+  public void resetFields()
+  {
+    roomInfo.set("");
+    roomNumber.set("");
+    roomState.set("");
   }
   @Override public void propertyChange(PropertyChangeEvent evt)
   {

@@ -244,7 +244,7 @@ public class RoomViewModel implements PropertyChangeListener
     {
       return false;
     }
-    else if (endDate.isBefore(startDate))
+    else if (endDate.isBefore(startDate) || (endDate.getYear() == startDate.getYear() && endDate.getMonthValue() == startDate.getMonthValue() && endDate.getDayOfMonth() == startDate.getDayOfMonth()))
     {
       return false;
     }
