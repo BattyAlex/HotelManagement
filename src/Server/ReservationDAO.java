@@ -195,6 +195,7 @@ public class ReservationDAO extends DatabaseHandlerFactory
     {
       PreparedStatement statement = connection.prepareStatement("SELECT reservationNumber, startDate, endDate, numberOfGuests, responsibleStaff, roomNumber, clientId\n"
           + "FROM Reservation\n" + "WHERE reservationNumber = ?;");
+      statement.setInt(1, reservationId);
       ResultSet rs = statement.executeQuery();
       if(rs.next())
       {

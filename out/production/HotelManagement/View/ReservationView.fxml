@@ -13,8 +13,22 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="600.0" userData="Reservation" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.ReservationViewController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="600.0" userData="Reservation" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.ReservationViewController">
    <children>
+      <HBox prefHeight="28.0" prefWidth="600.0">
+         <children>
+            <Label text="Reservation: ">
+               <HBox.margin>
+                  <Insets left="20.0" top="20.0" />
+               </HBox.margin>
+            </Label>
+            <Label fx:id="reservationId">
+               <HBox.margin>
+                  <Insets left="10.0" top="20.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
       <Label text="Client information: ">
          <VBox.margin>
             <Insets left="20.0" top="20.0" />

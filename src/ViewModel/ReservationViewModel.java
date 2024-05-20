@@ -27,6 +27,7 @@ public class ReservationViewModel implements PropertyChangeListener
   private BooleanProperty wellness;
   private BooleanProperty roomService;
   private StringProperty noOfGuests;
+  private StringProperty reservationId;
 
   private final PropertyChangeSupport support;
   
@@ -48,6 +49,7 @@ public class ReservationViewModel implements PropertyChangeListener
     wellness = new SimpleBooleanProperty();
     roomService = new SimpleBooleanProperty();
     noOfGuests = new SimpleStringProperty();
+    reservationId = new SimpleStringProperty();
 
   }
   private void setAllServicesToFalse()
@@ -105,6 +107,9 @@ public class ReservationViewModel implements PropertyChangeListener
       String numberSet = "";
       numberSet +=selected.getNumberOfGuests();
       noOfGuests.set(numberSet);
+      String reservationSet = "";
+      reservationSet += selected.getReservationId();
+      reservationId.set(reservationSet);
       ArrayList<Service> services = selected.getServices();
       setAllServicesToFalse();
       for (int i = 0; i < services.size(); i++)
@@ -190,6 +195,11 @@ public class ReservationViewModel implements PropertyChangeListener
   {
     property.bindBidirectional(noOfGuests);
   }
+
+  public void bindReservationId(StringProperty property)
+  {
+    property.bind(reservationId);
+  }
   public void addPropertyChangeListener(PropertyChangeListener listener)
   {
     support.addPropertyChangeListener(listener);
@@ -255,6 +265,17 @@ public class ReservationViewModel implements PropertyChangeListener
       {
         reservation.addService(Service.ROOM_SERVICE, 0);
       }
+      if(!reservationId.get().isEmpty())
+      {
+        try
+        {
+          reservation.setReservationId(Integer.parseInt(reservationId.get()));
+        }
+        catch (NumberFormatException e)
+        {
+          e.printStackTrace();
+        }
+      }
       reservation.setNumberOfGuests(numOfGuests);
       model.makeOrUpdateReservation(reservation);
       setAllServicesToFalse();
@@ -262,6 +283,7 @@ public class ReservationViewModel implements PropertyChangeListener
       lastName.set("");
       cardInfo.set("");
       noOfGuests.set("");
+      reservationId.set("");
     }
   }
 
@@ -272,6 +294,7 @@ public class ReservationViewModel implements PropertyChangeListener
     lastName.set("");
     cardInfo.set("");
     noOfGuests.set("");
+    reservationId.set("");
   }
 
   public void onDelete(Reservation reservation)

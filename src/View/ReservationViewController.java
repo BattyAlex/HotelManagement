@@ -38,6 +38,7 @@ public class ReservationViewController implements PropertyChangeListener
   @FXML private TextField noOfGuests;
   @FXML private Button delete;
   @FXML private Button checkOut;
+  @FXML private Label reservationId;
   private SimpleBooleanProperty canClick;
 
 
@@ -59,6 +60,7 @@ public class ReservationViewController implements PropertyChangeListener
     reservationViewModel.bindRoomService(roomService.selectedProperty());
     reservationViewModel.bindWellness(wellness.selectedProperty());
     reservationViewModel.bindNoOfGuests(noOfGuests.textProperty());
+    reservationViewModel.bindReservationId(reservationId.textProperty());
     canClick = new SimpleBooleanProperty(true);
   }
 
