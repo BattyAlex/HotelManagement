@@ -404,7 +404,15 @@ public class ReservationDAO extends DatabaseHandlerFactory
     {
       Date start = new Date(reservation.getStartDate().getYear()-1900, reservation.getStartDate().getMonthValue() - 1, reservation.getStartDate().getDayOfMonth());
       Date end = new Date(reservation.getEndDate().getYear()-1900, reservation.getEndDate().getMonthValue() - 1, reservation.getEndDate().getDayOfMonth());
-      Reservation exists = getReservationByTimeAndRoom(reservation);
+      Reservation exists;
+      if(reservation.getReservationId() == -1)
+      {
+        exists = getReservationByTimeAndRoom(reservation);
+      }
+      else
+      {
+        exists = getReservationById(reservation.getReservationId());
+      }
       if(exists == null)
       {
         makeReservation(reservation);

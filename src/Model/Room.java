@@ -9,6 +9,9 @@ import java.util.ArrayList;
 public class
 Room implements Serializable
 {
+  public static final String CLEANED = "cleaned";
+  public static final String UNDER_CLEANING = "undergoing cleaning";
+  public static final String NEEDS_CLEANING = "needs cleaning";
   private int roomNumber;
   private double price;
   private ArrayList<String> amenities = new ArrayList<String>();
