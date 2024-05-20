@@ -6,15 +6,29 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="197.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.CleaningViewController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="197.0" prefWidth="518.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.CleaningViewController">
    <children>
-      <HBox prefHeight="253.0" prefWidth="514.0">
+      <HBox prefHeight="162.0" prefWidth="468.0">
          <children>
-            <Label text="Room information:">
-               <HBox.margin>
-                  <Insets left="20.0" top="30.0" />
-               </HBox.margin>
-            </Label>
+            <VBox prefHeight="162.0" prefWidth="144.0">
+               <children>
+                  <Label text="Room information:">
+                     <VBox.margin>
+                        <Insets left="30.0" top="30.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="roomNumber" text="Label">
+                     <VBox.margin>
+                        <Insets left="30.0" top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="roomState" text="Label">
+                     <VBox.margin>
+                        <Insets left="30.0" top="10.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
             <Label fx:id="roomInfo" text="Information">
                <HBox.margin>
                   <Insets left="30.0" top="30.0" />
