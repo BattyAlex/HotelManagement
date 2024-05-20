@@ -155,6 +155,8 @@ public class HotelManagementCommunicator implements Runnable
         {
           writer.writeObject("Requesting room");
           writer.flush();
+          Room toClean = (Room) reader.readObject();
+          RoomDAO.getInstance().updateStateOfRoom(toClean);
         }
       }
     }

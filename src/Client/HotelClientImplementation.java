@@ -299,9 +299,10 @@ public class HotelClientImplementation implements HotelClient
       output.writeObject("Updating State of Room");
       output.flush();
       String request = (String) input.readObject();
-      if(request.equals(""))
+      if(request.equals("Requesting room"))
       {
-
+        output.writeObject(room);
+        output.flush();
       }
     }
     catch (ClassNotFoundException e)

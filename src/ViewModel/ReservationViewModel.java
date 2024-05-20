@@ -265,7 +265,7 @@ public class ReservationViewModel implements PropertyChangeListener
       {
         reservation.addService(Service.ROOM_SERVICE, 0);
       }
-      if(!reservationId.get().isEmpty())
+      if(!(reservationId.get() == null) && !reservationId.get().isEmpty())
       {
         try
         {
