@@ -162,5 +162,22 @@ public class RoomDAO extends DatabaseHandlerFactory
     return null;
   }
 
+  public void updateStateOfRoom(Room room)
+  {
+    try(Connection connection = super.establishConnection())
+    {
+      PreparedStatement statement = connection.prepareStatement("UPDATE Room\n"
+          + "SET stateOfRoom = ?\n"
+          + "WHERE roomNumber = ?;");
+      statement.setString(1, room.getState());
+      statement.setInt(2, room.getRoomNumber());
+      statement.executeUpdate();
+    }
+    catch (SQLException e)
+    {
+      System.out.println("Room could not be updated");
+      e.printStackTrace();
+    }
+  }
   
 }

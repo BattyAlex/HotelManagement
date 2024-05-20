@@ -288,4 +288,20 @@ public class HotelClientImplementation implements HotelClient
       e.printStackTrace();
     }
   }
+
+  @Override public void updateStateOfRoom(Room room) throws IOException
+  {
+    try
+    {
+      output.writeObject("Updating State of Room");
+      output.flush();
+      String request = (String) input.readObject();
+      if(request.equals())
+    }
+    catch (ClassNotFoundException e)
+    {
+      e.printStackTrace();
+    }
+  }
+
 }
