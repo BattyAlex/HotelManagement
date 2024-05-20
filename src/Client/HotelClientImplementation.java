@@ -270,7 +270,7 @@ public class HotelClientImplementation implements HotelClient
     }
   }
 
-  @Override public void onDelete(Reservation reservation) throws IOException
+  @Override public Reservation onDelete(Reservation reservation) throws IOException
   {
     try
     {
@@ -281,12 +281,15 @@ public class HotelClientImplementation implements HotelClient
       {
         output.writeObject(reservation);
         output.flush();
+        Reservation deleted = (Reservation) input.readObject();
+        return deleted;
       }
     }
     catch (ClassNotFoundException e)
     {
       e.printStackTrace();
     }
+    return null;
   }
 
   @Override public void updateStateOfRoom(Room room) throws IOException

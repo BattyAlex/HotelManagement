@@ -224,8 +224,8 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
   {
     try
     {
-      client.onDelete(reservation);
-      support.firePropertyChange("Update Reservations", null, null);
+      Reservation deleted = client.onDelete(reservation);
+      support.firePropertyChange("Update Reservations", null, deleted);
     }
     catch (IOException e)
     {
