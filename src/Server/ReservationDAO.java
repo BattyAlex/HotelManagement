@@ -6,13 +6,32 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * The ReservationDAO class is responsible for handling the database operations related to reservations.
+ * It extends the DatabaseHandlerFactory and implements the Singleton design pattern.
+ */
+
 public class ReservationDAO extends DatabaseHandlerFactory
 {
   private static ReservationDAO instance;
+
+  /**
+   * Private constructor to prevent instantiation from other classes.
+   * It registers the PostgreSQL
+   *
+   * @throws SQLException if a database access error occurs.
+   */
   private ReservationDAO() throws SQLException
   {
     DriverManager.registerDriver(new org.postgresql.Driver());
   }
+
+  /**
+   * Provides the global point of access to the ReservationDAO instance.
+   * This method ensures that only one instance of the class is created.
+   *
+   * @return the single instance of ReservationDAO.
+   */
 
   public static synchronized ReservationDAO getInstance()
   {
@@ -30,6 +49,13 @@ public class ReservationDAO extends DatabaseHandlerFactory
       return null;
     }
   }
+
+  /**
+   * Creates a new reservation in the database.
+   *
+   * @param reservation the Reservation object containing the reservation details.
+   * @return the created Reservation object with updated information from the database.
+   */
 
   public Reservation makeReservation(Reservation reservation)
   {
@@ -66,6 +92,14 @@ public class ReservationDAO extends DatabaseHandlerFactory
     }
     return null;
   }
+
+  /**
+   * Retrives all reservations within a specified period.
+   *
+   * @param startDate the start date of the period.
+   * @param endDate the end date of the period.
+   * @return an ArrayList of reservations within the specified period.
+   */
 
   public ArrayList<Reservation> getAllReservationsForPeriod(LocalDate startDate, LocalDate endDate)
   {
@@ -107,6 +141,12 @@ public class ReservationDAO extends DatabaseHandlerFactory
     return reservations;
   }
 
+  /**
+   * Retrieves all reservations from the database.
+   *
+   * @return an ArrayList of all reservations.
+   */
+
   public ArrayList<Reservation> getAllReservations()
   {
 
@@ -142,6 +182,13 @@ public class ReservationDAO extends DatabaseHandlerFactory
     return reservations;
   }
 
+  /**
+   * Retrievd a reservation by its ID.
+   *
+   * @param reservationId the ID of the reservation
+   * @return  the Reservation object if found, null otherwise.
+   */
+
   public Reservation getReservationById(int reservationId)
   {
     try(Connection connection = super.establishConnection())
@@ -176,6 +223,13 @@ public class ReservationDAO extends DatabaseHandlerFactory
     }
     return null;
   }
+
+  /**
+   * Retrieves a reservation by the reservation's start date, end date and room number.
+   *
+   * @param reservation the Reservation object containing the start date, end date and room number.
+   * @return the found Reservation object with complete details, otherwise null.
+   */
 
   public Reservation getReservationByTimeAndRoom(Reservation reservation)
   {
@@ -220,6 +274,13 @@ public class ReservationDAO extends DatabaseHandlerFactory
     return null;
   }
 
+  /**
+   * Updates the start date of a reservation.
+   *
+   * @param startDate the new start date
+   * @param reservationId the ID of the reservation to be updated
+   */
+
   public void updateStartDate(LocalDate startDate, int reservationId)
   {
     try(Connection connection = super.establishConnection())
@@ -236,6 +297,13 @@ public class ReservationDAO extends DatabaseHandlerFactory
       e.printStackTrace();
     }
   }
+
+  /**
+   * Updates the end date of the reservation.
+   *
+   * @param endDate the new end date.
+   * @param reservationId the ID of the reservation to be updated
+   */
 
   public void updateEndDate(LocalDate endDate, int reservationId)
   {
@@ -254,6 +322,13 @@ public class ReservationDAO extends DatabaseHandlerFactory
     }
   }
 
+  /**
+   * Updates the number of guests for a reservation.
+   *
+   * @param numOfGuests the new number of guests.
+   * @param reservationId the ID of the reservation to be updated.
+   */
+
   public void updateNumberOfGuests(int numOfGuests, int reservationId)
   {
     try(Connection connection = super.establishConnection())
@@ -269,6 +344,13 @@ public class ReservationDAO extends DatabaseHandlerFactory
       e.printStackTrace();
     }
   }
+
+  /**
+   * Update the room number for a reservation.
+   *
+   * @param roomNumber the new room number.
+   * @param reservationId the ID of the reservation to be updated.
+   */
 
   public void updateRoomNumber(int roomNumber, int reservationId)
   {
@@ -286,6 +368,13 @@ public class ReservationDAO extends DatabaseHandlerFactory
     }
   }
 
+  /**
+   * Updates the responsible staff member for a specific reservation in the database.
+   *
+   * @param username The username of the staff member to be assigned to the reservation.
+   * @param reservationId The unique identifier of the reservation to be updated.
+   */
+
   public void updateResponsibleStaff(String username, int reservationId)
   {
     try(Connection connection = super.establishConnection())
@@ -301,6 +390,13 @@ public class ReservationDAO extends DatabaseHandlerFactory
       e.printStackTrace();
     }
   }
+
+  /**
+   *  Creates a new reservation or updates an existing reservation in the database.
+   *
+   * @param reservation The reservation object counting the details to be inserted or updated.
+   * @return The updated or newly created reservation.
+   */
 
   public Reservation makeOrUpdateReservation(Reservation reservation)
   {
@@ -391,6 +487,11 @@ public class ReservationDAO extends DatabaseHandlerFactory
     return null;
   }
 
+  /**
+   * Deletes a reservation from the database.
+   *
+   * @param reservation The reservation object containing the details of the reservation to be deleted.
+   */
   public void deleteReservation(Reservation reservation)
   {
     try(Connection connection = super.establishConnection())
