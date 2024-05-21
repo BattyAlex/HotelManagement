@@ -2,9 +2,7 @@ package View;
 
 import ViewModel.LoginViewModel;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 
 import java.beans.PropertyChangeEvent;
@@ -69,6 +67,9 @@ public class LoginViewController implements PropertyChangeListener
       case "Login Successful":
         viewHandler.openView(ViewFactory.ROOM);
         break;
+      case "Database Failed":
+        Alert alert = new Alert(Alert.AlertType.WARNING, (String) evt.getNewValue(), ButtonType.OK);
+        alert.showAndWait();
     }
   }
 }

@@ -81,7 +81,8 @@ public class HotelClientImplementation implements HotelClient
     }
     catch (EOFException e)
     {
-      System.out.println("Database connection may be offline.");
+      System.out.println("Database connection may be offline");
+      support.firePropertyChange("Database Connection Problems", null, "The database connection may be online.");
     }
     catch (ClassNotFoundException e)
     {

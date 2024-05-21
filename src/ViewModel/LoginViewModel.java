@@ -100,17 +100,19 @@ public class LoginViewModel implements PropertyChangeListener
    */
   @Override public void propertyChange(PropertyChangeEvent evt)
   {
-    if(evt.getPropertyName().equals("Username invalid"))
+    switch (evt.getPropertyName())
     {
-      error.set("The username '" + evt.getOldValue() + "' is invalid.");
-    }
-    else if (evt.getPropertyName().equals("Login Successful"))
-    {
-      support.firePropertyChange("Login Successful", null, null);
-    }
-    else if (evt.getPropertyName().equals("Login failed"))
-    {
-      error.set("Incorrect password");
+      case "Username invalid":
+        error.set("The username '" + evt.getOldValue() + "' is invalid.");
+        break;
+      case "Login Successful":
+        support.firePropertyChange("Login Successful", null, null);
+        break;
+      case "Login failed":
+        error.set("Incorrect password");
+        break;
+      case "Database Connection Problems":
+        support.firePropertyChange("Database Failed", null, evt.getNewValue());
     }
   }
 }

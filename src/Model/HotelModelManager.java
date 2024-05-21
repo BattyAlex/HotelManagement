@@ -108,6 +108,10 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
       {
         support.firePropertyChange("Update Reservations", null, evt.getNewValue());
       }
+      else if (evt.getPropertyName().equals("Database Connection Problems"))
+      {
+        support.firePropertyChange("Databace Connection Offline", null, evt.getNewValue());
+      }
     });
 
   }
