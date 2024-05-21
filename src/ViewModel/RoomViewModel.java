@@ -120,7 +120,7 @@ public class RoomViewModel implements PropertyChangeListener
     }
     else if(evt.getPropertyName().equals("Available Rooms"))
     {
-      support.firePropertyChange("Update Room List", null, evt.getNewValue());
+      support.firePropertyChange("Load Room List", null, evt.getNewValue());
     }
     else if (evt.getPropertyName().equals("All Reservations"))
     {
@@ -128,7 +128,7 @@ public class RoomViewModel implements PropertyChangeListener
     }
     else if (evt.getPropertyName().equals("Reservations for Time Period"))
     {
-      support.firePropertyChange("Load Reservations for Period", null, evt.getNewValue());
+      support.firePropertyChange("Load All Reservations", null, evt.getNewValue());
     }
     else if (evt.getPropertyName().equals("Update Reservations"))
     {
@@ -150,6 +150,11 @@ public class RoomViewModel implements PropertyChangeListener
   public void loadAllRooms()
   {
     model.loadAllRooms();
+  }
+
+  public void datesChanged()
+  {
+    canClick.set(false);
   }
 
 

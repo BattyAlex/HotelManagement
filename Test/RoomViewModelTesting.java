@@ -1,23 +1,31 @@
 import Model.HotelModel;
 import Model.HotelModelManager;
-import ViewModel.LoginViewModel;
 import ViewModel.RoomViewModel;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 
+import java.beans.PropertyChangeSupport;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ViewModelTesting
+public class RoomViewModelTesting
 {
   private HotelModel model;
   private RoomViewModel roomViewModel;
+  private StringProperty toggle;
+  private StringProperty error;
+  private BooleanProperty canClick;
+  private StringProperty cleaningToggle;
   @BeforeEach public void setUp()
   {
     model = Mockito.mock(HotelModelManager.class);
     roomViewModel = new RoomViewModel(model);
+    toggle = new SimpleStringProperty("To reservations");
   }
 
   //RoomViewModel
@@ -49,4 +57,6 @@ public class ViewModelTesting
     LocalDate endDate = LocalDate.of(2024, 1, 19);
     assertFalse(roomViewModel.areDatesCorrect(startDate, endDate));
   }
+
+
 }

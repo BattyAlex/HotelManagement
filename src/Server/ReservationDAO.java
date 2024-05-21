@@ -366,7 +366,6 @@ public class ReservationDAO extends DatabaseHandlerFactory
       e.printStackTrace();
     }
   }
-
   /**
    * Updates the responsible staff member for a specific reservation in the database.
    *

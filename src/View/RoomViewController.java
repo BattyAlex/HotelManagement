@@ -132,6 +132,24 @@ public class RoomViewController implements PropertyChangeListener
     roomViewModel.onCleaning();
   }
 
+  private void loadRooms(ArrayList<Room> rooms)
+  {
+    roomsAndReservations.getItems().clear();
+    for (int i = 0; i < rooms.size(); i++)
+    {
+      roomsAndReservations.getItems().add(rooms.get(i));
+    }
+  }
+
+  private void loadReservations(ArrayList<Reservation> reservations)
+  {
+    roomsAndReservations.getItems().clear();
+    for (int i = 0; i < reservations.size(); i++)
+    {
+      roomsAndReservations.getItems().add(reservations.get(i));
+    }
+  }
+
   /**
    * Handles property change events and updates the view accordingly
    *
@@ -141,51 +159,23 @@ public class RoomViewController implements PropertyChangeListener
 
   @Override public void propertyChange(PropertyChangeEvent evt)
   {
-    if (evt.getPropertyName().equals("Load Room List"))
+    switch (evt.getPropertyName())
     {
-      roomsAndReservations.getItems().clear();
-      ArrayList<Room> rooms = (ArrayList<Room>) evt.getNewValue();
-      for (int i = 0; i < rooms.size(); i++)
-      {
-        roomsAndReservations.getItems().add(rooms.get(i));
-      }
-    }
-    else if (evt.getPropertyName().equals("Update Room List"))
-    {
-      roomsAndReservations.getItems().clear();
-      ArrayList<Room> rooms = (ArrayList<Room>) evt.getNewValue();
-      for (int i = 0; i < rooms.size(); i++)
-      {
-        roomsAndReservations.getItems().add(rooms.get(i));
-      }
-    }
-    else if (evt.getPropertyName().equals("Load Reservation List"))
-    {
-      roomsAndReservations.getItems().clear();
-      ArrayList<Reservation> reservations = (ArrayList<Reservation>) evt.getNewValue();
-      for (int i = 0; i < reservations.size(); i++)
-      {
-        roomsAndReservations.getItems().add(reservations.get(i));
-      }
-    }
-    else if (evt.getPropertyName().equals("Load Reservations for Period"))
-    {
-      roomsAndReservations.getItems().clear();
-      ArrayList<Reservation> reservations = (ArrayList<Reservation>) evt.getNewValue();
-      for (int i = 0; i < reservations.size(); i++)
-      {
-        roomsAndReservations.getItems().add(reservations.get(i));
-      }
-    }
-    else if (evt.getPropertyName().equals("Load All Reservations"))
-    {
-      loadAllReservations();
+      case "Load Room List":
+        loadRooms((ArrayList<Room>) evt.getNewValue());
+        break;
+      case "Load Reservation List":
+        loadReservations((ArrayList<Reservation>) evt.getNewValue());
+        break;
+      case "Load All Reservations":
+        loadAllReservations();
+        break;
     }
   }
 
   @FXML public void datesChanged()
   {
-    canClick.set(false);
+    roomViewModel.datesChanged();
   }
 
   /**
