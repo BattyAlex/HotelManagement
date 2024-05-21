@@ -64,9 +64,11 @@ public class LoginViewController implements PropertyChangeListener
    */
   @Override public void propertyChange(PropertyChangeEvent evt)
   {
-    if(evt.getPropertyName().equals("Login Successful"))
+    switch (evt.getPropertyName())
     {
-      viewHandler.openView(ViewFactory.ROOM);
+      case "Login Successful":
+        viewHandler.openView(ViewFactory.ROOM);
+        break;
     }
   }
 }

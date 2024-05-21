@@ -141,6 +141,7 @@ public class CleaningViewModel implements PropertyChangeListener
         roomNum += selected.getRoomNumber();
         roomNumber.set(roomNum);
         roomState.set(selected.getState());
+        break;
     }
   }
 }
