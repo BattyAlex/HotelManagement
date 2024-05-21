@@ -126,7 +126,7 @@ public class CleaningViewModel implements PropertyChangeListener
   /**
    * Responds to property change events from the HotelModel
    * Updates the room information properties when a "Room Selected For Cleaning" event is received
-   * 
+   *
    * @param evt A PropertyChangeEvent object describing the event source
    *          and the property that has changed.
    */

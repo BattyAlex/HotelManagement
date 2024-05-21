@@ -12,24 +12,80 @@ import java.beans.PropertyChangeSupport;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * The ReservationViewModel class is responsible for managing and updating reservation details.
+ * It implements the PropertyChangeListener to handle property change events.
+ */
+
 public class ReservationViewModel implements PropertyChangeListener
 {
+  /**
+   * The model representing the hotel
+   */
   private final HotelModel model;
+  /**
+   * The first name of the guest.
+   */
   private StringProperty firstName;
+  /**
+   * The last name of the guest.
+   */
   private StringProperty lastName;
+  /**
+   * The card information of the guest.
+   */
   private StringProperty cardInfo;
+  /**
+   * The amenities selected for the reservation.
+   */
   private StringProperty amenities;
+  /**
+   * The error message property.
+   */
   private StringProperty error;
+  /**
+   * Indicates whether the breakfast is included or not in the reservation.
+   */
   private BooleanProperty breakfast;
+  /**
+   * Indicates if lunch is included in the reservation.
+   */
   private BooleanProperty lunch;
+  /**
+   * Indicates if dinner is included in the reservation.
+   */
   private BooleanProperty dinner;
+  /**
+   * Indicated if airport transportation is included in the reservation.
+   */
   private BooleanProperty airportTrans;
+  /**
+   * Indicates if wellness services are included in the reservation.
+   */
   private BooleanProperty wellness;
+  /**
+   * Indicates if room service is included in the reservation
+   */
   private BooleanProperty roomService;
+  /**
+   * The number of guests for the reservation
+   */
   private StringProperty noOfGuests;
+  /**
+   * The reservation ID
+   */
   private StringProperty reservationId;
+  /**
+   * Supports property change events.
+   */
 
   private final PropertyChangeSupport support;
+
+  /**
+   * Constructor that initializes the ReservationViewModel with a given model.
+   *
+   * @param model The hotel model
+   */
   
 
   public ReservationViewModel(HotelModel model)
@@ -52,6 +108,10 @@ public class ReservationViewModel implements PropertyChangeListener
     reservationId = new SimpleStringProperty();
 
   }
+
+  /**
+   * Sets all service properties to false.
+   */
   private void setAllServicesToFalse()
   {
     breakfast.set(false);
@@ -61,10 +121,22 @@ public class ReservationViewModel implements PropertyChangeListener
     wellness.set(false);
     roomService.set(false);
   }
+
+  /**
+   * Sets the error message
+   *
+   * @param errorMessage The error message to set
+   */
   public void setError(String errorMessage)
   {
     error.set(errorMessage);
   }
+
+  /**
+   * Sets the service based on the given service ID
+   *
+   * @param id The service ID
+   */
   private void setService(String id)
   {
     switch (id)
@@ -77,6 +149,13 @@ public class ReservationViewModel implements PropertyChangeListener
       case Service.ROOM_SERVICE -> roomService.set(true);
     }
   }
+
+  /**
+   * Handles property change events.
+   *
+   * @param evt A PropertyChangeEvent object describing the event source
+   *          and the property that has changed.
+   */
 
   @Override public void propertyChange(PropertyChangeEvent evt)
   {
@@ -125,10 +204,23 @@ public class ReservationViewModel implements PropertyChangeListener
       }
     }
   }
+
+  /**
+   * Sets the amenities property
+   *
+   * @param value The amenities to set
+   */
   public void setAmenities(String value)
   {
     amenities.set(value);
   }
+
+  /**
+   * Loads available rooms based on the provided dates.
+   *
+   * @param startDate The start date
+   * @param endDate The end date
+   */
   public void loadAvailableRooms(LocalDate startDate, LocalDate endDate)
   {
     error.set("");
@@ -210,17 +302,40 @@ public class ReservationViewModel implements PropertyChangeListener
     support.removePropertyChangeListener(listener);
   }
 
+  /**
+   * Selects a room
+   * @param room The room to select
+   * @param startDate The start date
+   * @param endDate The end date
+   */
+
   public void roomSelected(Room room, LocalDate startDate, LocalDate endDate)
   {
     error.set("");
     model.roomSelected(room, startDate, endDate);
   }
 
+  /**
+   * Selects a room by room number
+   *
+   * @param roomNumber The room number
+   * @param startDate  The start date
+   * @param endDate    The end date
+   */
+
   public void roomSelected(int roomNumber, LocalDate startDate, LocalDate endDate)
   {
     error.set("");
       model.roomSelected(roomNumber, startDate, endDate);
   }
+
+  /**
+   * Confirms the reservation
+   *
+   * @param room The selected room
+   * @param startDate The start date
+   * @param endDate The end date
+   */
   public void onConfirm(Room room, LocalDate startDate, LocalDate endDate)
   {
     if(firstName.get() == null || lastName.get() == null || cardInfo.get() == null || noOfGuests.get() == null || firstName.get().isEmpty() || lastName.get().isEmpty() || cardInfo.get().length() != 16 || noOfGuests.get().isEmpty())
@@ -287,6 +402,10 @@ public class ReservationViewModel implements PropertyChangeListener
     }
   }
 
+  /**
+   * Cancels the current reservation by resetting all fields to their default values
+   */
+
   public void onCancel()
   {
     setAllServicesToFalse();
@@ -297,10 +416,23 @@ public class ReservationViewModel implements PropertyChangeListener
     reservationId.set("");
   }
 
+  /**
+   * Deletes the given reservation
+   *
+   * @param reservation The reservation to delete
+   */
+
   public void onDelete(Reservation reservation)
   {
     model.onDelete(reservation);
   }
+
+  /**
+   * Checks out the guest from the given reservation. This sets the room state to "NEEDS_CLEANING",
+   * deletes the reservation and performs any additional checkout operations.
+   *
+   * @param reservation The reservation to check out
+   */
 
   public void checkOut(Reservation reservation)
   {
