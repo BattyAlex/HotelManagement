@@ -32,7 +32,7 @@ public class CleaningViewModel implements PropertyChangeListener
   {
     this.model = model;
     model.addPropertyChangeListener(this);
-    roomInfo = new SimpleStringProperty();
+    roomInfo = new SimpleStringProperty("");
     roomNumber = new SimpleStringProperty("");
     roomState = new SimpleStringProperty("");
   }
@@ -132,14 +132,15 @@ public class CleaningViewModel implements PropertyChangeListener
    */
   @Override public void propertyChange(PropertyChangeEvent evt)
   {
-    if(evt.getPropertyName().equals("Room Selected For Cleaning"))
+    switch (evt.getPropertyName())
     {
-      Room selected = (Room) evt.getOldValue();
-      roomInfo.set((selected.toString()));
-      String roomNum = "";
-      roomNum += selected.getRoomNumber();
-      roomNumber.set(roomNum);
-      roomState.set(selected.getState());
+      case "Room Selected For Cleaning":
+        Room selected = (Room) evt.getOldValue();
+        roomInfo.set((selected.toString()));
+        String roomNum = "";
+        roomNum += selected.getRoomNumber();
+        roomNumber.set(roomNum);
+        roomState.set(selected.getState());
     }
   }
 }
