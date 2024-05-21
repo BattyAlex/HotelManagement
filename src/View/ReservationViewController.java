@@ -16,6 +16,10 @@ import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * The ReservationViewController class is responsible for handling the view logic for reservations.
+ */
+
 public class ReservationViewController implements PropertyChangeListener
 {
   private Region root;
@@ -41,6 +45,14 @@ public class ReservationViewController implements PropertyChangeListener
   @FXML private Label reservationId;
   private SimpleBooleanProperty canClick;
 
+  /**
+   * Initialzes the controller with the necessary handlers and model
+   *
+   * @param viewHandler  the view handler
+   * @param reservationViewModel the reservation view model
+   * @param root the root region
+   */
+
 
   public void init(ViewHandler viewHandler, ReservationViewModel reservationViewModel, Region root)
   {
@@ -64,16 +76,29 @@ public class ReservationViewController implements PropertyChangeListener
     canClick = new SimpleBooleanProperty(true);
   }
 
+  /**
+   * Gets the root region
+   * @return the root region
+   */
+
   public Region getRoot()
   {
     return root;
   }
+
+  /**
+   * Handles the search action
+   */
 
   @FXML public void onSearch()
   {
     reservationViewModel.loadAvailableRooms(startDate.getValue(), endDate.getValue());
     canClick.set(true);
   }
+
+  /**
+   * Handles the cancel action
+   */
 
   @FXML public void onCancel()
   {
@@ -86,12 +111,22 @@ public class ReservationViewController implements PropertyChangeListener
       viewHandler.openView(ViewFactory.ROOM);
     }
   }
+
+  /**
+   * Shows an alert with the given message
+   */
   public void alert()
   {
     Alert alert = new Alert(Alert.AlertType.ERROR, "One or more input values are invalid. Check your information and try again", ButtonType.OK);
     alert.setTitle("Error");
     alert.showAndWait();
   }
+
+  /**
+   * Responds to property changes in the reservation view model
+   * @param evt A PropertyChangeEvent object describing the event source
+   *          and the property that has changed.
+   */
 
   @Override public void propertyChange(PropertyChangeEvent evt)
   {
@@ -159,12 +194,20 @@ public class ReservationViewController implements PropertyChangeListener
     }
   }
 
+  /**
+   * Handles the date change action
+   */
+
   @FXML public void datesChanged()
   {
     canClick.set(false);
     delete.disableProperty().set(true);
     checkOut.disableProperty().set(true);
   }
+
+  /**
+   * Handles the selection of a new room
+   */
 
   @FXML public void onSelectNewRoom()
   {
@@ -173,6 +216,10 @@ public class ReservationViewController implements PropertyChangeListener
       reservationViewModel.roomSelected((Integer) roomNumber.getSelectionModel().getSelectedItem(), startDate.getValue(), endDate.getValue());
     }
   }
+
+  /**
+   * Handles the confirmation action
+   */
   @FXML public void onConfirm()
   {
     if(canClick.get())
@@ -192,6 +239,10 @@ public class ReservationViewController implements PropertyChangeListener
       reservationViewModel.setError("Please press search to display valid rooms.");
     }
   }
+
+  /**
+   * Handles the delete action
+   */
   @FXML public void onDelete()
   {
     Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure you want to delete this reservation from the system?", ButtonType.YES, ButtonType.NO);
@@ -204,6 +255,10 @@ public class ReservationViewController implements PropertyChangeListener
       viewHandler.openView(ViewFactory.ROOM);
     }
   }
+
+  /**
+   * Handles the check-out action
+   */
   @FXML public void onCheckOut()
   {
     if(LocalDate.now().isBefore(startDate.getValue()))
