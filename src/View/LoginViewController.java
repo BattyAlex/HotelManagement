@@ -56,7 +56,7 @@ public class LoginViewController implements PropertyChangeListener
   }
 
   /**
-   * Handles property chnages and updates the view accordingly
+   * Handles property changes and updates the view accordingly
    * @param evt A PropertyChangeEvent object describing the event source
    *          and the property that has changed.
    */
