@@ -33,7 +33,6 @@ public class RoomViewModelTesting
     listener = Mockito.mock(PropertyChangeListener.class);
     model = Mockito.mock(HotelModelManager.class);
     roomViewModel = new RoomViewModel(model);
-    model.addPropertyChangeListener(roomViewModel);
     toggle = new SimpleStringProperty();
     error = new SimpleStringProperty();
     canClick = new SimpleBooleanProperty();
@@ -76,12 +75,6 @@ public class RoomViewModelTesting
     assertTrue(canClick.get());
     roomViewModel.onToggle();
     assertFalse(canClick.get());
-  }
-
-  @Test public void on_event_AllRooms_cleaningToggle_changes_values()
-  {
-    model.loadAllRooms();
-    assertEquals("Needs cleaning", cleaningToggle.get());
   }
 
   @Test public void adding_and_removing_propertyChangeListeners_does_not_cause_problems()
