@@ -34,7 +34,7 @@ public class RoomViewModel implements PropertyChangeListener
     model.addPropertyChangeListener(this);
     toggle = new SimpleStringProperty("To reservations");
     support = new PropertyChangeSupport(this);
-    error = new SimpleStringProperty();
+    error = new SimpleStringProperty("");
     canClick = new SimpleBooleanProperty(false);
     cleaningToggle = new SimpleStringProperty("Needs cleaning");
   }
@@ -113,34 +113,33 @@ public class RoomViewModel implements PropertyChangeListener
    */
   @Override public void propertyChange(PropertyChangeEvent evt)
   {
-    if(evt.getPropertyName().equals("All Rooms"))
+    switch (evt.getPropertyName())
     {
-      cleaningToggle.set("Needs cleaning");
-      support.firePropertyChange("Load Room List", null, evt.getNewValue());
-    }
-    else if(evt.getPropertyName().equals("Available Rooms"))
-    {
-      support.firePropertyChange("Load Room List", null, evt.getNewValue());
-    }
-    else if (evt.getPropertyName().equals("All Reservations"))
-    {
-      support.firePropertyChange("Load Reservation List", null, evt.getNewValue());
-    }
-    else if (evt.getPropertyName().equals("Reservations for Time Period"))
-    {
-      support.firePropertyChange("Load All Reservations", null, evt.getNewValue());
-    }
-    else if (evt.getPropertyName().equals("Update Reservations"))
-    {
-      if (toggle.get().equals("To rooms"))
-      {
-        support.firePropertyChange("Load All Reservations", null, evt.getNewValue());
-      }
-    }
-    else if (evt.getPropertyName().equals("Display Rooms For Cleaning"))
-    {
-      if(cleaningToggle.get().equals("To rooms"))
+      case "All Rooms":
+        cleaningToggle.set("Needs cleaning");
         support.firePropertyChange("Load Room List", null, evt.getNewValue());
+        break;
+      case "Available Rooms":
+        support.firePropertyChange("Load Room List", null, evt.getNewValue());
+        break;
+      case "All Reservations":
+        support.firePropertyChange("Load Reservation List", null, evt.getNewValue());
+        break;
+      case "Reservations for Time Period":
+        support.firePropertyChange("Load All Reservations", null, evt.getNewValue());
+        break;
+      case "Update Reservations":
+        if (toggle.get().equals("To rooms"))
+        {
+          support.firePropertyChange("Load All Reservations", null, evt.getNewValue());
+        }
+        break;
+      case "Display Rooms For Cleaning":
+        if(cleaningToggle.get().equals("To rooms"))
+        {
+          support.firePropertyChange("Load Room List", null, evt.getNewValue());
+        }
+        break;
     }
   }
 
@@ -174,6 +173,10 @@ public class RoomViewModel implements PropertyChangeListener
     else if (endDate.isBefore(startDate))
     {
       error.set("The end date is earlier than the start date.");
+    }
+    else if (endDate.getYear() == startDate.getYear() && endDate.getMonthValue() == startDate.getMonthValue() && endDate.getDayOfMonth() == startDate.getDayOfMonth())
+    {
+     error.set("The same dates have been selected.");
     }
     else
     {
