@@ -30,7 +30,7 @@ public class LoginViewModel implements PropertyChangeListener
     this.model = model;
     username = new SimpleStringProperty();
     password = new SimpleStringProperty();
-    error = new SimpleStringProperty();
+    error = new SimpleStringProperty("");
     model.addPropertyChangeListener(this);
     support = new PropertyChangeSupport(this);
   }
@@ -42,7 +42,7 @@ public class LoginViewModel implements PropertyChangeListener
   public void tryLogin()
   {
     error.set("");
-    if(username.get() == null|| password.get() == null)
+    if(username.get() == null|| password.get() == null || username.get().isEmpty() || password.get().isEmpty())
     {
       error.set("Please enter your username and password.");
     }

@@ -35,8 +35,60 @@ public class LoginViewModelTesting
 
   @Test public void if_username_is_empty_error_is_set()
   {
+    assertEquals("", error.get());
     password.set("hello");
+    username.set("");
     loginViewModel.tryLogin();
     assertEquals("Please enter your username and password.", error.get());
+  }
+
+  @Test public void if_password_is_empty_error_is_set()
+  {
+    assertEquals("", error.get());
+    username.set("hello");
+    password.set("");
+    loginViewModel.tryLogin();
+    assertEquals("Please enter your username and password.", error.get());
+  }
+
+  @Test public void if_username_and_password_are_empty_error_is_set()
+  {
+    assertEquals("", error.get());
+    username.set("");
+    password.set("");
+    loginViewModel.tryLogin();
+    assertEquals("Please enter your username and password.", error.get());
+  }
+
+  @Test public void if_username_is_null_error_is_set()
+  {
+    assertNull(username.get());
+    password.set("hi");
+    loginViewModel.tryLogin();
+    assertEquals("Please enter your username and password.", error.get());
+  }
+
+  @Test public void if_password_is_null_error_is_set()
+  {
+    assertNull(password.get());
+    username.set("hi");
+    loginViewModel.tryLogin();
+    assertEquals("Please enter your username and password.", error.get());
+  }
+
+  @Test public void if_password_and_username_are_null_error_is_set()
+  {
+    assertNull(password.get());
+    assertNull(username.get());
+    loginViewModel.tryLogin();
+    assertEquals("Please enter your username and password.", error.get());
+  }
+
+  @Test public void if_password_and_username_are_set_error_stays_empty()
+  {
+    username.set("username");
+    password.set("password");
+    loginViewModel.tryLogin();
+    assertEquals("", error.get());
   }
 }
