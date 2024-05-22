@@ -135,11 +135,8 @@ public class RoomViewModel implements PropertyChangeListener
         }
         break;
       case "Display Rooms For Cleaning":
-        if(cleaningToggle.get().equals("To rooms"))
-        {
           support.firePropertyChange("Load Room List", null, evt.getNewValue());
-        }
-        break;
+          break;
     }
   }
 
