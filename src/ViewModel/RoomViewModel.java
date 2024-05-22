@@ -135,8 +135,11 @@ public class RoomViewModel implements PropertyChangeListener
         }
         break;
       case "Display Rooms For Cleaning":
+        if (cleaningToggle.get().equals("To rooms"))
+        {
           support.firePropertyChange("Load Room List", null, evt.getNewValue());
-          break;
+        }
+        break;
     }
   }
 
@@ -259,13 +262,13 @@ public class RoomViewModel implements PropertyChangeListener
   {
     if(cleaningToggle.get().equals("Needs cleaning"))
     {
-      model.getRoomsForCleaning();
       cleaningToggle.set("To rooms");
+      model.getRoomsForCleaning();
     }
     else
     {
-      loadAllRooms();
       cleaningToggle.set("Needs cleaning");
+      loadAllRooms();
     }
   }
 
