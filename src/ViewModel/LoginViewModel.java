@@ -111,7 +111,7 @@ public class LoginViewModel implements PropertyChangeListener
       case "Login failed":
         error.set("Incorrect password");
         break;
-      case "Database Connection Problems":
+      case "Database Connection Offline":
         support.firePropertyChange("Database Failed", null, evt.getNewValue());
     }
   }
