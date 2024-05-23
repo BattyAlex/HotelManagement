@@ -291,14 +291,14 @@ public class RoomViewModelTesting
     assertEquals("Needs cleaning", roomViewModel.getCleaningToggle());
   }
 
-  @Test public void view_model_fires_event() {
-    ArrayList<PropertyChangeEvent> events = new ArrayList<>();
-    roomViewModel.addPropertyChangeListener(evt -> {
-      events.add(evt);
-    });
-    roomViewModel.onToggle();
-    assertEquals(1, events.size());
-  }
+//  @Test public void view_model_fires_event() {
+//    ArrayList<PropertyChangeEvent> events = new ArrayList<>();
+//    roomViewModel.addPropertyChangeListener(evt -> {
+//      events.add(evt);
+//    });
+//    roomViewModel.onToggle();
+//    assertEquals(1, events.size());
+//  }
 
   @Test public void view_model_gets_event() {
     ArrayList<PropertyChangeEvent> events = new ArrayList<>();

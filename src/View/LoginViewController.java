@@ -14,9 +14,9 @@ import java.beans.PropertyChangeListener;
  */
 public class LoginViewController implements PropertyChangeListener
 {
-  @FXML public TextField username;
-  @FXML public PasswordField password;
-  @FXML public Label error;
+  @FXML private TextField username;
+  @FXML private PasswordField password;
+  @FXML private Label error;
   private Region root;
   private LoginViewModel loginViewModel;
   private ViewHandler viewHandler;
@@ -64,12 +64,13 @@ public class LoginViewController implements PropertyChangeListener
   {
     switch (evt.getPropertyName())
     {
-      case "Login Successful":
-        viewHandler.openView(ViewFactory.ROOM);
-        break;
-      case "Database Failed":
-        Alert alert = new Alert(Alert.AlertType.WARNING, (String) evt.getNewValue(), ButtonType.OK);
+      case "Login Successful" -> viewHandler.openView(ViewFactory.ROOM);
+      case "Database Failed" ->
+      {
+        Alert alert = new Alert(Alert.AlertType.WARNING,
+            (String) evt.getNewValue(), ButtonType.OK);
         alert.showAndWait();
+      }
     }
   }
 }

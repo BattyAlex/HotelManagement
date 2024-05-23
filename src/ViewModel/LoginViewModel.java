@@ -22,7 +22,7 @@ public class LoginViewModel implements PropertyChangeListener
   private PropertyChangeSupport support;
 
   /**
-   * Constructs a LoginViewModel withr the specific HotelModel
+   * Constructs a LoginViewModel with the specific HotelModel
    * @param model The hotel model used for login operations
    */
   public LoginViewModel(HotelModel model)
@@ -102,17 +102,14 @@ public class LoginViewModel implements PropertyChangeListener
   {
     switch (evt.getPropertyName())
     {
-      case "Username invalid":
-        error.set("The username '" + evt.getOldValue() + "' is invalid.");
-        break;
-      case "Login Successful":
-        support.firePropertyChange("Login Successful", null, null);
-        break;
-      case "Login failed":
-        error.set("Incorrect password");
-        break;
-      case "Database Connection Offline":
-        support.firePropertyChange("Database Failed", null, evt.getNewValue());
+      case "Username invalid" ->
+          error.set("The username '" + evt.getOldValue() + "' is invalid.");
+      case "Login Successful" ->
+          support.firePropertyChange("Login Successful", null, null);
+      case "Login failed" -> error.set("Incorrect password");
+      case "Database Connection Offline" ->
+          support.firePropertyChange("Database Failed", null,
+              evt.getNewValue());
     }
   }
 }

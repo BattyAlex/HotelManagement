@@ -7,6 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LoginViewModelTesting
@@ -16,10 +20,13 @@ public class LoginViewModelTesting
   private StringProperty username;
   private StringProperty password;
   private StringProperty error;
+  private PropertyChangeListener listener;
   @BeforeEach public void setUp()
   {
+    listener = Mockito.mock(PropertyChangeListener.class);
     model = Mockito.mock(HotelModelManager.class);
     loginViewModel = new LoginViewModel(model);
+    loginViewModel.addPropertyChangeListener(listener);
     username = new SimpleStringProperty();
     password = new SimpleStringProperty();
     error = new SimpleStringProperty();
@@ -90,5 +97,48 @@ public class LoginViewModelTesting
     password.set("password");
     loginViewModel.tryLogin();
     assertEquals("", error.get());
+  }
+
+  @Test public void property_change_LoginSuccessful_is_received_and_sent_fired()
+  {
+    PropertyChangeEvent loginSuccessful = new PropertyChangeEvent(new Object(), "Login Successful", null, null);
+    ArrayList<PropertyChangeEvent> events = new ArrayList<>();
+    loginViewModel.addPropertyChangeListener(evt -> {
+      events.add(evt);
+    });
+    loginViewModel.propertyChange(loginSuccessful);
+    assertEquals(1, events.size());
+    assertEquals("Login Successful", events.get(0).getPropertyName());
+  }
+
+  @Test public void if_usernameInvalid_propertyChangeEvent_error_is_set()
+  {
+    PropertyChangeEvent usernameInvalid = new PropertyChangeEvent(new Object(), "Username invalid", "cat", null);
+    loginViewModel.propertyChange(usernameInvalid);
+    assertEquals("The username 'cat' is invalid.", error.get());
+  }
+
+  @Test public void if_password_is_incorrect_error_is_set()
+  {
+    PropertyChangeEvent loginFailed = new PropertyChangeEvent(new Object(), "Login failed", null, null);
+    loginViewModel.propertyChange(loginFailed);
+    assertEquals("Incorrect password", error.get());
+  }
+
+  @Test public void removing_listeners_works()
+  {
+    loginViewModel.removePropertyChangeListener(listener);
+  }
+
+  @Test public void property_change_Database_Connection_Offline_is_received_and_sent_fired()
+  {
+    PropertyChangeEvent loginSuccessful = new PropertyChangeEvent(new Object(), "Database Connection Offline", null, "");
+    ArrayList<PropertyChangeEvent> events = new ArrayList<>();
+    loginViewModel.addPropertyChangeListener(evt -> {
+      events.add(evt);
+    });
+    loginViewModel.propertyChange(loginSuccessful);
+    assertEquals(1, events.size());
+    assertEquals("Database Failed", events.get(0).getPropertyName());
   }
 }
