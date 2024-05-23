@@ -80,6 +80,9 @@ public class ReservationViewModel implements PropertyChangeListener
    */
 
   private final PropertyChangeSupport support;
+  private BooleanProperty canClick;
+  private BooleanProperty delete;
+  private BooleanProperty checkOut;
 
   /**
    * Constructor that initializes the ReservationViewModel with a given model.
@@ -106,7 +109,9 @@ public class ReservationViewModel implements PropertyChangeListener
     roomService = new SimpleBooleanProperty();
     noOfGuests = new SimpleStringProperty();
     reservationId = new SimpleStringProperty();
-
+    canClick = new SimpleBooleanProperty(true);
+    delete = new SimpleBooleanProperty(false);
+    checkOut = new SimpleBooleanProperty(false);
   }
 
   /**
@@ -159,49 +164,58 @@ public class ReservationViewModel implements PropertyChangeListener
 
   @Override public void propertyChange(PropertyChangeEvent evt)
   {
-    if (evt.getPropertyName().equals("Display Room Selected"))
+    switch (evt.getPropertyName())
     {
-      Room temp = (Room) evt.getOldValue();
-      setAmenities(temp.toString());
-      support.firePropertyChange("Set Current Room", null, temp.getRoomNumber());
+      case "Display Room Selected":
+        Room temp = (Room) evt.getOldValue();
+        setAmenities(temp.toString());
+        support.firePropertyChange("Set Current Room", null, temp.getRoomNumber());
+        delete.set(true);
+        checkOut.set(true);
+        break;
+      case "Display Dates for Selected Room":
+        LocalDate end = (LocalDate) evt.getOldValue();
+        LocalDate start = (LocalDate) evt.getNewValue();
+        support.firePropertyChange("Display Dates", end, start);
+        canClick.set(true);
+        break;
+      case "Getting All Available Rooms":
+        support.firePropertyChange("Display Available Rooms", null, evt.getNewValue());
+        break;
+      case "Display Reservation Selected":
+        Reservation selected = (Reservation) evt.getOldValue();
+        support.firePropertyChange("Set Reservation", selected, null);
+        displayReservation(selected);
+        break;
+      case "Update Reservations":
+        if(evt.getNewValue() != null)
+        {
+          support.firePropertyChange("Display Reservation Made Popup", null, evt.getNewValue());
+        }
+        break;
     }
-    else if(evt.getPropertyName().equals("Display Dates for Selected Room"))
+  }
+
+  private void displayReservation(Reservation selected)
+  {
+    canClick.set(true);
+    delete.set(false);
+    checkOut.set(false);
+    firstName.set(selected.getClient().getFirstName());
+    lastName.set(selected.getClient().getLastName());
+    cardInfo.set(selected.getClient().getPaymentInfo());
+    amenities.set(selected.getRoom().toString());
+    String numberSet = "";
+    numberSet += selected.getNumberOfGuests();
+    noOfGuests.set(numberSet);
+    String reservationSet = "";
+    reservationSet += selected.getReservationId();
+    reservationId.set(reservationSet);
+    ArrayList<Service> services = selected.getServices();
+    setAllServicesToFalse();
+    for (int i = 0; i < services.size(); i++)
     {
-      LocalDate end = (LocalDate) evt.getOldValue();
-      LocalDate start = (LocalDate) evt.getNewValue();
-      support.firePropertyChange("Display Dates", end, start);
-    }
-    else if (evt.getPropertyName().equals("Getting All Available Rooms"))
-    {
-      support.firePropertyChange("Display Available Rooms", null, evt.getNewValue());
-    }
-    else if (evt.getPropertyName().equals("Display Reservation Selected"))
-    {
-      Reservation selected = (Reservation) evt.getOldValue();
-      support.firePropertyChange("Set Reservation", selected, null);
-      firstName.set(selected.getClient().getFirstName());
-      lastName.set(selected.getClient().getLastName());
-      cardInfo.set(selected.getClient().getPaymentInfo());
-      amenities.set(selected.getRoom().toString());
-      String numberSet = "";
-      numberSet +=selected.getNumberOfGuests();
-      noOfGuests.set(numberSet);
-      String reservationSet = "";
-      reservationSet += selected.getReservationId();
-      reservationId.set(reservationSet);
-      ArrayList<Service> services = selected.getServices();
-      setAllServicesToFalse();
-      for (int i = 0; i < services.size(); i++)
-      {
-        setService(services.get(i).getName());
-      }
-    }
-    else if (evt.getPropertyName().equals("Update Reservations"))
-    {
-      if(evt.getNewValue() != null)
-      {
-        support.firePropertyChange("Display Reservation Made Popup", null, evt.getNewValue());
-      }
+      setService(services.get(i).getName());
     }
   }
 
@@ -232,9 +246,14 @@ public class ReservationViewModel implements PropertyChangeListener
     {
       error.set("The end date is earlier than the start date.");
     }
+    else if (endDate.getYear() == startDate.getYear() && endDate.getMonthValue() == startDate.getMonthValue() && endDate.getDayOfMonth() == startDate.getDayOfMonth())
+    {
+      error.set("The same dates have been selected.");
+    }
     else
     {
       model.getAvailableRooms(startDate, endDate);
+      canClick.set(true);
     }
   }
 
@@ -291,6 +310,21 @@ public class ReservationViewModel implements PropertyChangeListener
   public void bindReservationId(StringProperty property)
   {
     property.bind(reservationId);
+  }
+
+  public void bindCanClick(BooleanProperty property)
+  {
+    property.bind(canClick);
+  }
+
+  public void bindDelete(BooleanProperty property)
+  {
+    property.bind(delete);
+  }
+
+  public void bindCheckOut(BooleanProperty property)
+  {
+    property.bind(checkOut);
   }
   public void addPropertyChangeListener(PropertyChangeListener listener)
   {
@@ -388,17 +422,12 @@ public class ReservationViewModel implements PropertyChangeListener
         }
         catch (NumberFormatException e)
         {
-          e.printStackTrace();
+          support.firePropertyChange("invalid input", null, null);
         }
       }
       reservation.setNumberOfGuests(numOfGuests);
       model.makeOrUpdateReservation(reservation);
-      setAllServicesToFalse();
-      firstName.set("");
-      lastName.set("");
-      cardInfo.set("");
-      noOfGuests.set("");
-      reservationId.set("");
+      resetValues();
     }
   }
 
@@ -407,6 +436,11 @@ public class ReservationViewModel implements PropertyChangeListener
    */
 
   public void onCancel()
+  {
+    resetValues();
+  }
+
+  private void resetValues()
   {
     setAllServicesToFalse();
     firstName.set("");
@@ -439,5 +473,12 @@ public class ReservationViewModel implements PropertyChangeListener
     reservation.getRoom().setState(Room.NEEDS_CLEANING);
     onDelete(reservation);
     model.checkOut(reservation.getRoom());
+  }
+
+  public void datesChanged()
+  {
+    canClick.set(false);
+    delete.set(true);
+    checkOut.set(true);
   }
 }

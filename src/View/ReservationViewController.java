@@ -59,6 +59,7 @@ public class ReservationViewController implements PropertyChangeListener
     this.reservationViewModel = reservationViewModel;
     this.root = root;
     this.viewHandler = viewHandler;
+    canClick = new SimpleBooleanProperty();
     reservationViewModel.bindError(error.textProperty());
     reservationViewModel.bindAmenities(amenities.textProperty());
     reservationViewModel.addPropertyChangeListener(this);
@@ -73,7 +74,9 @@ public class ReservationViewController implements PropertyChangeListener
     reservationViewModel.bindWellness(wellness.selectedProperty());
     reservationViewModel.bindNoOfGuests(noOfGuests.textProperty());
     reservationViewModel.bindReservationId(reservationId.textProperty());
-    canClick = new SimpleBooleanProperty(true);
+    reservationViewModel.bindCanClick(canClick);
+    reservationViewModel.bindDelete(delete.disableProperty());
+    reservationViewModel.bindCheckOut(checkOut.disableProperty());
   }
 
   /**
@@ -93,7 +96,6 @@ public class ReservationViewController implements PropertyChangeListener
   @FXML public void onSearch()
   {
     reservationViewModel.loadAvailableRooms(startDate.getValue(), endDate.getValue());
-    canClick.set(true);
   }
 
   /**
@@ -130,67 +132,58 @@ public class ReservationViewController implements PropertyChangeListener
 
   @Override public void propertyChange(PropertyChangeEvent evt)
   {
-    if(evt.getPropertyName().equals("Set Current Room"))
+    switch (evt.getPropertyName())
     {
-      if(roomNumber.getItems().isEmpty())
-      {
-        roomNumber.getItems().add((Integer)evt.getNewValue());
+      case "Set Current Room":
+        if(roomNumber.getItems().isEmpty())
+        {
+          roomNumber.getItems().add((Integer)evt.getNewValue());
+          roomNumber.getSelectionModel().select(0);
+        }
+        break;
+      case "Display Dates":
+        startDate.setValue((LocalDate) evt.getNewValue());
+        endDate.setValue((LocalDate) evt.getOldValue());
+        break;
+      case "invalid input":
+        alert();
+        break;
+      case "Display Available Rooms":
+        roomNumber.getItems().clear();
+        ArrayList<Room> rooms = (ArrayList<Room>) evt.getNewValue();
+        for (int i = 0; i < rooms.size(); i++)
+        {
+          roomNumber.getItems().add((Integer)rooms.get(i).getRoomNumber());
+        }
+        if(!roomNumber.getItems().isEmpty())
+        {
+          roomNumber.getSelectionModel().select(0);
+          reservationViewModel.roomSelected(rooms.get(0), startDate.getValue(), endDate.getValue());
+        }
+        else
+        {
+          reservationViewModel.setAmenities("");
+        }
+        break;
+      case "Set Reservation":
+        Reservation selected = (Reservation) evt.getOldValue();
+        startDate.setValue(selected.getStartDate());
+        endDate.setValue(selected.getEndDate());
+        roomNumber.getItems().clear();
+        roomNumber.getItems().add(selected.getRoom().getRoomNumber());
         roomNumber.getSelectionModel().select(0);
-      }
-      delete.disableProperty().set(true);
-      checkOut.disableProperty().set(true);
-    }
-    else if(evt.getPropertyName().equals("Display Dates"))
-    {
-      startDate.setValue((LocalDate) evt.getNewValue());
-      endDate.setValue((LocalDate) evt.getOldValue());
-      canClick.set(true);
-    }
-    else if(evt.getPropertyName().equals("invalid input"))
-    {
-      alert();
-    }
-    else if (evt.getPropertyName().equals("Display Available Rooms"))
-    {
-      roomNumber.getItems().clear();
-      ArrayList<Room> rooms = (ArrayList<Room>) evt.getNewValue();
-      for (int i = 0; i < rooms.size(); i++)
-      {
-        roomNumber.getItems().add((Integer)rooms.get(i).getRoomNumber());
-      }
-      if(!roomNumber.getItems().isEmpty())
-      {
-        roomNumber.getSelectionModel().select(0);
-        reservationViewModel.roomSelected(rooms.get(0), startDate.getValue(), endDate.getValue());
-      }
-      else
-      {
-        reservationViewModel.setAmenities("");
-      }
-    }
-    else if (evt.getPropertyName().equals("Set Reservation"))
-    {
-      Reservation selected = (Reservation) evt.getOldValue();
-      startDate.setValue(selected.getStartDate());
-      endDate.setValue(selected.getEndDate());
-      roomNumber.getItems().clear();
-      roomNumber.getItems().add(selected.getRoom().getRoomNumber());
-      roomNumber.getSelectionModel().select(0);
-      canClick.set(true);
-      delete.disableProperty().set(false);
-      checkOut.disableProperty().set(false);
-    }
-    else if (evt.getPropertyName().equals("Display Reservation Made Popup"))
-    {
-      Reservation reservation = (Reservation) evt.getNewValue();
-      String contentText = "Reservation " + reservation.getReservationId() + " successfully made / updated / ended.\nThe total is: " + reservation.getTotalForStay() + "$";
-      Alert alert = new Alert(Alert.AlertType.CONFIRMATION, contentText, ButtonType.OK);
-      alert.setTitle("Reservation Successfully Made");
-      alert.showAndWait();
-      if(alert.getResult() == ButtonType.OK)
-      {
-        viewHandler.openView(ViewFactory.ROOM);
-      }
+        break;
+      case "Display Reservation Made Popup":
+        Reservation reservation = (Reservation) evt.getNewValue();
+        String contentText = "Reservation " + reservation.getReservationId() + " successfully made / updated / ended.\nThe total is: " + reservation.getTotalForStay() + "$";
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, contentText, ButtonType.OK);
+        alert.setTitle("Reservation Successfully Made");
+        alert.showAndWait();
+        if(alert.getResult() == ButtonType.OK)
+        {
+          viewHandler.openView(ViewFactory.ROOM);
+        }
+        break;
     }
   }
 
@@ -200,9 +193,7 @@ public class ReservationViewController implements PropertyChangeListener
 
   @FXML public void datesChanged()
   {
-    canClick.set(false);
-    delete.disableProperty().set(true);
-    checkOut.disableProperty().set(true);
+    reservationViewModel.datesChanged();
   }
 
   /**

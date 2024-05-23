@@ -17,12 +17,12 @@ public class RoomType implements Serializable
    * @param key A unique string key identifying the room type.
    * @param price The price associated with this room type
    */
-  public RoomType(String key, double price)
+  private RoomType(String key, double price)
   {
     this.key = key;
     this.price = price;
   }
-  public RoomType(String key)
+  private RoomType(String key)
   {
     this.key = key;
     price = 0;
