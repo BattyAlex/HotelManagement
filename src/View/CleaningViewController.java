@@ -19,7 +19,7 @@ public class CleaningViewController
   private ViewHandler viewHandler;
 
   /**
-   * Initializes the CleaningViewController with the given ViewHandler, CleaningViewModel and roo Region
+   * Initializes the CleaningViewController with the given ViewHandler, CleaningViewModel and root Region
    * @param viewHandler  the handler for view transitions
    * @param cleaningViewModel  the ViewModel for managing cleaning operations
    * @param root  the root region for this view

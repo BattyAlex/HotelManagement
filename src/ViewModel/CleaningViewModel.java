@@ -116,7 +116,7 @@ public class CleaningViewModel implements PropertyChangeListener
    * Resets the roomInfo, roomNumber and roomState properties to empty strings.
    */
 
-  public void resetFields()
+  private void resetFields()
   {
     roomInfo.set("");
     roomNumber.set("");
