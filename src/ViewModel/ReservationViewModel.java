@@ -19,70 +19,25 @@ import java.util.ArrayList;
 
 public class ReservationViewModel implements PropertyChangeListener
 {
-  /**
-   * The model representing the hotel
-   */
-  private final HotelModel model;
-  /**
-   * The first name of the guest.
-   */
   private StringProperty firstName;
-  /**
-   * The last name of the guest.
-   */
   private StringProperty lastName;
-  /**
-   * The card information of the guest.
-   */
   private StringProperty cardInfo;
-  /**
-   * The amenities selected for the reservation.
-   */
   private StringProperty amenities;
-  /**
-   * The error message property.
-   */
   private StringProperty error;
-  /**
-   * Indicates whether the breakfast is included or not in the reservation.
-   */
   private BooleanProperty breakfast;
-  /**
-   * Indicates if lunch is included in the reservation.
-   */
   private BooleanProperty lunch;
-  /**
-   * Indicates if dinner is included in the reservation.
-   */
   private BooleanProperty dinner;
-  /**
-   * Indicated if airport transportation is included in the reservation.
-   */
   private BooleanProperty airportTrans;
-  /**
-   * Indicates if wellness services are included in the reservation.
-   */
   private BooleanProperty wellness;
-  /**
-   * Indicates if room service is included in the reservation
-   */
   private BooleanProperty roomService;
-  /**
-   * The number of guests for the reservation
-   */
   private StringProperty noOfGuests;
-  /**
-   * The reservation ID
-   */
   private StringProperty reservationId;
-  /**
-   * Supports property change events.
-   */
-
-  private final PropertyChangeSupport support;
   private BooleanProperty canClick;
   private BooleanProperty delete;
   private BooleanProperty checkOut;
+  private final PropertyChangeSupport support;
+
+  private final HotelModel model;
 
   /**
    * Constructor that initializes the ReservationViewModel with a given model.
@@ -95,23 +50,167 @@ public class ReservationViewModel implements PropertyChangeListener
   {
     this.model = model;
     model.addPropertyChangeListener(this);
-    firstName = new SimpleStringProperty();
-    lastName = new SimpleStringProperty();
-    cardInfo = new SimpleStringProperty();
-    amenities = new SimpleStringProperty();
+    firstName = new SimpleStringProperty("");
+    lastName = new SimpleStringProperty("");
+    cardInfo = new SimpleStringProperty("");
+    amenities = new SimpleStringProperty("");
     error = new SimpleStringProperty("");
     support = new PropertyChangeSupport(this);
-    breakfast = new SimpleBooleanProperty();
-    lunch = new SimpleBooleanProperty();
-    dinner = new SimpleBooleanProperty();
-    airportTrans = new SimpleBooleanProperty();
-    wellness = new SimpleBooleanProperty();
-    roomService = new SimpleBooleanProperty();
-    noOfGuests = new SimpleStringProperty();
-    reservationId = new SimpleStringProperty();
+    breakfast = new SimpleBooleanProperty(false);
+    lunch = new SimpleBooleanProperty(false);
+    dinner = new SimpleBooleanProperty(false);
+    airportTrans = new SimpleBooleanProperty(false);
+    wellness = new SimpleBooleanProperty(false);
+    roomService = new SimpleBooleanProperty(false);
+    noOfGuests = new SimpleStringProperty("");
+    reservationId = new SimpleStringProperty("");
     canClick = new SimpleBooleanProperty(true);
     delete = new SimpleBooleanProperty(false);
     checkOut = new SimpleBooleanProperty(false);
+  }
+
+  /**
+   * Binds the given property to the error SimpleStringProperty
+   * @param property The property that gets bound
+   */
+  public void bindError(StringProperty property)
+  {
+    property.bind(error);
+  }
+
+  /**
+   * Binds the given property to the amenities SimpleStringProperty
+   * @param property The property that gets bound
+   */
+  public void bindAmenities(StringProperty property)
+  {
+    property.bind(amenities);
+  }
+
+  /**
+   * Binds the given property to the firstName SimpleStringProperty bidirectionally
+   * @param property The property that gets bound
+   */
+  public void bindFirstName(StringProperty property)
+  {
+    property.bindBidirectional(firstName);
+  }
+
+  /**
+   * Binds the given property to the lastName SimpleStringProperty bidirectionally
+   * @param property The property that gets bound
+   */
+  public void bindLastName(StringProperty property)
+  {
+    property.bindBidirectional(lastName);
+  }
+
+  /**
+   * Binds the given property to the cardInfo SimpleStringProperty bidirectionally
+   * @param property The property that gets bound
+   */
+  public void bindCard(StringProperty property)
+  {
+    property.bindBidirectional(cardInfo);
+  }
+
+  /**
+   * Binds the given property to the amenities SimpleBooleanProperty bidirectionally
+   * @param property The property that gets bound
+   */
+  public void bindBreakfast(BooleanProperty property)
+  {
+    property.bindBidirectional(breakfast);
+  }
+
+  /**
+   * Binds the given property to the lunch SimpleBooleanProperty bidirectionally
+   * @param property The property that gets bound
+   */
+  public void bindLunch(BooleanProperty property)
+  {
+    property.bindBidirectional(lunch);
+  }
+
+  /**
+   * Binds the given property to the dinner SimpleBooleanProperty
+   * @param property The property that gets bound
+   */
+  public void bindDinner(BooleanProperty property)
+  {
+    property.bindBidirectional(dinner);
+  }
+
+  /**
+   * Binds the given property to the airportTrans SimpleBooleanProperty
+   * @param property The property that gets bound
+   */
+  public void bindAirportTrans(BooleanProperty property)
+  {
+    property.bindBidirectional(airportTrans);
+  }
+
+  /**
+   * Binds the given property to the wellness SimpleBooleanProperty
+   * @param property The property that gets bound
+   */
+  public void bindWellness(BooleanProperty property)
+  {
+    property.bindBidirectional(wellness);
+  }
+
+  /**
+   * Binds the given property to the roomService SimpleBooleanProperty
+   * @param property The property that gets bound
+   */
+  public void bindRoomService(BooleanProperty property)
+  {
+    property.bindBidirectional(roomService);
+  }
+
+  /**
+   * Binds the given property to the noOfGuests SimpleStringProperty
+   * @param property The property that gets bound
+   */
+  public void bindNoOfGuests(StringProperty property)
+  {
+    property.bindBidirectional(noOfGuests);
+  }
+
+  /**
+   * Binds the given property to the reservationId SimpleStringProperty
+   * @param property The property that gets bound
+   */
+  public void bindReservationId(StringProperty property)
+  {
+    property.bind(reservationId);
+  }
+
+  /**
+   * Binds the given property to the canClick SimpleBooleanProperty
+   * @param property The property that gets bound
+   */
+  public void bindCanClick(BooleanProperty property)
+  {
+    property.bind(canClick);
+  }
+
+  /**
+   * Binds the given property to the delete SimpleBooleanProperty
+   * @param property The property that gets bound
+   */
+  public void bindDelete(BooleanProperty property)
+  {
+    property.bind(delete);
+  }
+
+  /**
+   * Binds the given property to the checkOut SimpleBooleanProperty
+   * @param property The property that gets bound
+   */
+  public void bindCheckOut(BooleanProperty property)
+  {
+    property.bind(checkOut);
   }
 
   /**
@@ -156,46 +255,10 @@ public class ReservationViewModel implements PropertyChangeListener
   }
 
   /**
-   * Handles property change events.
+   * Sets the fields in accordance with the values of the given Reservation
    *
-   * @param evt A PropertyChangeEvent object describing the event source
-   *          and the property that has changed.
+   * @param selected The Reservation that was selected and needs to be displayed
    */
-
-  @Override public void propertyChange(PropertyChangeEvent evt)
-  {
-    switch (evt.getPropertyName())
-    {
-      case "Display Room Selected":
-        Room temp = (Room) evt.getOldValue();
-        setAmenities(temp.toString());
-        support.firePropertyChange("Set Current Room", null, temp.getRoomNumber());
-        delete.set(true);
-        checkOut.set(true);
-        break;
-      case "Display Dates for Selected Room":
-        LocalDate end = (LocalDate) evt.getOldValue();
-        LocalDate start = (LocalDate) evt.getNewValue();
-        support.firePropertyChange("Display Dates", end, start);
-        canClick.set(true);
-        break;
-      case "Getting All Available Rooms":
-        support.firePropertyChange("Display Available Rooms", null, evt.getNewValue());
-        break;
-      case "Display Reservation Selected":
-        Reservation selected = (Reservation) evt.getOldValue();
-        support.firePropertyChange("Set Reservation", selected, null);
-        displayReservation(selected);
-        break;
-      case "Update Reservations":
-        if(evt.getNewValue() != null)
-        {
-          support.firePropertyChange("Display Reservation Made Popup", null, evt.getNewValue());
-        }
-        break;
-    }
-  }
-
   private void displayReservation(Reservation selected)
   {
     canClick.set(true);
@@ -241,14 +304,17 @@ public class ReservationViewModel implements PropertyChangeListener
     if(startDate == null || endDate == null)
     {
       error.set("Date is empty, please choose a date.");
+      canClick.set(false);
     }
     else if (endDate.isBefore(startDate))
     {
       error.set("The end date is earlier than the start date.");
+      canClick.set(false);
     }
     else if (endDate.getYear() == startDate.getYear() && endDate.getMonthValue() == startDate.getMonthValue() && endDate.getDayOfMonth() == startDate.getDayOfMonth())
     {
       error.set("The same dates have been selected.");
+      canClick.set(false);
     }
     else
     {
@@ -257,80 +323,19 @@ public class ReservationViewModel implements PropertyChangeListener
     }
   }
 
-  public void bindError(StringProperty property)
-  {
-    property.bind(error);
-  }
-
-  public void bindAmenities(StringProperty property)
-  {
-    property.bind(amenities);
-  }
-  public void bindFirstName(StringProperty property)
-  {
-    property.bindBidirectional(firstName);
-  }
-  public void bindLastName(StringProperty property)
-  {
-    property.bindBidirectional(lastName);
-  }
-  public void bindCard(StringProperty property)
-  {
-    property.bindBidirectional(cardInfo);
-  }
-  public void bindBreakfast(BooleanProperty property)
-  {
-    property.bindBidirectional(breakfast);
-  }
-  public void bindLunch(BooleanProperty property)
-  {
-    property.bindBidirectional(lunch);
-  }
-  public void bindDinner(BooleanProperty property)
-  {
-    property.bindBidirectional(dinner);
-  }
-  public void bindAirportTrans(BooleanProperty property)
-  {
-    property.bindBidirectional(airportTrans);
-  }
-  public void bindWellness(BooleanProperty property)
-  {
-    property.bindBidirectional(wellness);
-  }
-  public void bindRoomService(BooleanProperty property)
-  {
-    property.bindBidirectional(roomService);
-  }
-  public void bindNoOfGuests(StringProperty property)
-  {
-    property.bindBidirectional(noOfGuests);
-  }
-
-  public void bindReservationId(StringProperty property)
-  {
-    property.bind(reservationId);
-  }
-
-  public void bindCanClick(BooleanProperty property)
-  {
-    property.bind(canClick);
-  }
-
-  public void bindDelete(BooleanProperty property)
-  {
-    property.bind(delete);
-  }
-
-  public void bindCheckOut(BooleanProperty property)
-  {
-    property.bind(checkOut);
-  }
+  /**
+   * Adds a PropertyChangeListener to listen for property changes
+   * @param listener The listener to add
+   */
   public void addPropertyChangeListener(PropertyChangeListener listener)
   {
     support.addPropertyChangeListener(listener);
   }
 
+  /**
+   * Removes a PropertyChangeListener
+   * @param listener The listener to remove
+   */
   public void removePropertyChangeListener(PropertyChangeListener listener)
   {
     support.removePropertyChangeListener(listener);
@@ -440,6 +445,9 @@ public class ReservationViewModel implements PropertyChangeListener
     resetValues();
   }
 
+  /**
+   * Sets all values to false, or empty Strings
+   */
   private void resetValues()
   {
     setAllServicesToFalse();
@@ -475,10 +483,60 @@ public class ReservationViewModel implements PropertyChangeListener
     model.checkOut(reservation.getRoom());
   }
 
+  /**
+   * Handles what happens when the dates are changed
+   */
   public void datesChanged()
   {
     canClick.set(false);
     delete.set(true);
     checkOut.set(true);
+  }
+
+  /**
+   * Handles property change events.
+   *
+   * @param evt A PropertyChangeEvent object describing the event source
+   *          and the property that has changed.
+   */
+
+  @Override public void propertyChange(PropertyChangeEvent evt)
+  {
+    switch (evt.getPropertyName())
+    {
+      case "Display Room Selected" ->
+      {
+        Room temp = (Room) evt.getOldValue();
+        setAmenities(temp.toString());
+        support.firePropertyChange("Set Current Room", null,
+            temp.getRoomNumber());
+        delete.set(true);
+        checkOut.set(true);
+      }
+      case "Display Dates for Selected Room" ->
+      {
+        LocalDate end = (LocalDate) evt.getOldValue();
+        LocalDate start = (LocalDate) evt.getNewValue();
+        support.firePropertyChange("Display Dates", end, start);
+        canClick.set(true);
+      }
+      case "Getting All Available Rooms" ->
+          support.firePropertyChange("Display Available Rooms", null,
+              evt.getNewValue());
+      case "Display Reservation Selected" ->
+      {
+        Reservation selected = (Reservation) evt.getOldValue();
+        support.firePropertyChange("Set Reservation", selected, null);
+        displayReservation(selected);
+      }
+      case "Update Reservations" ->
+      {
+        if (evt.getNewValue() != null)
+        {
+          support.firePropertyChange("Display Reservation Made Popup", null,
+              evt.getNewValue());
+        }
+      }
+    }
   }
 }

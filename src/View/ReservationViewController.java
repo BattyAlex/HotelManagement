@@ -22,9 +22,6 @@ import java.util.ArrayList;
 
 public class ReservationViewController implements PropertyChangeListener
 {
-  private Region root;
-  private ReservationViewModel reservationViewModel;
-  private ViewHandler viewHandler;
   @FXML private TextField firstName;
   @FXML private TextField lastName;
   @FXML private TextField cardInfo;
@@ -44,6 +41,9 @@ public class ReservationViewController implements PropertyChangeListener
   @FXML private Button checkOut;
   @FXML private Label reservationId;
   private SimpleBooleanProperty canClick;
+  private Region root;
+  private ReservationViewModel reservationViewModel;
+  private ViewHandler viewHandler;
 
   /**
    * Initialzes the controller with the necessary handlers and model
@@ -111,79 +111,6 @@ public class ReservationViewController implements PropertyChangeListener
     {
       reservationViewModel.onCancel();
       viewHandler.openView(ViewFactory.ROOM);
-    }
-  }
-
-  /**
-   * Shows an alert with the given message
-   */
-  public void alert()
-  {
-    Alert alert = new Alert(Alert.AlertType.ERROR, "One or more input values are invalid. Check your information and try again", ButtonType.OK);
-    alert.setTitle("Error");
-    alert.showAndWait();
-  }
-
-  /**
-   * Responds to property changes in the reservation view model
-   * @param evt A PropertyChangeEvent object describing the event source
-   *          and the property that has changed.
-   */
-
-  @Override public void propertyChange(PropertyChangeEvent evt)
-  {
-    switch (evt.getPropertyName())
-    {
-      case "Set Current Room":
-        if(roomNumber.getItems().isEmpty())
-        {
-          roomNumber.getItems().add((Integer)evt.getNewValue());
-          roomNumber.getSelectionModel().select(0);
-        }
-        break;
-      case "Display Dates":
-        startDate.setValue((LocalDate) evt.getNewValue());
-        endDate.setValue((LocalDate) evt.getOldValue());
-        break;
-      case "invalid input":
-        alert();
-        break;
-      case "Display Available Rooms":
-        roomNumber.getItems().clear();
-        ArrayList<Room> rooms = (ArrayList<Room>) evt.getNewValue();
-        for (int i = 0; i < rooms.size(); i++)
-        {
-          roomNumber.getItems().add((Integer)rooms.get(i).getRoomNumber());
-        }
-        if(!roomNumber.getItems().isEmpty())
-        {
-          roomNumber.getSelectionModel().select(0);
-          reservationViewModel.roomSelected(rooms.get(0), startDate.getValue(), endDate.getValue());
-        }
-        else
-        {
-          reservationViewModel.setAmenities("");
-        }
-        break;
-      case "Set Reservation":
-        Reservation selected = (Reservation) evt.getOldValue();
-        startDate.setValue(selected.getStartDate());
-        endDate.setValue(selected.getEndDate());
-        roomNumber.getItems().clear();
-        roomNumber.getItems().add(selected.getRoom().getRoomNumber());
-        roomNumber.getSelectionModel().select(0);
-        break;
-      case "Display Reservation Made Popup":
-        Reservation reservation = (Reservation) evt.getNewValue();
-        String contentText = "Reservation " + reservation.getReservationId() + " successfully made / updated / ended.\nThe total is: " + reservation.getTotalForStay() + "$";
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, contentText, ButtonType.OK);
-        alert.setTitle("Reservation Successfully Made");
-        alert.showAndWait();
-        if(alert.getResult() == ButtonType.OK)
-        {
-          viewHandler.openView(ViewFactory.ROOM);
-        }
-        break;
     }
   }
 
@@ -276,6 +203,86 @@ public class ReservationViewController implements PropertyChangeListener
       Reservation reservation = new Reservation(startDate.getValue(), endDate.getValue(), new Guest("", "", ""), new Room((int)roomNumber.getSelectionModel().getSelectedItem()), new Staff("", ""));
       reservationViewModel.checkOut(reservation);
       viewHandler.openView(ViewFactory.ROOM);
+    }
+  }
+
+  /**
+   * Shows an alert with the given message
+   */
+  private void alert()
+  {
+    Alert alert = new Alert(Alert.AlertType.ERROR, "One or more input values are invalid. Check your information and try again", ButtonType.OK);
+    alert.setTitle("Error");
+    alert.showAndWait();
+  }
+
+  /**
+   * Responds to property changes in the reservation view model
+   * @param evt A PropertyChangeEvent object describing the event source
+   *          and the property that has changed.
+   */
+
+  @Override public void propertyChange(PropertyChangeEvent evt)
+  {
+    switch (evt.getPropertyName())
+    {
+      case "Set Current Room" ->
+      {
+        if (roomNumber.getItems().isEmpty())
+        {
+          roomNumber.getItems().add((Integer) evt.getNewValue());
+          roomNumber.getSelectionModel().select(0);
+        }
+      }
+      case "Display Dates" ->
+      {
+        startDate.setValue((LocalDate) evt.getNewValue());
+        endDate.setValue((LocalDate) evt.getOldValue());
+      }
+      case "invalid input" -> alert();
+      case "Display Available Rooms" ->
+      {
+        roomNumber.getItems().clear();
+        ArrayList<Room> rooms = (ArrayList<Room>) evt.getNewValue();
+        for (int i = 0; i < rooms.size(); i++)
+        {
+          roomNumber.getItems().add((Integer) rooms.get(i).getRoomNumber());
+        }
+        if (!roomNumber.getItems().isEmpty())
+        {
+          roomNumber.getSelectionModel().select(0);
+          reservationViewModel.roomSelected(rooms.get(0), startDate.getValue(),
+              endDate.getValue());
+        }
+        else
+        {
+          reservationViewModel.setAmenities("");
+        }
+      }
+      case "Set Reservation" ->
+      {
+        Reservation selected = (Reservation) evt.getOldValue();
+        startDate.setValue(selected.getStartDate());
+        endDate.setValue(selected.getEndDate());
+        roomNumber.getItems().clear();
+        roomNumber.getItems().add(selected.getRoom().getRoomNumber());
+        roomNumber.getSelectionModel().select(0);
+      }
+      case "Display Reservation Made Popup" ->
+      {
+        Reservation reservation = (Reservation) evt.getNewValue();
+        String contentText = "Reservation " + reservation.getReservationId()
+            + " successfully made / updated / ended.\nThe total is: "
+            + reservation.getTotalForStay() + "$";
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, contentText,
+            ButtonType.OK);
+        alert.setTitle("Reservation Successfully Made");
+        alert.showAndWait();
+        if (alert.getResult() == ButtonType.OK)
+        {
+          viewHandler.openView(ViewFactory.ROOM);
+        }
+      }
     }
   }
 }
