@@ -95,6 +95,12 @@ public class ViewFactory
     }
     return roomViewController.getRoot();
   }
+
+  /**
+   * Loads and returns the reservation view
+   *
+   * @return The root region of the reservation view
+   */
   public Region loadReservationView()
   {
     if(reservationViewController == null)
@@ -115,6 +121,12 @@ public class ViewFactory
     }
     return reservationViewController.getRoot();
   }
+
+  /**
+   * Loads and returns the cleaning view
+   *
+   * @return The root region of the cleaning view
+   */
   public Region loadCleaningView()
   {
     if(cleaningViewController == null)
