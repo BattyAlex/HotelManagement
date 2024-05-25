@@ -58,6 +58,11 @@ public class ViewModelFactory
   {
     return roomViewModel;
   }
+
+  /**
+   * Returns the instance of CleaningViewModel
+   * @return The instance of CleaningViewModel
+   */
   public CleaningViewModel getCleaningViewModel()
   {
     return cleaningViewModel;
