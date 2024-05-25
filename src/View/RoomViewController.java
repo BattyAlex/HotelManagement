@@ -25,9 +25,6 @@ import java.util.Date;
 
 public class RoomViewController implements PropertyChangeListener
 {
-  private Region root;
-  private RoomViewModel roomViewModel;
-  private ViewHandler viewHandler;
   @FXML private ToggleButton roomReservation;
   @FXML private ListView roomsAndReservations;
   @FXML private DatePicker dateStart;
@@ -36,9 +33,12 @@ public class RoomViewController implements PropertyChangeListener
   @FXML private Label error;
   @FXML private ToggleButton cleaningToggle;
   private SimpleBooleanProperty canClick;
+  private Region root;
+  private RoomViewModel roomViewModel;
+  private ViewHandler viewHandler;
 
   /**
-   * Initialozes the RoomViewController with the specified ViewHandler, RoomViewModel and root Region.
+   * Initializes the RoomViewController with the specified ViewHandler, RoomViewModel and root Region.
    *
    * @param viewHandler   the ViewHandler to be used by this controller.
    * @param roomViewModel the RoomViewModel to be used by this controller
@@ -92,6 +92,10 @@ public class RoomViewController implements PropertyChangeListener
           dateEnd.getValue());
   }
 
+  /**
+   * Handles what happens when an item is clicked in the roomsAndReservations ListView
+   */
+
   @FXML public void onClick()
   {
     if(roomsAndReservations.getSelectionModel().getSelectedItem() != null)
@@ -127,10 +131,27 @@ public class RoomViewController implements PropertyChangeListener
       }
     }
   }
+
+  /**
+   * Handles what happens when the cleaningToggle is pressed
+   */
   @FXML public void onCleaning()
   {
     roomViewModel.onCleaning();
   }
+
+  /**
+   * Handles what happens when the dates are changed.
+   */
+  @FXML public void datesChanged()
+  {
+    roomViewModel.datesChanged();
+  }
+
+  /**
+   * Adds the items of rooms to roomsAndReservations ListView
+   * @param rooms the list of rooms to be loaded
+   */
 
   private void loadRooms(ArrayList<Room> rooms)
   {
@@ -141,6 +162,10 @@ public class RoomViewController implements PropertyChangeListener
     }
   }
 
+  /**
+   * Adds the items of reservations to roomsAndReservations ListView
+   * @param reservations the list of reservations to be loaded
+   */
   private void loadReservations(ArrayList<Reservation> reservations)
   {
     roomsAndReservations.getItems().clear();
@@ -150,6 +175,22 @@ public class RoomViewController implements PropertyChangeListener
     }
   }
 
+  /**
+   * Loads all rooms using the RoomViewModel
+   */
+  public void loadAllRooms()
+  {
+    roomViewModel.loadAllRooms();
+  }
+
+  /**
+   * Loads all reservations using the RoomViewModel
+   */
+
+  public void loadAllReservations()
+  {
+    roomViewModel.loadAllReservations();
+  }
   /**
    * Handles property change events and updates the view accordingly
    *
@@ -161,33 +202,10 @@ public class RoomViewController implements PropertyChangeListener
   {
     switch (evt.getPropertyName())
     {
-      case "Load Room List":
-        loadRooms((ArrayList<Room>) evt.getNewValue());
-        break;
-      case "Load Reservation List":
-        loadReservations((ArrayList<Reservation>) evt.getNewValue());
-        break;
-      case "Load All Reservations":
-        loadAllReservations();
-        break;
+      case "Load Room List" -> loadRooms((ArrayList<Room>) evt.getNewValue());
+      case "Load Reservation List" ->
+          loadReservations((ArrayList<Reservation>) evt.getNewValue());
+      case "Load All Reservations" -> loadAllReservations();
     }
-  }
-
-  @FXML public void datesChanged()
-  {
-    roomViewModel.datesChanged();
-  }
-
-  /**
-   * Loads all rooms using the RoomViewModel
-   */
-  public void loadAllRooms()
-  {
-    roomViewModel.loadAllRooms();
-  }
-
-  public void loadAllReservations()
-  {
-    roomViewModel.loadAllReservations();
   }
 }

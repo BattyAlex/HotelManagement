@@ -1,5 +1,6 @@
 import Model.HotelModel;
 import Model.HotelModelManager;
+import Model.Reservation;
 import Model.Room;
 import View.RoomViewController;
 import ViewModel.RoomViewModel;
@@ -291,16 +292,30 @@ public class RoomViewModelTesting
     assertEquals("Needs cleaning", roomViewModel.getCleaningToggle());
   }
 
-//  @Test public void view_model_fires_event() {
-//    ArrayList<PropertyChangeEvent> events = new ArrayList<>();
-//    roomViewModel.addPropertyChangeListener(evt -> {
-//      events.add(evt);
-//    });
-//    roomViewModel.onToggle();
-//    assertEquals(1, events.size());
-//  }
+  @Test public void on_AllRooms_event_cleaningToggle_is_set_to_NeedsCleaning()
+  {
+    roomViewModel.onCleaning();
+    assertEquals("To rooms", cleaningToggle.get());
+    PropertyChangeEvent event = new PropertyChangeEvent(new Object(),"All Rooms", null, new ArrayList<Room>());
 
-  @Test public void view_model_gets_event() {
+    roomViewModel.propertyChange(event);
+    assertEquals("Needs cleaning", cleaningToggle.get());
+  }
+
+  @Test public void on_AllRooms_event_propertyChangeSupportEvent_is_fired()
+  {
+    ArrayList<PropertyChangeEvent> events = new ArrayList<>();
+    roomViewModel.addPropertyChangeListener(evt -> {
+      events.add(evt);
+    });
+    PropertyChangeEvent event = new PropertyChangeEvent(new Object(),"All Rooms", null, new ArrayList<Room>());
+    roomViewModel.propertyChange(event);
+    assertEquals(1, events.size());
+    assertEquals(event.getNewValue(), events.get(0).getNewValue());
+  }
+
+  @Test public void on_AvailableRooms_propertyChangeEvent_is_fired()
+  {
     ArrayList<PropertyChangeEvent> events = new ArrayList<>();
     roomViewModel.addPropertyChangeListener(evt -> {
       events.add(evt);
@@ -309,5 +324,79 @@ public class RoomViewModelTesting
     roomViewModel.propertyChange(availableRoomsEvent);
     assertEquals(1, events.size());
     assertEquals(availableRoomsEvent.getNewValue(), events.get(0).getNewValue());
+  }
+
+  @Test public void on_AllReservations_event_propertyChangeEvent_is_fired()
+  {
+    ArrayList<PropertyChangeEvent> events = new ArrayList<>();
+    roomViewModel.addPropertyChangeListener(evt -> {
+      events.add(evt);
+    });
+    PropertyChangeEvent availableRoomsEvent = new PropertyChangeEvent(new Object(),"All Reservations", null, new ArrayList<Reservation>());
+    roomViewModel.propertyChange(availableRoomsEvent);
+    assertEquals(1, events.size());
+    assertEquals(availableRoomsEvent.getNewValue(), events.get(0).getNewValue());
+  }
+
+  @Test public void on_ReservationsForTimePeriod_event_propertyChangeEvent_is_fired()
+  {
+    ArrayList<PropertyChangeEvent> events = new ArrayList<>();
+    roomViewModel.addPropertyChangeListener(evt -> {
+      events.add(evt);
+    });
+    PropertyChangeEvent availableRoomsEvent = new PropertyChangeEvent(new Object(),"Reservations for Time Period", null, new ArrayList<Reservation>());
+    roomViewModel.propertyChange(availableRoomsEvent);
+    assertEquals(1, events.size());
+    assertEquals(availableRoomsEvent.getNewValue(), events.get(0).getNewValue());
+  }
+
+  @Test public void on_UpdateReservations_event_if_toggle_equals_ToReservations_no_propertyChangeEvent_is_fired()
+  {
+    assertEquals("To reservations", toggle.get());
+    ArrayList<PropertyChangeEvent> events = new ArrayList<>();
+    roomViewModel.addPropertyChangeListener(evt -> {
+      events.add(evt);
+    });
+    PropertyChangeEvent availableRoomsEvent = new PropertyChangeEvent(new Object(),"Update Reservations", null, new ArrayList<Reservation>());
+    roomViewModel.propertyChange(availableRoomsEvent);
+    assertEquals(0, events.size());
+  }
+
+  @Test public void on_UpdateReservations_event_if_toggle_equals_ToRooms_propertyChangeEvent_is_fired()
+  {
+    roomViewModel.onToggle();
+    assertEquals("To rooms", toggle.get());
+    ArrayList<PropertyChangeEvent> events = new ArrayList<>();
+    roomViewModel.addPropertyChangeListener(evt -> {
+      events.add(evt);
+    });
+    PropertyChangeEvent availableRoomsEvent = new PropertyChangeEvent(new Object(),"Update Reservations", null, new ArrayList<Reservation>());
+    roomViewModel.propertyChange(availableRoomsEvent);
+    assertEquals(1, events.size());
+  }
+
+  @Test public void on_DisplayRoomsForCleaning_event_if_cleaningToggle_equals_ToReservations_no_propertyChangeEvent_is_fired()
+  {
+    assertEquals("Needs cleaning", cleaningToggle.get());
+    ArrayList<PropertyChangeEvent> events = new ArrayList<>();
+    roomViewModel.addPropertyChangeListener(evt -> {
+      events.add(evt);
+    });
+    PropertyChangeEvent availableRoomsEvent = new PropertyChangeEvent(new Object(),"Display Rooms For Cleaning", null, new ArrayList<Room>());
+    roomViewModel.propertyChange(availableRoomsEvent);
+    assertEquals(0, events.size());
+  }
+
+  @Test public void on_DisplayRoomsForCleaning_event_if_cleaningToggle_equals_ToRooms_propertyChangeEvent_is_fired()
+  {
+    roomViewModel.onCleaning();
+    assertEquals("To rooms", cleaningToggle.get());
+    ArrayList<PropertyChangeEvent> events = new ArrayList<>();
+    roomViewModel.addPropertyChangeListener(evt -> {
+      events.add(evt);
+    });
+    PropertyChangeEvent availableRoomsEvent = new PropertyChangeEvent(new Object(),"Display Rooms For Cleaning", null, new ArrayList<Room>());
+    roomViewModel.propertyChange(availableRoomsEvent);
+    assertEquals(1, events.size());
   }
 }

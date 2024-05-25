@@ -57,11 +57,19 @@ public class RoomViewModel implements PropertyChangeListener
     property.bind(error);
   }
 
+  /**
+   * Binds the provided SimpleBooleanProperty to canClick
+   * @param property the property to bind to canClick
+   */
   public void bindCanClick(SimpleBooleanProperty property)
   {
     property.bindBidirectional(canClick);
   }
 
+  /**
+   * Binds the provided StringProperty to cleaningToggle
+   * @param property the property to bind to cleaningToggle
+   */
   public void bindCleaningToggle(StringProperty property)
   {
     property.bind(cleaningToggle);
@@ -107,43 +115,6 @@ public class RoomViewModel implements PropertyChangeListener
   }
 
   /**
-   * Called when a property change occurs. This method fires appropriate property changes based on the event
-   * @param evt A PropertyChangeEvent object describing the event source
-   *          and the property that has changed.
-   */
-  @Override public void propertyChange(PropertyChangeEvent evt)
-  {
-    switch (evt.getPropertyName())
-    {
-      case "All Rooms":
-        cleaningToggle.set("Needs cleaning");
-        support.firePropertyChange("Load Room List", null, evt.getNewValue());
-        break;
-      case "Available Rooms":
-        support.firePropertyChange("Load Room List", null, evt.getNewValue());
-        break;
-      case "All Reservations":
-        support.firePropertyChange("Load Reservation List", null, evt.getNewValue());
-        break;
-      case "Reservations for Time Period":
-        support.firePropertyChange("Load All Reservations", null, evt.getNewValue());
-        break;
-      case "Update Reservations":
-        if (toggle.get().equals("To rooms"))
-        {
-          support.firePropertyChange("Load All Reservations", null, evt.getNewValue());
-        }
-        break;
-      case "Display Rooms For Cleaning":
-        if (cleaningToggle.get().equals("To rooms"))
-        {
-          support.firePropertyChange("Load Room List", null, evt.getNewValue());
-        }
-        break;
-    }
-  }
-
-  /**
    * Loads all rooms by calling the corresponding method on the model
    */
   public void loadAllRooms()
@@ -151,6 +122,9 @@ public class RoomViewModel implements PropertyChangeListener
     model.loadAllRooms();
   }
 
+  /**
+   * Sets canClick to false
+   */
   public void datesChanged()
   {
     canClick.set(false);
@@ -195,7 +169,7 @@ public class RoomViewModel implements PropertyChangeListener
   }
 
   /**
-   * Loads reservations within the specified timeframe
+   * Loads all reservations by calling HotelModel's method
    */
   public void loadAllReservations()
   {
@@ -225,11 +199,23 @@ public class RoomViewModel implements PropertyChangeListener
       canClick.set(true);
     }
   }
+
+  /**
+   * Sets the error to the given String message
+   * @param message the message to be displayed
+   */
   public void setError(String message)
   {
     error.set(message);
   }
 
+  /**
+   * Sends the selected room forward to the HotelModel to be displayed
+   * Sets the error message given the startDate or the endDate are incorrect
+   * @param room The room that was selected
+   * @param startDate The start date to be displayed
+   * @param endDate The end date to be displayed
+   */
   public void roomSelected(Room room, LocalDate startDate, LocalDate endDate)
   {
     error.set("");
@@ -246,6 +232,13 @@ public class RoomViewModel implements PropertyChangeListener
       model.roomSelected(room, startDate, endDate);
     }
   }
+
+  /**
+   * Checks whether the given startDate and endDate are correct
+   * @param startDate The start date to be checked
+   * @param endDate The end date to be checked
+   * @return Returns a boolean based on whether the given dates are not null, and the start date is before the end date
+   */
   public boolean areDatesCorrect(LocalDate startDate, LocalDate endDate)
   {
     if(startDate == null || endDate == null)
@@ -258,6 +251,10 @@ public class RoomViewModel implements PropertyChangeListener
     }
     return true;
   }
+
+  /**
+   * Calls the HotelModel's methods based on the value of cleaningToggle
+   */
   public void onCleaning()
   {
     if(cleaningToggle.get().equals("Needs cleaning"))
@@ -272,17 +269,70 @@ public class RoomViewModel implements PropertyChangeListener
     }
   }
 
+  /**
+   * Forwards the selected reservation to the HotelModel
+   * @param selected the selected reservation
+   */
   public void reservationSelected(Reservation selected)
   {
     model.reservationSelected(selected);
   }
+
+  /**
+   * Returns the String value of the cleaningToggle
+   * @return the value of the cleaningToggle
+   */
   public String getCleaningToggle()
   {
     return cleaningToggle.get();
   }
 
+  /**
+   * Send the selected room for cleaning to the HotelModel
+   * @param room The room selected for cleaning
+   */
   public void selectRoomForCleaning(Room room)
   {
     model.selectRoomToClean(room);
+  }
+
+  /**
+   * Called when a property change occurs. This method fires appropriate property changes based on the event
+   * @param evt A PropertyChangeEvent object describing the event source
+   *          and the property that has changed.
+   */
+  @Override public void propertyChange(PropertyChangeEvent evt)
+  {
+    switch (evt.getPropertyName())
+    {
+      case "All Rooms" ->
+      {
+        cleaningToggle.set("Needs cleaning");
+        support.firePropertyChange("Load Room List", null, evt.getNewValue());
+      }
+      case "Available Rooms" ->
+          support.firePropertyChange("Load Room List", null, evt.getNewValue());
+      case "All Reservations" ->
+          support.firePropertyChange("Load Reservation List", null,
+              evt.getNewValue());
+      case "Reservations for Time Period" ->
+          support.firePropertyChange("Load All Reservations", null,
+              evt.getNewValue());
+      case "Update Reservations" ->
+      {
+        if (toggle.get().equals("To rooms"))
+        {
+          support.firePropertyChange("Load All Reservations", null,
+              evt.getNewValue());
+        }
+      }
+      case "Display Rooms For Cleaning" ->
+      {
+        if (cleaningToggle.get().equals("To rooms"))
+        {
+          support.firePropertyChange("Load Room List", null, evt.getNewValue());
+        }
+      }
+    }
   }
 }
