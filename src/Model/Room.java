@@ -14,7 +14,7 @@ Room implements Serializable
   public static final String NEEDS_CLEANING = "needs cleaning";
   private int roomNumber;
   private double price;
-  private ArrayList<String> amenities = new ArrayList<String>();
+  private ArrayList<String> amenities;
   private RoomType type;
   private String state;
 
@@ -31,19 +31,16 @@ Room implements Serializable
     this.price = price;
     this.roomNumber = roomNumber;
     this.state = state;
-  }
-  public Room(int roomNumber)
-  {
-    this.roomNumber = roomNumber;
+    amenities = new ArrayList<String>();
   }
 
   /**
-   * Sets the price of the room
-   * @param price the n ew price to set
+   * Constructs a new room with the room number only
+   * @param roomNumber the room number of the room
    */
-  public void setPrice(double price)
+  public Room(int roomNumber)
   {
-    this.price = price;
+    this.roomNumber = roomNumber;
   }
 
   /**
@@ -70,27 +67,7 @@ Room implements Serializable
    */
   public String getType()
   {
-
-
     return type.getType();
-  }
-
-  /**
-   * Adds an amenity to the room.
-   * @param amenity The amenity to add to the room
-   */
-  public void addAmenities(String amenity)
-  {
-    amenities.add(amenity);
-  }
-
-  /**
-   * Gets the price of the room
-   * @return the price of the room
-   */
-  public double getPrice()
-  {
-    return price;
   }
 
   /**
@@ -102,10 +79,46 @@ Room implements Serializable
     return amenities;
   }
 
+  /**
+   * Gets the price of the room
+   * @return the price of the room
+   */
+  public double getPrice()
+  {
+    return price;
+  }
+  /**
+   * Sets the price of the room
+   * @param price the n ew price to set
+   */
+  public void setPrice(double price)
+  {
+    this.price = price;
+  }
+
+  /**
+   * Adds an amenity to the room.
+   * @param amenity The amenity to add to the room
+   */
+  public void addAmenities(String amenity)
+  {
+    amenities.add(amenity);
+  }
+
+
+  /**
+   * Sets the state of the room
+   * @param state the state of the room
+   */
   public void setState(String state)
   {
     this.state = state;
   }
+
+  /**
+   * Returns the Room as a String
+   * @return the Room as a String
+   */
 
   public String toString()
   {
