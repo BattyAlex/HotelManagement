@@ -11,7 +11,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 /**
- * The {@code HotelManagementCommunicator} class implements the Runnable interface to handle
+ * The HotelManagementCommunicator class implements the Runnable interface to handle
  * communication with the hotel management system
  */
 
@@ -22,9 +22,12 @@ public class HotelManagementCommunicator implements Runnable
   private final UDPBroadcaster broadcaster;
   private ObjectInputStream reader;
   private ObjectOutputStream writer;
+  private final UserDAO userDAO;
+  private final RoomDAO roomDAO;
+  private final ReservationDAO reservationDAO;
 
   /**
-   * Constructs a new {@code HotelManagementCommunicator} with the specified socket and UDP broadcaster.
+   * Constructs a new HotelManagementCommunicator with the specified socket and UDP broadcaster.
    * @param socket  the socket for communication
    * @param broadcaster  the UDP broadcaster for message broadcasting
    */
@@ -33,6 +36,9 @@ public class HotelManagementCommunicator implements Runnable
   {
     this.socket = socket;
     this.broadcaster = broadcaster;
+    userDAO = UserDAO.getInstance();
+    roomDAO = RoomDAO.getInstance();
+    reservationDAO = ReservationDAO.getInstance();
   }
 
   /**
@@ -62,107 +68,53 @@ public class HotelManagementCommunicator implements Runnable
         {
           break loop;
         }
-        else if(text.equals("Login attempt"))
-        {
-          writer.writeObject("Which staff?");
-          writer.flush();
-          Staff confirmation = (Staff) reader.readObject();
-          Staff loginRequest = UserDAO.getInstance().getStaffBasedOnUsername(
-              confirmation.getUsername());
-          if(loginRequest == null)
+        else {
+          switch (text)
           {
-            writer.writeObject("Invalid username");
+            case "Login attempt" -> tryLogin();
+            case "Requesting All Rooms" ->
+            {
+              ArrayList<Room> sendOver = roomDAO.getAllRooms();
+              writer.writeObject(sendOver);
+              writer.flush();
+            }
+            case "Request Rooms of Specific Period" ->
+              getRoomsForSpecificPeriod();
+
+            case "Requesting All Reservations" ->
+            {
+              ArrayList<Reservation> sendOver = reservationDAO.getAllReservations();
+              writer.writeObject(sendOver);
+              writer.flush();
+            }
+            case "Requesting Reservations of Specific Period" ->
+                getReservationsForSpecificPeriod();
+            case "Get room with room number" ->
+            {
+              getRoomWithRoomNumber();
+            }
+            case "Making or Updating Reservation" ->
+            {
+              makeOrUpdateReservation();
+            }
+            case "Deleting reservation" ->
+            {
+              deleteReservation();
+            }
+            case "Updating State of Room" ->
+            {
+              writer.writeObject("Requesting room");
+              writer.flush();
+              Room toClean = (Room) reader.readObject();
+              roomDAO.updateStateOfRoom(toClean);
+            }
+            case "Requesting Rooms Needing Cleaning" ->
+            {
+              ArrayList<Room> sendOver = roomDAO.getRoomsInNeedOfCleaning();
+              writer.writeObject(sendOver);
+              writer.flush();
+            }
           }
-          else if (loginRequest.equals(confirmation))
-          {
-            writer.writeObject("Approved");
-          }
-          else
-          {
-            writer.writeObject("Rejected");
-          }
-          writer.flush();
-        }
-        else if (text.equals("Requesting All Rooms"))
-        {
-          ArrayList<Room> sendOver = RoomDAO.getInstance().getAllRooms();
-          writer.writeObject(sendOver);
-          writer.flush();
-        }
-        else if (text.equals("Request Rooms of Specific Period"))
-        {
-          Date startDate;
-          Date endDate;
-          writer.writeObject("Start Date?");
-          writer.flush();
-          LocalDate receivedStart = (LocalDate) reader.readObject();
-          startDate = new Date(receivedStart.getYear()-1900, receivedStart.getMonthValue()-1, receivedStart.getDayOfMonth());
-          writer.writeObject("End Date?");
-          writer.flush();
-          LocalDate receivedEnd = (LocalDate) reader.readObject();
-          endDate = new Date(receivedEnd.getYear()-1900, receivedEnd.getMonthValue()-1, receivedEnd.getDayOfMonth());
-          ArrayList<Room> available = RoomDAO.getInstance().getAllAvailableRooms(startDate, endDate);
-          writer.writeObject(available);
-          writer.flush();
-        }
-        else if (text.equals("Requesting All Reservations"))
-        {
-          ArrayList<Reservation> sendOver = ReservationDAO.getInstance().getAllReservations();
-          writer.writeObject(sendOver);
-          writer.flush();
-        }
-        else if (text.equals("Requesting Reservations of Specific Period"))
-        {
-          writer.writeObject("Start Date?");
-          writer.flush();
-          LocalDate startDate = (LocalDate) reader.readObject();
-          writer.writeObject("End Date?");
-          writer.flush();
-          LocalDate endDate = (LocalDate) reader.readObject();
-          ArrayList<Reservation> reservations = ReservationDAO.getInstance()
-              .getAllReservationsForPeriod(startDate, endDate);
-          writer.writeObject(reservations);
-          writer.flush();
-        }
-        else if (text.equals("Get room with room number"))
-        {
-          writer.writeObject("Which room?");
-          writer.flush();
-          int roomNumber = (int) reader.readObject();
-          Room sendOver = RoomDAO.getInstance().getRoomByRoomNumber(roomNumber);
-          writer.writeObject(sendOver);
-          writer.flush();
-        }
-        else if (text.equals("Making or Updating Reservation"))
-        {
-          writer.writeObject("Reservation needed");
-          writer.flush();
-          Reservation received = (Reservation) reader.readObject();
-          Reservation sendBack = ReservationDAO.getInstance().makeOrUpdateReservation(received);
-          writer.writeObject(sendBack);
-          writer.flush();
-        }
-        else if (text.equals("Deleting reservation"))
-        {
-          writer.writeObject("Which Reservation?");
-          writer.flush();
-          Reservation received = (Reservation) reader.readObject();
-          Reservation sendOver = ReservationDAO.getInstance().deleteReservation(received);
-          writer.writeObject(sendOver);
-          writer.flush();
-        }
-        else if (text.equals("Updating State of Room"))
-        {
-          writer.writeObject("Requesting room");
-          writer.flush();
-          Room toClean = (Room) reader.readObject();
-          RoomDAO.getInstance().updateStateOfRoom(toClean);
-        }
-        else if (text.equals("Requesting Rooms Needing Cleaning"))
-        {
-          ArrayList<Room> sendOver = RoomDAO.getInstance().getRoomsInNeedOfCleaning();
-          writer.writeObject(sendOver);
-          writer.flush();
         }
       }
     }
@@ -177,6 +129,120 @@ public class HotelManagementCommunicator implements Runnable
         socket.close();
       }
     }
+  }
+
+  /**
+   * The method for deleting a reservation from the database
+   * @throws IOException if an I0 error occurs while communicating.
+   * @throws ClassNotFoundException in case and input is cast to the wrong class
+   */
+  private void deleteReservation() throws IOException, ClassNotFoundException
+  {
+    writer.writeObject("Which Reservation?");
+    writer.flush();
+    Reservation received = (Reservation) reader.readObject();
+    Reservation sendOver = reservationDAO.deleteReservation(received);
+    writer.writeObject(sendOver);
+    writer.flush();
+  }
+
+  /**
+   * The method for making or updating an existing reservation from the database
+   * @throws IOException if an I0 error occurs while communicating.
+   * @throws ClassNotFoundException in case and input is cast to the wrong class
+   */
+
+  private void makeOrUpdateReservation() throws IOException, ClassNotFoundException
+  {
+    writer.writeObject("Reservation needed");
+    writer.flush();
+    Reservation received = (Reservation) reader.readObject();
+    Reservation sendBack = reservationDAO.makeOrUpdateReservation(received);
+    writer.writeObject(sendBack);
+    writer.flush();
+  }
+
+  /**
+   * The method for returning a room based on a room number from the database
+   * @throws IOException if an I0 error occurs while communicating.
+   * @throws ClassNotFoundException in case and input is cast to the wrong class
+   */
+  private void getRoomWithRoomNumber() throws IOException, ClassNotFoundException
+  {
+    writer.writeObject("Which room?");
+    writer.flush();
+    int roomNumber = (int) reader.readObject();
+    Room sendOver = roomDAO.getRoomByRoomNumber(roomNumber);
+    writer.writeObject(sendOver);
+    writer.flush();
+  }
+
+  /**
+   * The method for getting all the reservations for a specific time frame from the database
+   * @throws IOException if an I0 error occurs while communicating.
+   * @throws ClassNotFoundException in case and input is cast to the wrong class
+   */
+  private void getReservationsForSpecificPeriod() throws IOException, ClassNotFoundException
+  {
+    writer.writeObject("Start Date?");
+    writer.flush();
+    LocalDate startDate = (LocalDate) reader.readObject();
+    writer.writeObject("End Date?");
+    writer.flush();
+    LocalDate endDate = (LocalDate) reader.readObject();
+    ArrayList<Reservation> reservations = reservationDAO
+        .getAllReservationsForPeriod(startDate, endDate);
+    writer.writeObject(reservations);
+    writer.flush();
+  }
+
+  /**
+   * The method for getting all the rooms available between a specific time frame from the database
+   * @throws IOException if an I0 error occurs while communicating.
+   * @throws ClassNotFoundException in case and input is cast to the wrong class
+   */
+  private void getRoomsForSpecificPeriod() throws IOException, ClassNotFoundException
+  {
+    Date startDate;
+    Date endDate;
+    writer.writeObject("Start Date?");
+    writer.flush();
+    LocalDate receivedStart = (LocalDate) reader.readObject();
+    startDate = new Date(receivedStart.getYear()-1900, receivedStart.getMonthValue()-1, receivedStart.getDayOfMonth());
+    writer.writeObject("End Date?");
+    writer.flush();
+    LocalDate receivedEnd = (LocalDate) reader.readObject();
+    endDate = new Date(receivedEnd.getYear()-1900, receivedEnd.getMonthValue()-1, receivedEnd.getDayOfMonth());
+    ArrayList<Room> available = roomDAO.getAllAvailableRooms(startDate, endDate);
+    writer.writeObject(available);
+    writer.flush();
+  }
+
+  /**
+   * The method for retrieving a user from the database to check if the user can log in
+   * @throws IOException if an I0 error occurs while communicating.
+   * @throws ClassNotFoundException in case and input is cast to the wrong class
+   */
+  private void tryLogin() throws IOException, ClassNotFoundException
+  {
+    writer.writeObject("Which staff?");
+    writer.flush();
+    Staff confirmation = (Staff) reader.readObject();
+    Staff loginRequest = userDAO.getStaffBasedOnUsername(
+        confirmation.getUsername());
+    if(loginRequest == null)
+    {
+      writer.writeObject("Invalid username");
+    }
+    else if (loginRequest.equals(confirmation))
+    {
+      writer.writeObject("Approved");
+    }
+    else
+    {
+      writer.writeObject("Rejected");
+    }
+    writer.flush();
   }
 
   /**
