@@ -14,7 +14,7 @@ public class Guest implements Serializable
   private int id;
 
   /**
-   * Constructs a new Guest with the specified details
+   * Constructs a new Guest with the specified details and sets the id to -1
    * @param firstName the first name of the guest
    * @param lastName the last name of the guest
    * @param paymentInfo the payment information of the guest
@@ -28,6 +28,13 @@ public class Guest implements Serializable
     id = -1;
   }
 
+  /**
+   * Constructs a new Guest with the specified details
+   * @param firstName the first name of the guest
+   * @param lastName the last name of the guest
+   * @param paymentInfo the payment information of the guest
+   * @param id the id of the guest
+   */
   public Guest(String firstName, String lastName, String paymentInfo, int id)
   {
     this.firstName = firstName;
@@ -64,6 +71,15 @@ public class Guest implements Serializable
   }
 
   /**
+   * Returns id of the guest.
+   * @return the id of the guest.
+   */
+  public int getId()
+  {
+    return id;
+  }
+
+  /**
    * Sets the first name of the guest.
    * @param firstName the new first name to set.
    */
@@ -90,15 +106,12 @@ public class Guest implements Serializable
     this.paymentInfo = paymentInfo;
   }
 
-  public int getId()
-  {
-    return id;
-  }
-
+  /**
+   * Sets the id of the guest.
+   * @param id the new id to set.
+   */
   public void setId(int id)
   {
     this.id = id;
   }
-
-
 }
