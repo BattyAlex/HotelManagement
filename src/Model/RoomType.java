@@ -22,6 +22,11 @@ public class RoomType implements Serializable
     this.key = key;
     this.price = price;
   }
+
+  /**
+   * Constructs a RoomType instance with a specified key.
+   * @param key A unique string key identifying the room type.
+   */
   private RoomType(String key)
   {
     this.key = key;
@@ -31,7 +36,7 @@ public class RoomType implements Serializable
   /**
    * Provides a global access point to get a RoomType instance by key and price.
    * If the instance does not exist, it is created and returned. If it exists, the price is updated.
-   * @param key The unique for the room type
+   * @param key The unique key for the room type
    * @param price The price to set or update for the room type
    * @return The RoomType instance corresponding to the provided key
    */
