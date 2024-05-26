@@ -14,6 +14,9 @@ import java.util.ArrayList;
 public class ReservationDAO extends DatabaseHandlerFactory
 {
   private static ReservationDAO instance;
+  private RoomDAO roomDAO;
+  private GuestDAO guestDAO;
+  private ServicesDAO servicesDAO;
 
   /**
    * Private constructor to prevent instantiation from other classes.
@@ -24,6 +27,9 @@ public class ReservationDAO extends DatabaseHandlerFactory
   private ReservationDAO() throws SQLException
   {
     DriverManager.registerDriver(new org.postgresql.Driver());
+    roomDAO = RoomDAO.getInstance();
+    guestDAO = GuestDAO.getInstance();
+    servicesDAO = ServicesDAO.getInstance();
   }
 
   /**
@@ -68,10 +74,10 @@ public class ReservationDAO extends DatabaseHandlerFactory
       statement.setDate(2, endDate);
       statement.setInt(3, reservation.getNumberOfGuests());
       statement.setString(4, reservation.getStaff().getUsername());
-      Room room = RoomDAO.getInstance().getRoomByRoomNumber(reservation.getRoom().getRoomNumber());
+      Room room = roomDAO.getRoomByRoomNumber(reservation.getRoom().getRoomNumber());
       reservation.setRoom(room);
       statement.setInt(5, room.getRoomNumber());
-      Guest guest = GuestDAO.getInstance().getGuestBasedOnName(reservation.getClient());
+      Guest guest = guestDAO.getGuestBasedOnName(reservation.getClient());
       reservation.setClient(guest);
       statement.setInt(6, guest.getId());
       statement.executeUpdate();
@@ -79,7 +85,7 @@ public class ReservationDAO extends DatabaseHandlerFactory
       Reservation currentReservation = getReservationByTimeAndRoom(reservation);
       for (int i = 0; i < services.size(); i++)
       {
-        ServicesDAO.getInstance().insertServiceForReservation(
+        servicesDAO.insertServiceForReservation(
             currentReservation.getReservationId(), services.get(i).getName());
       }
       return currentReservation;
@@ -92,7 +98,7 @@ public class ReservationDAO extends DatabaseHandlerFactory
   }
 
   /**
-   * Retrives all reservations within a specified period.
+   * Retrieves all reservations within a specified period.
    *
    * @param startDate the start date of the period.
    * @param endDate the end date of the period.
@@ -118,12 +124,12 @@ public class ReservationDAO extends DatabaseHandlerFactory
         int reservation = rs.getInt("reservationNumber");
         int numberOfGuests = rs.getInt("numberOfGuests");
         Staff staff = new Staff(rs.getString("responsibleStaff"), "");
-        Room room = RoomDAO.getInstance().getRoomByRoomNumber(rs.getInt("roomNumber"));
-        Guest guest = GuestDAO.getInstance().getGuestBasedOnId(rs.getInt("clientId"));
+        Room room = roomDAO.getRoomByRoomNumber(rs.getInt("roomNumber"));
+        Guest guest = guestDAO.getGuestBasedOnId(rs.getInt("clientId"));
         Reservation element = new Reservation(rs.getDate("startDate").toLocalDate(), rs.getDate("endDate").toLocalDate(), guest, room, staff);
         element.setNumberOfGuests(numberOfGuests);
         element.setReservationId(reservation);
-        ArrayList<Service> services = ServicesDAO.getInstance()
+        ArrayList<Service> services = servicesDAO
             .getAllServicesForReservation(reservation);
         for (int i = 0; i < services.size(); i++)
         {
@@ -159,12 +165,12 @@ public class ReservationDAO extends DatabaseHandlerFactory
         int reservation = rs.getInt("reservationNumber");
         int numberOfGuests = rs.getInt("numberOfGuests");
         Staff staff = new Staff(rs.getString("responsibleStaff"), "");
-        Room room = RoomDAO.getInstance().getRoomByRoomNumber(rs.getInt("roomNumber"));
-        Guest guest = GuestDAO.getInstance().getGuestBasedOnId(rs.getInt("clientId"));
+        Room room = roomDAO.getRoomByRoomNumber(rs.getInt("roomNumber"));
+        Guest guest = guestDAO.getGuestBasedOnId(rs.getInt("clientId"));
         Reservation element = new Reservation(rs.getDate("startDate").toLocalDate(), rs.getDate("endDate").toLocalDate(), guest, room, staff);
         element.setNumberOfGuests(numberOfGuests);
         element.setReservationId(reservation);
-        ArrayList<Service> services = ServicesDAO.getInstance()
+        ArrayList<Service> services = servicesDAO
             .getAllServicesForReservation(reservation);
         for (int i = 0; i < services.size(); i++)
         {
@@ -181,7 +187,7 @@ public class ReservationDAO extends DatabaseHandlerFactory
   }
 
   /**
-   * Retrievd a reservation by its ID.
+   * Retrieves a reservation by its ID.
    *
    * @param reservationId the ID of the reservation
    * @return  the Reservation object if found, null otherwise.
@@ -202,12 +208,12 @@ public class ReservationDAO extends DatabaseHandlerFactory
         LocalDate endDate = rs.getDate("endDate").toLocalDate();
         int numberOfGuests = rs.getInt("numberOfGuests");
         Staff staff = new Staff(rs.getString("responsibleStaff"), "");
-        Room room = RoomDAO.getInstance().getRoomByRoomNumber(rs.getInt("roomNumber"));
-        Guest guest = GuestDAO.getInstance().getGuestBasedOnId(rs.getInt("clientId"));
+        Room room = roomDAO.getRoomByRoomNumber(rs.getInt("roomNumber"));
+        Guest guest = guestDAO.getGuestBasedOnId(rs.getInt("clientId"));
         Reservation reservation = new Reservation(startDate, endDate, guest, room, staff);
         reservation.setReservationId(reservationNumber);
         reservation.setNumberOfGuests(numberOfGuests);
-        ArrayList<Service> services = ServicesDAO.getInstance()
+        ArrayList<Service> services = servicesDAO
             .getAllServicesForReservation(reservationNumber);
         for (int i = 0; i < services.size(); i++)
         {
@@ -250,13 +256,13 @@ public class ReservationDAO extends DatabaseHandlerFactory
         LocalDate endDate = rs.getDate("endDate").toLocalDate();
         int numberOfGuests = rs.getInt("numberOfGuests");
         Staff staff = new Staff(rs.getString("responsibleStaff"), "");
-        Room room = RoomDAO.getInstance().getRoomByRoomNumber(rs.getInt("roomNumber"));
-        Guest guest = GuestDAO.getInstance().getGuestBasedOnId(rs.getInt("clientId"));
+        Room room = roomDAO.getRoomByRoomNumber(rs.getInt("roomNumber"));
+        Guest guest = guestDAO.getGuestBasedOnId(rs.getInt("clientId"));
         Reservation returning = new Reservation(startDate, endDate, guest,
             room, staff);
         returning.setReservationId(reservationNumber);
         returning.setNumberOfGuests(numberOfGuests);
-        ArrayList<Service> services = ServicesDAO.getInstance()
+        ArrayList<Service> services = servicesDAO
             .getAllServicesForReservation(reservationNumber);
         for (int i = 0; i < services.size(); i++)
         {
@@ -418,10 +424,10 @@ public class ReservationDAO extends DatabaseHandlerFactory
       else
       {
         reservation.setReservationId(exists.getReservationId());
-        Room room = RoomDAO.getInstance().getRoomByRoomNumber(reservation.getRoom().getRoomNumber());
+        Room room = roomDAO.getRoomByRoomNumber(reservation.getRoom().getRoomNumber());
         reservation.setRoom(room);
         ArrayList<Service> reservationServices = reservation.getServices();
-        ArrayList<Service> toUpdate = ServicesDAO.getInstance()
+        ArrayList<Service> toUpdate = servicesDAO
             .getAllServicesForReservation(reservation.getReservationId());
         for (int i = 0; i < reservationServices.size(); i++)
         {
@@ -436,10 +442,10 @@ public class ReservationDAO extends DatabaseHandlerFactory
           }
           if(!contains)
           {
-            ServicesDAO.getInstance().insertServiceForReservation(reservation.getReservationId(), reservationServices.get(i).getName());
+            servicesDAO.insertServiceForReservation(reservation.getReservationId(), reservationServices.get(i).getName());
           }
         }
-        toUpdate = ServicesDAO.getInstance()
+        toUpdate = servicesDAO
             .getAllServicesForReservation(reservation.getReservationId());
         for (int i = 0; i < toUpdate.size(); i++)
         {
@@ -453,7 +459,7 @@ public class ReservationDAO extends DatabaseHandlerFactory
           }
           if(!contains)
           {
-            ServicesDAO.getInstance().deleteServiceForRoom(reservation.getReservationId(), toUpdate.get(i).getName());
+            servicesDAO.deleteServiceForRoom(reservation.getReservationId(), toUpdate.get(i).getName());
           }
         }
         if (exists.getStartDate() != reservation.getStartDate())
@@ -480,7 +486,7 @@ public class ReservationDAO extends DatabaseHandlerFactory
           updateResponsibleStaff(reservation.getStaff().getUsername(), reservation.getReservationId());
         }
       }
-      reservation.setServices(ServicesDAO.getInstance().getAllServicesForReservation(reservation.getReservationId()));
+      reservation.setServices(servicesDAO.getAllServicesForReservation(reservation.getReservationId()));
       reservation = getReservationByTimeAndRoom(reservation);
       return reservation;
     }
@@ -503,7 +509,7 @@ public class ReservationDAO extends DatabaseHandlerFactory
     try(Connection connection = super.establishConnection())
     {
       Reservation toDelete = getReservationByTimeAndRoom(reservation);
-      ServicesDAO.getInstance().deleteAllServicesForReservation(
+      servicesDAO.deleteAllServicesForReservation(
           toDelete.getReservationId());
       PreparedStatement statement = connection.prepareStatement("DELETE FROM Reservation\n"
           + "WHERE reservationNumber = ?;");
