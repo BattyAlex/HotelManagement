@@ -96,18 +96,19 @@ public class HotelClientImplementation implements HotelClient
    */
   @Override public ArrayList<Room> getAllRooms() throws IOException
   {
+    ArrayList<Room> rooms = new ArrayList<>();
     try
     {
       output.writeObject("Requesting All Rooms");
       output.flush();
-      ArrayList<Room> temp = (ArrayList<Room>) input.readObject();
-      return temp;
+      rooms = (ArrayList<Room>) input.readObject();
+      return rooms;
     }
     catch (ClassNotFoundException e)
     {
       e.printStackTrace();
     }
-    return null;
+    return rooms;
   }
 
   /**
@@ -118,6 +119,7 @@ public class HotelClientImplementation implements HotelClient
    */
   @Override public ArrayList<Room> getRoomsAvailable(LocalDate startDate, LocalDate endDate) throws IOException
   {
+    ArrayList<Room> result = new ArrayList<>();
     try
     {
       output.writeObject("Request Rooms of Specific Period");
@@ -134,14 +136,14 @@ public class HotelClientImplementation implements HotelClient
         output.writeObject(endDate);
         output.flush();
       }
-      ArrayList<Room> result = (ArrayList<Room>) input.readObject();
+      result = (ArrayList<Room>) input.readObject();
       return result;
     }
     catch (ClassNotFoundException e)
     {
       e.printStackTrace();
     }
-    return null;
+    return result;
   }
 
   /**
@@ -173,13 +175,18 @@ public class HotelClientImplementation implements HotelClient
     support.firePropertyChange("message", null, message);
   }
 
+  /**
+   * Gets all reservations and forwards it
+   * @throws IOException if an IO error occurs during communication with the server
+   */
   @Override public void getAllReservations() throws IOException
   {
+    ArrayList<Reservation> reservations = new ArrayList<>();
     try
     {
       output.writeObject("Requesting All Reservations");
       output.flush();
-      ArrayList<Reservation> reservations = (ArrayList<Reservation>) input.readObject();
+      reservations = (ArrayList<Reservation>) input.readObject();
       support.firePropertyChange("Sending All Reservations", null, reservations);
     }
     catch (ClassNotFoundException e)
@@ -188,9 +195,16 @@ public class HotelClientImplementation implements HotelClient
     }
   }
 
+  /**
+   * Gets all reservations for a specific time period and forwards them
+   * @param startDate The start date between which the reservation was made
+   * @param endDate The end date between which the reservation was made
+   * @throws IOException if an IO error occurs during communication with the server
+   */
   @Override public void getReservationsInTimeframe(LocalDate startDate,
       LocalDate endDate) throws IOException
   {
+    ArrayList<Reservation> reservations = new ArrayList<>();
     try
     {
       output.writeObject("Requesting Reservations of Specific Period");
@@ -207,7 +221,7 @@ public class HotelClientImplementation implements HotelClient
         output.writeObject(endDate);
         output.flush();
       }
-      ArrayList<Reservation> reservations = (ArrayList<Reservation>) input.readObject();
+      reservations = (ArrayList<Reservation>) input.readObject();
       support.firePropertyChange("Sending All Reservations For Period", null, reservations);
     }
     catch (ClassNotFoundException e)
@@ -216,6 +230,12 @@ public class HotelClientImplementation implements HotelClient
     }
   }
 
+  /**
+   * Returns the room based on the room number
+   * @param roomNumber the room number of the room
+   * @return the room based on the room number
+   * @throws IOException if an IO error occurs during communication with the server
+   */
   @Override public Room getRoomByRoomNumber(int roomNumber) throws IOException
   {
     try
@@ -235,9 +255,14 @@ public class HotelClientImplementation implements HotelClient
     {
       e.printStackTrace();
     }
-    return null;
+    return new Room("error", 0, -1, "cleaned");
   }
 
+  /**
+   * Makes or updates a reservation
+   * @param reservation The reservation to be made or updated
+   * @throws IOException if an IO error occurs during communication with the server
+   */
   @Override public void makeOrUpdateReservation(Reservation reservation) throws IOException
   {
     try
@@ -251,7 +276,10 @@ public class HotelClientImplementation implements HotelClient
         output.flush();
       }
       Reservation made = (Reservation) input.readObject();
-      support.firePropertyChange("Reservation Made", null, made);
+      if(made != null)
+      {
+        support.firePropertyChange("Reservation Made", null, made);
+      }
     }
     catch (ClassNotFoundException e)
     {
@@ -259,6 +287,9 @@ public class HotelClientImplementation implements HotelClient
     }
   }
 
+  /**
+   * Closes the client and any connecting threads
+   */
   @Override public void close()
   {
     try
@@ -272,6 +303,12 @@ public class HotelClientImplementation implements HotelClient
     }
   }
 
+  /**
+   * Deletes and returns the reservation given
+   * @param reservation The reservation to be deleted
+   * @return The deleted reservation
+   * @throws IOException if an IO error occurs during communication with the server
+   */
   @Override public Reservation onDelete(Reservation reservation) throws IOException
   {
     try
@@ -291,9 +328,14 @@ public class HotelClientImplementation implements HotelClient
     {
       e.printStackTrace();
     }
-    return null;
+    return reservation;
   }
 
+  /**
+   * Updates the state of the given room
+   * @param room The room which needs to be updated
+   * @throws IOException if an IO error occurs during communication with the server
+   */
   @Override public void updateStateOfRoom(Room room) throws IOException
   {
     try
@@ -313,20 +355,25 @@ public class HotelClientImplementation implements HotelClient
     }
   }
 
+  /**
+   * Gets all rooms which need cleaning
+   * @return a list of rooms requiring cleaning
+   * @throws IOException if an IO error occurs during communication with the server
+   */
   @Override public ArrayList<Room> getAllRoomsForCleaning() throws IOException
   {
+    ArrayList<Room> received = new ArrayList<>();
     try
     {
       output.writeObject("Requesting Rooms Needing Cleaning");
       output.flush();
-      ArrayList<Room> received = (ArrayList<Room>) input.readObject();
+      received = (ArrayList<Room>) input.readObject();
       return received;
     }
     catch (ClassNotFoundException e)
     {
       e.printStackTrace();
     }
-    return null;
+    return received;
   }
-
 }
