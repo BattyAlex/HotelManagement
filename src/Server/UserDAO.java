@@ -26,7 +26,7 @@ public class UserDAO extends DatabaseHandlerFactory
    * Provides the singleton instance of UserDAO
    * @return The Singleton instance of UserDAO
    */
-  public static UserDAO getInstance()
+  public static synchronized UserDAO getInstance()
   {
     try
     {
