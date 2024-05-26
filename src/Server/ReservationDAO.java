@@ -459,7 +459,7 @@ public class ReservationDAO extends DatabaseHandlerFactory
           }
           if(!contains)
           {
-            servicesDAO.deleteServiceForRoom(reservation.getReservationId(), toUpdate.get(i).getName());
+            servicesDAO.deleteServiceForReservation(reservation.getReservationId(), toUpdate.get(i).getName());
           }
         }
         if (exists.getStartDate() != reservation.getStartDate())

@@ -108,7 +108,7 @@ public class ServicesDAO extends DatabaseHandlerFactory
    * @param nameOfService the name of the service to be deleted.
    */
 
-  public void deleteServiceForRoom(int reservationId, String nameOfService)
+  public void deleteServiceForReservation(int reservationId, String nameOfService)
   {
     try(Connection connection = super.establishConnection())
     {
@@ -144,5 +144,4 @@ public class ServicesDAO extends DatabaseHandlerFactory
       e.printStackTrace();
     }
   }
-
 }
