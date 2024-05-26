@@ -86,13 +86,33 @@ public class Reservation implements Serializable
     return client;
   }
 
+  /**
+   * Returns the staff
+   * @return the staff to be returned
+   */
   public Staff getStaff()
   {
     return staff;
   }
 
+  /**
+   * Returns the length of stay
+   * @return the length of the stay
+   */
+  public int getLengthOfStay()
+  {
+    return lengthOfStay;
+  }
 
+  /**
+   * Returns the reservation id
+   * @return the id of the reservation
+   */
 
+  public int getReservationId()
+  {
+    return reservationId;
+  }
   /**
    * Sets the start date
    * @param date the new date to set
@@ -139,23 +159,14 @@ public class Reservation implements Serializable
   }
 
   /**
-   * Returns the length of stay
-   * @return the lengthOfStay.
+   * Sets the reservation id
+   * @param reservationId the id to be set
    */
-
   public void setReservationId(int reservationId)
   {
     this.reservationId = reservationId;
   }
-  public int getLengthOfStay()
-  {
-    return lengthOfStay;
-  }
 
-  public int getReservationId()
-  {
-    return reservationId;
-  }
 
   /**
    * Adds a service to the list of additional services.
@@ -195,10 +206,19 @@ public class Reservation implements Serializable
     return total;
   }
 
+  /**
+   * Returns the list of services for the reservation
+   * @return the list of services
+   */
   public ArrayList<Service> getServices()
   {
     return services;
   }
+
+  /**
+   * Sets the services for the reservation
+   * @param services the list of services that needs to be set
+   */
 
   public void setServices(ArrayList<Service> services)
   {
@@ -209,16 +229,28 @@ public class Reservation implements Serializable
     }
   }
 
+  /**
+   * Calculates the total based on the room's price and the length of stay
+   * @return The total for the room
+   */
   public double getTotalForRoom()
   {
     return getLengthOfStay() * getRoom().getPrice();
   }
 
+  /**
+   * Calculates the price for the whole reservation
+   * @return the total for the whole reservation
+   */
   public double getTotalForStay()
   {
     return getTotalForRoom() + getServicesTotal();
   }
 
+  /**
+   * Returns the reservation as a string without the services
+   * @return the reservation as a String
+   */
   public String toString()
   {
     return client.getFirstName() + " " + client.getLastName() + "( Reservation: " + reservationId + " For room: " + room.getRoomNumber() + " )\nFrom: " + startDate.getYear() + "/" + startDate.getMonthValue() + "/" + startDate.getDayOfMonth() + " Until: " + endDate.getYear() + "/" + endDate.getMonthValue() + "/" + endDate.getDayOfMonth();
