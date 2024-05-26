@@ -44,10 +44,13 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
     catch (IOException e)
     {
       System.out.println("Login request rejected");
-      e.printStackTrace();
+      support.firePropertyChange("Login failed", username, null);
     }
   }
 
+  /**
+   * Exits the client session and performs any necessary clean up operations
+   */
   @Override public void exitClient()
   {
     client.close();
@@ -76,46 +79,9 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
   }
 
   /**
-   * Method is called when a PropertyChangeEvent is about to get fired.
-   * @param evt the PropertyChangeEvent object containing the event details.
+   * Gets all the rooms and sends it forward
    */
-
-  public void propertyChange(PropertyChangeEvent evt)
-  {
-    Platform.runLater(()-> {
-      if (evt.getPropertyName().equals("Invalid username"))
-      {
-        support.firePropertyChange("Username invalid", evt.getOldValue(), null);
-      }
-      else if (evt.getPropertyName().equals("Login Approved"))
-      {
-        staff.setUsername((String) evt.getNewValue());
-        support.firePropertyChange("Login Successful", null, null);
-      }
-      else if (evt.getPropertyName().equals("Login Rejected"))
-      {
-        support.firePropertyChange("Login failed", evt.getOldValue(), null);
-      }
-      else if (evt.getPropertyName().equals("Sending All Reservations"))
-      {
-        support.firePropertyChange("All Reservations", null, evt.getNewValue());
-      }
-      else if (evt.getPropertyName().equals("Sending All Reservations For Period"))
-      {
-        support.firePropertyChange("Reservations for Time Period", null, evt.getNewValue());
-      }
-      else if (evt.getPropertyName().equals("Reservation Made"))
-      {
-        support.firePropertyChange("Update Reservations", null, evt.getNewValue());
-      }
-      else if (evt.getPropertyName().equals("Database Connection Problems"))
-      {
-        support.firePropertyChange("Database Connection Offline", null, evt.getNewValue());
-      }
-    });
-
-  }
-  public void loadAllRooms()
+  @Override public void loadAllRooms()
   {
     try
     {
@@ -125,9 +91,13 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
     {
       e.printStackTrace();
     }
-
   }
 
+  /**
+   * Gets all rooms between a specific timeframe and sends it forward
+   * @param startDate The start date from which the room should be available
+   * @param endDate The end date till which the room should be available
+   */
   @Override public void loadAvailableRooms(LocalDate startDate, LocalDate endDate)
   {
     try
@@ -140,6 +110,9 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
     }
   }
 
+  /**
+   * Gets all reservations and sends it forward
+   */
   @Override public void loadAllReservations()
   {
     try
@@ -152,6 +125,11 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
     }
   }
 
+  /**
+   * Gets all reservations between a specific time frame
+   * @param startDate The start date between which the reservation should be made for
+   * @param endDate The end date between which the reservation should be made for
+   */
   @Override public void loadReservationsInTimeframe(LocalDate startDate,
       LocalDate endDate)
   {
@@ -165,12 +143,24 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
     }
   }
 
+  /**
+   * Sends forward the selected room with all information which is available for a certain period
+   * @param room The room which was selected
+   * @param startDate The start date from which the room should be available
+   * @param endDate The end date till which the room should be available
+   */
   @Override public void roomSelected(Room room, LocalDate startDate, LocalDate endDate)
   {
     support.firePropertyChange("Display Room Selected", room, null);
     support.firePropertyChange("Display Dates for Selected Room", endDate, startDate);
   }
 
+  /**
+   * Sends forward the selected room based on the room number which is available for a certain period
+   * @param roomNumber The room number of the room which was selected
+   * @param startDate The start date from which the room should be available
+   * @param endDate The end date till which the room should be available
+   */
   @Override public void roomSelected(int roomNumber, LocalDate startDate, LocalDate endDate)
   {
     try
@@ -184,6 +174,11 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
     }
   }
 
+  /**
+   * Gets available rooms for a certain time period and sends it forward
+   * @param startDate The start date from which the rooms are available
+   * @param endDate The end date till which the rooms should be available
+   */
   @Override public void getAvailableRooms(LocalDate startDate,
       LocalDate endDate)
   {
@@ -197,6 +192,10 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
     }
   }
 
+  /**
+   * Makes or updates a reservation based on whether it already exists or not
+   * @param reservation The reservation that needs to be made or updated
+   */
   @Override public void makeOrUpdateReservation(Reservation reservation)
   {
     try
@@ -210,10 +209,18 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
     }
   }
 
+  /**
+   * Sends forward the selected reservation
+   * @param selected The reservation selected
+   */
   @Override public void reservationSelected(Reservation selected)
   {
     support.firePropertyChange("Display Reservation Selected", selected, null);
   }
+
+  /**
+   * Gets all the rooms needing cleaning and sends them forward
+   */
   @Override public void getRoomsForCleaning()
   {
     try
@@ -227,7 +234,10 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
     }
   }
 
-
+  /**
+   * Deletes the reservation
+   * @param reservation The reservation that needs to be deleted
+   */
   @Override public void onDelete(Reservation reservation)
   {
     try
@@ -242,6 +252,10 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
     }
   }
 
+  /**
+   * Changes the state for the room from which the guest is checking out
+   * @param room The room from which the guest checks out
+   */
   @Override public void checkOut(Room room)
   {
     try
@@ -254,8 +268,43 @@ public class HotelModelManager implements HotelModel, PropertyChangeListener
     }
   }
 
+  /**
+   * Gets the room that needs cleaning and sends it forward
+   * @param room The room that was selected
+   */
   @Override public void selectRoomToClean(Room room)
   {
     support.firePropertyChange("Room Selected For Cleaning", room, null);
+  }
+
+  /**
+   * Method is called when a PropertyChangeEvent is about to get fired.
+   * @param evt the PropertyChangeEvent object containing the event details.
+   */
+  public void propertyChange(PropertyChangeEvent evt)
+  {
+    Platform.runLater(()-> {
+      switch (evt.getPropertyName())
+      {
+        case "Invalid username" ->
+            support.firePropertyChange("Username invalid", evt.getOldValue(),
+                null);
+        case "Login Approved" ->
+        {
+          staff.setUsername((String) evt.getNewValue());
+          support.firePropertyChange("Login Successful", null, null);
+        }
+        case "Login Rejected" ->
+            support.firePropertyChange("Login failed", evt.getOldValue(), null);
+        case "Sending All Reservations" ->
+            support.firePropertyChange("All Reservations", null, evt.getNewValue());
+        case "Sending All Reservations For Period" ->
+            support.firePropertyChange("Reservations for Time Period", null, evt.getNewValue());
+        case "Reservation Made" ->
+            support.firePropertyChange("Update Reservations", null, evt.getNewValue());
+        case "Database Connection Problems" ->
+            support.firePropertyChange("Database Connection Offline", null, evt.getNewValue());
+      }
+    });
   }
 }
