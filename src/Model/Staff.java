@@ -21,6 +21,10 @@ public class Staff implements Serializable
     this.password = password;
   }
 
+  /**
+   * Sets the username of the staff
+   * @param username the username to be set
+   */
   public void setUsername(String username)
   {
     this.username = username;
@@ -48,7 +52,7 @@ public class Staff implements Serializable
    * Compares this Staff object with another object for equality
    * The comparison is based on the username and password of the staff members
    * @param obj The object to compare the staff with
-   * @return True if the given object represents the Staff equivallent to this staff, or otherwise, false.
+   * @return True if the given object represents the Staff equivalent to this staff, or otherwise, false.
    */
   public boolean equals(Object obj)
   {
