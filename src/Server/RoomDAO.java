@@ -7,11 +7,12 @@ import java.util.ArrayList;
 
 /**
  * The RoomDAO class handles the data access operations related to the Room entity.
- * It extends the DatabaseHandlerFactory class and imnplements the Singleton pattern.
+ * It extends the DatabaseHandlerFactory class and implements the Singleton pattern.
  */
 public class RoomDAO extends DatabaseHandlerFactory
 {
   private static RoomDAO instance;
+  private AmenitiesDAO amenitiesDAO;
 
   /**
    * Private constructor to prevent instantiation.
@@ -21,6 +22,7 @@ public class RoomDAO extends DatabaseHandlerFactory
   private RoomDAO() throws SQLException
   {
     DriverManager.registerDriver(new org.postgresql.Driver());
+    amenitiesDAO = AmenitiesDAO.getInstance();
   }
 
   /**
@@ -45,7 +47,7 @@ public class RoomDAO extends DatabaseHandlerFactory
   }
 
   /**
-   * Retrieves alll rooms from the database.
+   * Retrieves all rooms from the database.
    * @return An arraylist of Room objects.
    */
   public ArrayList<Room> getAllRooms()
@@ -65,7 +67,7 @@ public class RoomDAO extends DatabaseHandlerFactory
         int roomNumber = rs.getInt("roomNumber");
         String stateOfRoom = rs.getString("stateOfRoom");
         Room returning = new Room(typeOfRoom, price, roomNumber, stateOfRoom);
-        ArrayList<String> amenities = AmenitiesDAO.getInstance()
+        ArrayList<String> amenities = amenitiesDAO
             .returnAmenitiesForRoom(roomNumber);
         for (int i = 0; i < amenities.size(); i++)
         {
@@ -84,7 +86,7 @@ public class RoomDAO extends DatabaseHandlerFactory
   /**
    * Retrieves all available rooms from the database for the given date range
    * @param startDate The start date of the availability period.
-   * @param endDate The end date of the availabilty period
+   * @param endDate The end date of the availability period
    * @return An arraylist of available Room objects.
    */
 
@@ -110,7 +112,7 @@ public class RoomDAO extends DatabaseHandlerFactory
         int roomNumber = rs.getInt("roomNumber");
         String stateOfRoom = rs.getString("stateOfRoom");
         Room returning = new Room(typeOfRoom, price, roomNumber, stateOfRoom);
-        ArrayList<String> amenities = AmenitiesDAO.getInstance()
+        ArrayList<String> amenities = amenitiesDAO
             .returnAmenitiesForRoom(roomNumber);
         for (int i = 0; i < amenities.size(); i++)
         {
@@ -146,7 +148,7 @@ public class RoomDAO extends DatabaseHandlerFactory
         double price = rs.getInt("price");
         String stateOfRoom = rs.getString("stateOfRoom");
         Room returning = new Room(typeOfRoom, price, roomNumber, stateOfRoom);
-        ArrayList<String> amenities = AmenitiesDAO.getInstance()
+        ArrayList<String> amenities = amenitiesDAO
             .returnAmenitiesForRoom(roomNumber);
         for (int i = 0; i < amenities.size(); i++)
         {
@@ -162,6 +164,10 @@ public class RoomDAO extends DatabaseHandlerFactory
     return null;
   }
 
+  /**
+   * Updates the state of a room in the database based on the given room
+   * @param room The room that needs to be updated
+   */
   public void updateStateOfRoom(Room room)
   {
     try(Connection connection = super.establishConnection())
@@ -180,6 +186,10 @@ public class RoomDAO extends DatabaseHandlerFactory
     }
   }
 
+  /**
+   * Returns a list of the rooms in need of cleaning
+   * @return The list of rooms
+   */
   public ArrayList<Room> getRoomsInNeedOfCleaning()
   {
     ArrayList<Room> temp = new ArrayList<>();
@@ -196,7 +206,7 @@ public class RoomDAO extends DatabaseHandlerFactory
         int roomNumber = rs.getInt("roomNumber");
         String stateOfRoom = rs.getString("stateOfRoom");
         Room returning = new Room(typeOfRoom, price, roomNumber, stateOfRoom);
-        ArrayList<String> amenities = AmenitiesDAO.getInstance()
+        ArrayList<String> amenities = amenitiesDAO
             .returnAmenitiesForRoom(roomNumber);
         for (int i = 0; i < amenities.size(); i++)
         {
